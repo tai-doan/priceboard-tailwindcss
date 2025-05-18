@@ -1,0 +1,472 @@
+
+
+const HeaderTablePriceboard = () => {
+    return (
+        <thead className="sticky top-0 z-10 bg-v3-bg-light-1 dark:bg-[#060606]">
+            <tr>
+                <th
+                    className="text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942] sticky left-0 z-10 bg-v3-bg-light-1 dark:bg-[#060606] border-b  "
+                    colSpan={1}
+                    rowSpan={0}
+                    style={{
+                        minWidth: "40px",
+                        width: "40px",
+                    }}>
+                    Mã CK
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={1}
+                    rowSpan={0}
+                    style={{
+                        minWidth: "40px",
+                        width: "40px",
+                    }}>
+                    TC
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={1}
+                    rowSpan={0}
+                    style={{
+                        minWidth: "40px",
+                        width: "40px",
+                    }}>
+                    Trần
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={1}
+                    rowSpan={0}
+                    style={{
+                        minWidth: "40px",
+                        width: "40px",
+                    }}>
+                    Sàn
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  "
+                    colSpan={1}
+                    id="overview_dayVolume"
+                    rowSpan={0}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    <button className="absolute top-0 left-0 h-full px-1 hover:bg-v3-text-light-highlight/20 dark:hover:bg-v3-text-dark-highlight/50">
+                        <svg
+                            fill="none"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            width="8"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                clipRule="evenodd"
+                                d="M6 5.56858C6 6.4619 4.91786 6.90696 4.28936 6.27213L2.70359 4.67039C2.31501 4.2779 2.3182 3.64472 2.71071 3.25616L4.29648 1.68636C4.92789 1.06131 6 1.50857 6 2.39704V5.56858Z"
+                                fill="currentColor"
+                                fillRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                    <button className="absolute top-0 right-0 h-full px-1 hover:bg-v3-text-light-highlight/20 dark:hover:bg-v3-text-dark-highlight/50">
+                        <svg
+                            fill="none"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            width="8"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                clipRule="evenodd"
+                                d="M2 5.56858C2 6.4619 3.08214 6.90696 3.71064 6.27213L5.29641 4.67039C5.68499 4.2779 5.6818 3.64472 5.28929 3.25616L3.70352 1.68636C3.07211 1.06131 2 1.50857 2 2.39704L2 5.56858Z"
+                                fill="currentColor"
+                                fillRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                    Tổng KL
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  hidden"
+                    colSpan={1}
+                    id="overview_dayValue"
+                    rowSpan={0}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    <button className="absolute top-0 left-0 h-full px-1 hover:bg-v3-text-light-highlight/20 dark:hover:bg-v3-text-dark-highlight/50">
+                        <svg
+                            fill="none"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            width="8"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                clipRule="evenodd"
+                                d="M6 5.56858C6 6.4619 4.91786 6.90696 4.28936 6.27213L2.70359 4.67039C2.31501 4.2779 2.3182 3.64472 2.71071 3.25616L4.29648 1.68636C4.92789 1.06131 6 1.50857 6 2.39704V5.56858Z"
+                                fill="currentColor"
+                                fillRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                    <button className="absolute top-0 right-0 h-full px-1 hover:bg-v3-text-light-highlight/20 dark:hover:bg-v3-text-dark-highlight/50">
+                        <svg
+                            fill="none"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            width="8"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                clipRule="evenodd"
+                                d="M2 5.56858C2 6.4619 3.08214 6.90696 3.71064 6.27213L5.29641 4.67039C5.68499 4.2779 5.6818 3.64472 5.28929 3.25616L3.70352 1.68636C3.07211 1.06131 2 1.50857 2 2.39704L2 5.56858Z"
+                                fill="currentColor"
+                                fillRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                    Tổng GT
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium     "
+                    colSpan={6}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "300px",
+                        width: "300px",
+                    }}>
+                    Bên mua
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium     bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={3}
+                    id="match"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "120px",
+                        width: "120px",
+                    }}>
+                    Khớp lệnh
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium     "
+                    colSpan={6}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "300px",
+                        width: "300px",
+                    }}>
+                    Bên bán
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium     bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={3}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "120px",
+                        width: "120px",
+                    }}>
+                    Giá
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium     "
+                    colSpan={2}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "120px",
+                        width: "120px",
+                    }}>
+                    Nước ngoài
+                </th>
+            </tr>
+            <tr>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_bids_2_price"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    Giá 3
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_bids_2_volume"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    KL 3
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_bids_1_price"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    Giá 2
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_bids_1_volume"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    KL 2
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_bids_0_price"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    Giá 1
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_bids_0_volume"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    KL 1
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={1}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    Giá
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={1}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    KL
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={1}
+                    id="overview_dayChange"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    <button className="absolute top-0 left-0 h-full px-1 hover:bg-v3-text-light-highlight/20 dark:hover:bg-v3-text-dark-highlight/50">
+                        <svg
+                            fill="none"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            width="8"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                clipRule="evenodd"
+                                d="M6 5.56858C6 6.4619 4.91786 6.90696 4.28936 6.27213L2.70359 4.67039C2.31501 4.2779 2.3182 3.64472 2.71071 3.25616L4.29648 1.68636C4.92789 1.06131 6 1.50857 6 2.39704V5.56858Z"
+                                fill="currentColor"
+                                fillRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                    <button className="absolute top-0 right-0 h-full px-1 hover:bg-v3-text-light-highlight/20 dark:hover:bg-v3-text-dark-highlight/50">
+                        <svg
+                            fill="none"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            width="8"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                clipRule="evenodd"
+                                d="M2 5.56858C2 6.4619 3.08214 6.90696 3.71064 6.27213L5.29641 4.67039C5.68499 4.2779 5.6818 3.64472 5.28929 3.25616L3.70352 1.68636C3.07211 1.06131 2 1.50857 2 2.39704L2 5.56858Z"
+                                fill="currentColor"
+                                fillRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                    +/-
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-v3-primary-light-default/5 dark:bg-[#7878802E] hidden"
+                    colSpan={1}
+                    id="overview_dayChangePercent"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    <button className="absolute top-0 left-0 h-full px-1 hover:bg-v3-text-light-highlight/20 dark:hover:bg-v3-text-dark-highlight/50">
+                        <svg
+                            fill="none"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            width="8"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                clipRule="evenodd"
+                                d="M6 5.56858C6 6.4619 4.91786 6.90696 4.28936 6.27213L2.70359 4.67039C2.31501 4.2779 2.3182 3.64472 2.71071 3.25616L4.29648 1.68636C4.92789 1.06131 6 1.50857 6 2.39704V5.56858Z"
+                                fill="currentColor"
+                                fillRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                    <button className="absolute top-0 right-0 h-full px-1 hover:bg-v3-text-light-highlight/20 dark:hover:bg-v3-text-dark-highlight/50">
+                        <svg
+                            fill="none"
+                            height="8"
+                            viewBox="0 0 8 8"
+                            width="8"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                clipRule="evenodd"
+                                d="M2 5.56858C2 6.4619 3.08214 6.90696 3.71064 6.27213L5.29641 4.67039C5.68499 4.2779 5.6818 3.64472 5.28929 3.25616L3.70352 1.68636C3.07211 1.06131 2 1.50857 2 2.39704L2 5.56858Z"
+                                fill="currentColor"
+                                fillRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                    %
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_asks_0_price"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    Giá 1
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_asks_0_volume"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    KL 1
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_asks_1_price"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    Giá 2
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_asks_1_volume"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    KL 2
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_asks_2_price"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    Giá 3
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    id="orderbook_asks_2_volume"
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    KL 3
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={1}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    Cao
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={1}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    TB
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-v3-primary-light-default/5 dark:bg-[#7878802E] "
+                    colSpan={1}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    Thấp
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}>
+                    Mua
+                </th>
+                <th
+                    className="relative text-center text-caption border-t border-r border-v3-line-light-1 dark:border-v3-line-dark-1 py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b "
+                    colSpan={1}
+                    rowSpan={1}
+                    style={{
+                        minWidth: "60px",
+                        width: "60px",
+                    }}
+                >
+                    Bán
+                </th>
+            </tr>
+        </thead>
+    )
+}
+
+export default HeaderTablePriceboard;
