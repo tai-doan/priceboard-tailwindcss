@@ -7,11 +7,11 @@ const TablePriceboard = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            const { top } = document.getElementById("finpath-e-board")!.getBoundingClientRect();
-            const { height } = document.getElementById("priceboard")!.getBoundingClientRect();
+            const { top } = document.getElementById("table-priceboard")!.getBoundingClientRect();
+            const { height } = document.getElementById("priceboard-layout")!.getBoundingClientRect();
 
             if (!!height && !!top) {
-                setTableHeight(height - top + 24);
+                setTableHeight(height - top + 28);
             }
         }
         handleResize();
@@ -24,7 +24,7 @@ const TablePriceboard = () => {
 
     return (
         <div className="relative overflow-auto mac-scrollbar" style={{ height: tableHeight }}>
-            <table id="finpath-e-board" className="w-full border-separate border-spacing-0" style={{
+            <table id="table-priceboard" className="w-full border-separate border-spacing-0" style={{
                 tableLayout: "fixed",
                 marginBottom: 0,
                 marginTop: 0,

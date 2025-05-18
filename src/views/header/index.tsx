@@ -1,9 +1,9 @@
 
-const Header = ({ }) => {
+const Header = () => {
     return (
         <div
-            className="sticky inset-x-0 top-0 z-10 flex items-center justify-between w-full px-6 py-2 overflow-hidden bg-v3-bg-light-1 dark:bg-v3-bg-dark-1 text-v3-text-light-default dark:text-v3-text-dark-default"
-            style={{ height: 47 }}
+            className="sticky inset-x-0 top-0 z-10 flex items-center justify-between w-full px-6 py-2 overflow-hidden bg-[#FFFFFF] dark:bg-v3-bg-dark-1 text-v3-text-light-default dark:text-v3-text-dark-default"
+            style={{ height: 48 }}
         >
             <div className="flex items-center gap-20">
                 <a href="#" />
