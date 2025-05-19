@@ -4,5 +4,5 @@ export const APP_CONSTANT = {
   THEME: "theme",
 }
 
-export const socketURL = '';
-export const socketSubPath = '';
+export const socketURL = 'https://online.shinhansec.com.vn';
+export const socketSubPath = '/market';

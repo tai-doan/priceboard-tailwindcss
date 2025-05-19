@@ -1,6 +1,26 @@
+import { useEffect } from "react";
+import usePriceboardSocket from "../../hooks/usePriceboardSocket";
 import IndexGroup from "./index-group";
 
 const OverviewIndex = () => {
+    const { socket, subFunction } = usePriceboardSocket();
+
+    useEffect(() => {
+        setTimeout(() => {
+            subFunction && subFunction({
+                topic: ["KRXMDDS|IDX|STO", "KRXMDDS|IDX|STX", "KRXMDDS|IDX|UPX"],
+                value: [""],
+            })
+        }, 2000);
+
+        socket?.on("onFOSStream", (data: any) => {
+            console.log("onFOSStream >>", data);
+        })
+
+        return () => {
+        }
+    }, []);
+
     return (
         <div className="flex justify-between gap-4 px-3 pt-2 overflow-hidden text-caption text-light-default dark:text-dark-default">
             <div className="flex gap-2.5 overflow-x-auto snap-x mac-scrollbar">

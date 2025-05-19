@@ -3,7 +3,7 @@ import './App.css';
 import { applyStoredTheme } from './utils/themeToggle';
 import Body from './views/body';
 import Header from './views/header';
-import Priceboard from './views/priceboard';
+import PriceboardLayout from './views/priceboard';
 
 
 const App = () => {
@@ -18,7 +18,7 @@ const App = () => {
     <main className='min-h-screen space-y-1 bg-light-frame dark:bg-dark-frame'>
       <Header />
       <Body>
-        <Priceboard />
+        <PriceboardLayout />
       </Body>
     </main>
   )
