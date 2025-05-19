@@ -1,14 +1,15 @@
-import React, { createContext, useEffect, useRef, type FC } from "react";
+import React, { createContext, useEffect, useRef, useState, type FC } from "react";
 import * as SocketIO from "socket.io-client";
 import { Socket } from "socket.io-client";
 import { getLocalStorage } from "../utils";
+import channels from "../utils/channels";
 import { APP_CONSTANT, socketSubPath, socketURL } from "../utils/constant";
-import requestInfo from "../utils/models/requestInfo";
+import SubscribeInfo, { type ISubInfo } from "../utils/models/subscribeInfo";
 
 type CheckSubMapParams = {
   topic: string[];
   value: string[];
-  component?: string;
+  component: string;
 };
 
 // Khai báo số lượng socket cần xử lý
@@ -23,16 +24,7 @@ const reqInfoMap = new Map();
 type SocketContextProps = {
   socket: Socket | null;
   socketEmit?: (key: string, value: any) => void;
-  subscribe?: (value: any) => void;
-  unsubscribe?: (value: any) => void;
-  checkSubMapBeforeSub?: ({ topic, value, component }: CheckSubMapParams) => CheckSubMapParams[];
-  addNewSub?: ({ topic, value, component }: CheckSubMapParams) => void;
-  clearTimeOutRequest?: (controlTimeOutKey: string) => void;
-  controlTimeOutObj?: { [key: string]: any };
-  removeSubInfoFromMap?: ({ topic, value, component }: CheckSubMapParams) => CheckSubMapParams[];
-  setReqInfoMapValue?: (key: any, val: any) => void;
-  getRqSeq?: () => void;
-  subFunction?: ({ topic, value }: CheckSubMapParams) => void
+  subscribeFunctWithControl?: ({ }: ISubInfo) => void,
 }
 
 type PriceboardSocketProviderProps = {
@@ -41,52 +33,28 @@ type PriceboardSocketProviderProps = {
 
 export const SocketContext = createContext<SocketContextProps>({
   socket: null,
-  checkSubMapBeforeSub: ({ }) => [],
-  addNewSub: ({ }) => [],
-  clearTimeOutRequest: () => { },
-  controlTimeOutObj: {},
-  removeSubInfoFromMap: ({ }) => [],
-  setReqInfoMapValue: () => { },
-  getRqSeq: () => null,
-  subFunction: () => null,
 });
 
 const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children }) => {
   const token = getLocalStorage(APP_CONSTANT.ACCESS_TOKEN);
   const connectionFlag = useRef<boolean>(false);
 
-  const socket = useRef<Socket | null>(null);
+  const [socketState, setSocketState] = useState<Socket | null>(null);
+
+  const socket_sv = useRef<Socket | null>(null);
 
   const socketEmit = (channel: string, option: any) => {
-    if (!socket.current) return;
-    socket.current.emit(channel, option, (error: any) => {
+    if (!socket_sv.current) return;
+    socket_sv.current.emit(channel, option, (error: any) => {
       if (error) {
         console.error("SOCKET SUBSCRIBE: ", error?.toString() || error);
       }
     });
   }
 
-  const subscribe = (option: any) => {
-    if (!socket.current) return;
-    socket.current.emit("subscribe", JSON.stringify(option), (error: any) => {
-      if (error) {
-        console.error("SUBSCRIBE: ", error?.toString() || error);
-      }
-    });
-  }
-
-  const unsubscribe = (option: any) => {
-    if (!socket.current) return;
-    socket.current.emit("unsubscribe", JSON.stringify(option), (error: any) => {
-      if (error) {
-        console.error("UNSUBSCRIBE: ", error?.toString() || error);
-      }
-    });
-  }
-
   const intNewConnection = () => {
     if (!!connectionFlag.current) return;
-    socket.current = io_1(socketURL, {
+    socket_sv.current = io_1(socketURL, {
       path: socketSubPath,
       secure: true,
       timeout: 2000,
@@ -97,16 +65,20 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
       // },
       // reconnectionAttempts: 5,
     })
-    socketStartListener(socket.current);
+    // Cập nhật state socket khi có kết nối mới
+    setSocketState(socket_sv.current);
+    socketStartListener(socket_sv.current);
   }
 
   const socketStartListener = (socket: Socket) => {
     // Xử lý connect
-    socket.on('connect', (...data: any[]) => {
+    socket.on('connect', () => {
       connectionFlag.current = true;
-      console.log("Socket connection >> ", data);
+      console.log("Socket connection >> ", socket_sv.current);
       // * Reconnect lại các message bị miss
       reSubAllWhenReconnectMarket();
+      // Cập nhật state socket khi kết nối thành công
+      setSocketState(socket_sv.current);
     })
 
     // Xử lý connection error
@@ -114,6 +86,8 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
       connectionFlag.current = false;
       // Disconnect
       socket.disconnect();
+      // Cập nhật state socket khi kết nối thành công
+      setSocketState(socket_sv.current);
       console.log("Socket connect_error >> ", data);
       setTimeout(intNewConnection, 1000);
     })
@@ -126,11 +100,12 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
     })
 
     // Xử lý subcribe để lấy data mới
-    socket.on("SUB_RES", (data: any) => {
+    socket.on(channels.SUB_RES, (data: any) => {
       console.log('SUB_RES', data)
-      const { inputParam, onSuccess, onFailed, ...reqInfoMap } = getReqInfoMapValue(data.ClientSeq)
+      const { onSuccess, onFailed, ...reqMap } = getReqInfoMapValue(data.ClientSeq)
+      console.log('SUB_RES reqMap', reqMap)
       if (data.Result === 1) {
-        if (inputParam.topic.includes('MDDS|SI')) {
+        if (reqMap.topic.includes('MDDS|SI')) {
           setTimeout(() => {
             onSuccess(data)
           }, 100)
@@ -140,8 +115,8 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
           }, 100)
         }
         // Clear timeoutSub khi sub thành công
-        if (inputParam.topic) {
-          clearTimeOutRequest(reqInfoMap.key)
+        if (reqMap.topic) {
+          clearTimeOutRequest(reqMap.controlTimeOutKey)
         }
       } else {
         onFailed(data)
@@ -149,128 +124,23 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
     })
 
     // Xử lý unsubcribe để không nhận data
-    socket.on("UNSUB_RES", (data: any) => {
-      const { inputParam, onSuccess, onFailed } = getReqInfoMapValue(data.ClientSeq)
+    socket.on(channels.UNSUB_RES, (data: any) => {
+      const { onSuccess, onFailed, ...reqInfoMap } = getReqInfoMapValue(data.ClientSeq)
       onSuccess(data)
       // Clear timeoutSub khi unsub thành công
-      if (inputParam.topic) {
-        const controlTimeOutKey = 'UNSUB' + '|' + JSON.stringify(inputParam.topic) + '|' + JSON.stringify(inputParam.value)
+      if (reqInfoMap.topic) {
+        const controlTimeOutKey = 'UNSUB' + '|' + JSON.stringify(reqInfoMap.topic) + '|' + JSON.stringify(reqInfoMap.value)
         clearTimeOutRequest(controlTimeOutKey)
       }
     })
 
     // Xử lý data realtime trả về
-    socket.on("onFOSStream", (data: any) => {
-
+    socket.on(channels.onFOSStream, (data: any) => {
+      console.log("onFOSStream socket: ", data);
     })
   }
 
-  const subFunction = ({ topic = [], value = [] }: CheckSubMapParams) => {
-    const arraySubInfo = checkSubMapBeforeSub({ topic, value, component: "default" })
-    arraySubInfo.map((subInfo) => {
-      if (subInfo['value'].length === 0) return
-      if (subInfo['topic'].length === 0) return
-      // Add info to subcontrol
-      addNewSub({
-        topic: subInfo['topic'],
-        value: subInfo['value'],
-        component: subInfo['component'],
-      })
-      // Generate key subscribe
-      const controlTimeOutKey = 'SUB|' + JSON.stringify(subInfo.topic) + '|' + JSON.stringify(subInfo.value)
-      // Clear timeout của UNSUB tương đương khi SUB => tránh trường hợp UNSUB đang timeout mà SUB đã thành công => 10s sau UNSUB thành công => sai
-      clearTimeOutRequest(String("UN" + controlTimeOutKey))
-      /**
-       * Nếu trước đó hàm Sub đang đợi phản hồi thì return
-       *
-       */
-      if (controlTimeOutObj[controlTimeOutKey]) {
-        console.log(
-          '[sendSubStream] sendSubStream đang được xử lý, vui lòng đợi! Thông tin Sub: ',
-          'SUB',
-          subInfo
-        )
-        return
-      }
-
-      const clientSeq = getRqSeq();
-      const msgObj2 = {
-        ClientSeq: clientSeq,
-        TransId: '123-abc',
-        topic,
-        value,
-      }
-      const reqInfo = new requestInfo('SUB_REQ', msgObj2, () => null, '', '', () => { }, () => { }, '')
-      setReqInfoMapValue(clientSeq, reqInfo)
-      socketEmit("SUB_REQ", msgObj2);
-
-      // SetTimeout cho subcribeFunctStream
-      controlTimeOutObj[controlTimeOutKey] = setTimeout(
-        handleTimeOut,
-        6000,
-        () => { },
-        controlTimeOutKey,
-        'SUB',
-        subInfo.topic,
-        subInfo.value,
-        'default',
-      )
-    })
-  }
-
-  const unSubFunction = ({ topic = [], value = [] }: CheckSubMapParams) => {
-    // arrayUnsubInfo (không còn thằng nào SUB thì mới có data)
-    const arrayUnsubInfo = removeSubInfoFromMap({ topic, value, component: 'default' })
-    // console.log('arrayUnsubInfo', arrayUnsubInfo)
-    arrayUnsubInfo.map((unsubInfo) => {
-      // Generate key subscribe
-      const controlTimeOutKey = 'UNSUB|' + JSON.stringify(unsubInfo.topic) + '|' + JSON.stringify(unsubInfo.value)
-      // Clear timeout của SUB tương đương khi UNSUB => tránh trường hợp SUB đang timeout mà UNSUB đã thành công => sau 10s SUB lại => vô nghĩa
-      clearTimeOutRequest(controlTimeOutKey.slice(2))
-      /**
-       * Nếu trước đó hàm Sub đang đợi phản hồi thì return
-       *
-       */
-      if (controlTimeOutObj[controlTimeOutKey]) {
-        console.log('[sendSubStream] sendSubStream đang được xử lý, vui lòng đợi! Thông tin Sub: ', 'UNSUB', unsubInfo)
-        return
-      }
-
-      const clientSeq = getRqSeq();
-      const msgObj2 = {
-        ClientSeq: clientSeq,
-        TransId: '123-abc',
-        topic,
-        value,
-      }
-      const reqInfo = new requestInfo('UNSUB_REQ', msgObj2, () => null, '', '', () => { }, () => { }, '')
-      setReqInfoMapValue(clientSeq, reqInfo)
-
-      // SetTimeout cho subcribeFunctStream
-      controlTimeOutObj[controlTimeOutKey] = setTimeout(
-        handleTimeOut,
-        6000,
-        () => { },
-        controlTimeOutKey,
-        'UNSUB',
-        unsubInfo.topic,
-        unsubInfo.value,
-        'default',
-      )
-    })
-  }
-
-  const handleTimeOut = (
-    Command: string,
-    topic: string[],
-    value: string[],
-    controlTimeOutKey: string,
-    onTimeout?: Function,
-    fromseq?: string,
-    size?: string,
-    type?: string,
-    component?: string,
-  ) => {
+  const handleTimeOut = (onTimeout: Function, controlTimeOutKey: string, Command: string, topic: string[], value: string[], fromseq: any, size: number[], type: any, component: string) => {
     console.log('subcribeFunctStream bị timeout: ', controlTimeOutKey)
     console.log(Command, topic, value, fromseq, size, type)
     removeSubInfoFromMap({ topic, value, component })
@@ -289,11 +159,6 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
     return
   }
 
-  const clearReqInfoMapRequest = (clientSeq: number) => {
-    setReqInfoMapValue(clientSeq, null)
-    return
-  }
-
   const setReqInfoMapValue = (key: any = 0, val: any = {}): void => {
     reqInfoMap.set(key, val)
   }
@@ -308,7 +173,6 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
       return []
     }
     /**
-     * TODO {Dung} Viết lại document
      * @returns Mảng thông tin SUB (value, topic, component)
      *
      * @var {Object} diffResultObject Object có key là Mã CK/Mã Index, value là Object valueOfValAsKey (key: topic, value: component)
@@ -373,6 +237,8 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
   }
 
   const addNewSub = ({ topic, value, component }: CheckSubMapParams) => {
+    console.log("addNewSub ", topic, value, component);
+
     if (!Array.isArray(value) || !Array.isArray(value) || typeof component !== 'string') {
       console.warn('Kiểu dữ liệu không đúng addNewSub:', topic, value, component)
       return
@@ -399,6 +265,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
         })
       }
     })
+    console.log("addNewSub done ", subControlMap);
   }
 
   const removeSubInfoFromMap = ({ topic, value, component }: CheckSubMapParams) => {
@@ -466,6 +333,179 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
     return arrayUnsubInfo
   }
 
+  const subscribeFunctWithControl = ({
+    component,
+    onTimeout,
+    time = 6000,
+    command,
+    topic,
+    value,
+    onSuccess,
+    onFailed,
+  }: ISubInfo) => {
+    /**
+     * @param {String} controlTimeOutKey Là key giúp control biết SUB_REQ nào đang bị timeout
+     */
+    /**
+     */
+    let controlTimeOutKey = ''
+    /**
+     * Kiểm tra các trường hợp SUB|UNSUB|GET_HIST và tiến hành
+     * Control Timeout, Thông tin sub khác nhau
+     */
+    if (command === 'SUB') {
+      const arraySubInfo = checkSubMapBeforeSub({ topic, value, component })
+      console.log('Chuẩn bị Sub:', arraySubInfo)
+      arraySubInfo.map((subInfo) => {
+        if (subInfo['value'].length === 0) return
+        if (subInfo['topic'].length === 0) return
+        // Add info to subcontrol
+        addNewSub({
+          topic: subInfo['topic'],
+          value: subInfo['value'],
+          component: subInfo['component'],
+        })
+        // Generate key subscribe
+        controlTimeOutKey = String(command) + '|' + JSON.stringify(subInfo.topic) + '|' + JSON.stringify(subInfo.value)
+        // Clear timeout của UNSUB tương đương khi SUB => tránh trường hợp UNSUB đang timeout mà SUB đã thành công => 10s sau UNSUB thành công => sai
+        clearTimeOutRequest(String("UN" + controlTimeOutKey))
+        /**
+         * Nếu trước đó hàm Sub đang đợi phản hồi thì return
+         *
+         */
+        if (controlTimeOutObj[controlTimeOutKey]) {
+          console.log('[sendSubStream] sendSubStream đang được xử lý, vui lòng đợi! Thông tin Sub: ', command, subInfo,)
+          return
+        }
+        // Send subscribe
+        subcribeFunctStream({
+          command,
+          topic: subInfo.topic,
+          value: subInfo.value,
+          onSuccess,
+          onFailed,
+          key: controlTimeOutKey,
+        })
+        // SetTimeout cho subcribeFunctStream
+        controlTimeOutObj[controlTimeOutKey] = setTimeout(
+          handleTimeOut,
+          time,
+          onTimeout,
+          controlTimeOutKey,
+          command,
+          subInfo.topic,
+          subInfo.value,
+          component,
+        )
+      })
+    }
+    if (command === 'UNSUB') {
+      // arrayUnsubInfo (không còn thằng nào SUB thì mới có data)
+      const arrayUnsubInfo = removeSubInfoFromMap({ topic, value, component })
+      arrayUnsubInfo.map((unsubInfo) => {
+        // Generate key subscribe
+        controlTimeOutKey = String(command) + '|' + JSON.stringify(unsubInfo.topic) + '|' + JSON.stringify(unsubInfo.value)
+        // Clear timeout của SUB tương đương khi UNSUB => tránh trường hợp SUB đang timeout mà UNSUB đã thành công => sau 10s SUB lại => vô nghĩa
+        clearTimeOutRequest(controlTimeOutKey.slice(2))
+        /**
+         * Nếu trước đó hàm Sub đang đợi phản hồi thì return
+         *
+         */
+        if (controlTimeOutObj[controlTimeOutKey]) {
+          console.log(
+            '[sendSubStream] sendSubStream đang được xử lý, vui lòng đợi! Thông tin Sub: ',
+            command,
+            unsubInfo
+          )
+          return
+        }
+        // Send subscribe
+        subcribeFunctStream({
+          command,
+          topic: unsubInfo.topic,
+          value: unsubInfo.value,
+          onSuccess,
+          onFailed,
+          key: controlTimeOutKey,
+        })
+        // SetTimeout cho subcribeFunctStream
+        controlTimeOutObj[controlTimeOutKey] = setTimeout(
+          handleTimeOut,
+          time,
+          onTimeout,
+          controlTimeOutKey,
+          command,
+          unsubInfo.topic,
+          unsubInfo.value,
+          component,
+        )
+      })
+    }
+    if (command === 'GET_HIST') {
+      //
+    }
+  }
+
+  const subcribeFunctStream = ({
+    command = '',
+    topic = [],
+    value = [],
+    fromseq = '',
+    size = [0],
+    type = '',
+    onSuccess = () => null,
+    onFailed = () => null,
+    key,
+  }: {
+    command: 'SUB' | 'UNSUB' | 'GET_HIST' | ''
+    topic: string[]
+    value: string[]
+    fromseq?: string
+    size?: number[]
+    type?: string
+    onSuccess?: Function
+    onFailed?: Function
+    key?: string
+  }) => {
+    if (command === 'SUB') {
+      const clientSeq = getRqSeq()
+      const msgObj2 = {
+        ClientSeq: clientSeq,
+        TransId: '123-abc',
+        topic,
+        value,
+      }
+      const constrolTimeoutKey = 'SUB' + '|' + JSON.stringify(topic) + '|' + JSON.stringify(value);
+      const reqInfo = new SubscribeInfo('SUBSCRIBE_INFO', onSuccess, onFailed, topic, value, constrolTimeoutKey)
+
+      setReqInfoMapValue(clientSeq, reqInfo)
+      send2Sv(channels.SUB_REQ, msgObj2)
+    }
+    if (command === 'UNSUB') {
+      const clientSeq = getRqSeq()
+      const msgObj2 = {
+        ClientSeq: clientSeq,
+        TransId: '123-abc',
+        topic,
+        value,
+      }
+      const constrolTimeoutKey = 'UNSUB' + '|' + JSON.stringify(topic) + '|' + JSON.stringify(value);
+      const reqInfo = new SubscribeInfo('UNSUBSCRIBE_INFO', onSuccess, onFailed, topic, value, constrolTimeoutKey)
+      setReqInfoMapValue(clientSeq, reqInfo)
+      send2Sv(channels.UNSUB_REQ, msgObj2)
+    }
+    if (command === 'GET_HIST') {
+    }
+  }
+
+  const send2Sv = (key: string, message: any) => {
+    if (socket_sv.current?.connected) {
+      console.log('send2Sv', key, message)
+      socket_sv.current.emit(key, message);
+      console.log('send2Sv after emit', key, message)
+    }
+  }
+
   const reSubAllWhenReconnectMarket = () => {
     const currSubMap = { ...subControlMap }
     const objWithTopicAsKey: { [key: string]: any } = {}
@@ -477,47 +517,29 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
         objWithTopicAsKey[keyNewObj] = [key]
       }
     }
-    const arrayUnsubInfo = []
     for (const [arrTopicAsKey, arrValue] of Object.entries(objWithTopicAsKey)) {
-      arrayUnsubInfo.push({
+      subcribeFunctStream({
+        command: 'SUB',
         topic: JSON.parse(arrTopicAsKey),
         value: arrValue,
       })
     }
-    arrayUnsubInfo.map((subInfo) => {
-      // subcribeFunctStream({
-      //   Command: 'SUB',
-      //   topic: subInfo.topic,
-      //   value: subInfo.value,
-      // })
-    })
   }
 
   useEffect(() => {
-    if (!!connectionFlag.current) return;
     intNewConnection();
     return () => {
-      socket.current!.disconnect();
+      socket_sv.current?.disconnect();
       connectionFlag.current = false;
-      socket.current = null;
     };
   }, []);
 
   return (
     <SocketContext.Provider
       value={{
-        socket: socket.current || null,
+        socket: socketState || null,
         socketEmit,
-        subscribe,
-        unsubscribe,
-        checkSubMapBeforeSub,
-        addNewSub,
-        clearTimeOutRequest,
-        controlTimeOutObj,
-        removeSubInfoFromMap,
-        setReqInfoMapValue,
-        getRqSeq,
-        subFunction,
+        subscribeFunctWithControl,
       }}
     >
       {children}

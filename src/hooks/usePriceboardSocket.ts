@@ -5,30 +5,12 @@ export default function usePriceboardSocket() {
   const {
     socket,
     socketEmit,
-    subscribe,
-    unsubscribe,
-    checkSubMapBeforeSub,
-    addNewSub,
-    clearTimeOutRequest,
-    controlTimeOutObj,
-    removeSubInfoFromMap,
-    setReqInfoMapValue,
-    getRqSeq,
-    subFunction,
+    subscribeFunctWithControl,
   } = useContext(SocketContext);
 
   return {
     socket,
     socketEmit,
-    subscribe,
-    unsubscribe,
-    checkSubMapBeforeSub,
-    addNewSub,
-    clearTimeOutRequest,
-    controlTimeOutObj,
-    removeSubInfoFromMap,
-    setReqInfoMapValue,
-    getRqSeq,
-    subFunction,
+    subscribeFunctWithControl,
   }
 }
