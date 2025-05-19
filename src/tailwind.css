@@ -648,6 +648,20 @@
     -webkit-user-select: none;
     user-select: none;
   }
+  .group-hover\:\!bg-\[\#b2bfd4\] {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: #b2bfd4 !important;
+      }
+    }
+  }
+  .group-hover\:\!bg-\[\#d3dceb\] {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: #d3dceb !important;
+      }
+    }
+  }
   .group-hover\:\!bg-\[\#e0ecff\] {
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
@@ -655,10 +669,38 @@
       }
     }
   }
+  .group-hover\:\!bg-\[\#f5f9ff\] {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: #f5f9ff !important;
+      }
+    }
+  }
+  .group-hover\:bg-\[\#b2bfd4\] {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: #b2bfd4;
+      }
+    }
+  }
+  .group-hover\:bg-\[\#d3dceb\] {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: #d3dceb;
+      }
+    }
+  }
   .group-hover\:bg-\[\#e0ecff\] {
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
         background-color: #e0ecff;
+      }
+    }
+  }
+  .group-hover\:bg-\[\#f5f9ff\] {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: #f5f9ff;
       }
     }
   }
@@ -699,10 +741,24 @@
       display: none;
     }
   }
+  .hover\:bg-\[\#242323\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #242323;
+      }
+    }
+  }
   .hover\:bg-\[\#d8e7ff\] {
     &:hover {
       @media (hover: hover) {
         background-color: #d8e7ff;
+      }
+    }
+  }
+  .hover\:bg-\[\#fffbf5\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #fffbf5;
       }
     }
   }
@@ -842,6 +898,11 @@
       background-color: #060606;
     }
   }
+  .dark\:bg-\[\#161616\] {
+    &:where(.dark, .dark *) {
+      background-color: #161616;
+    }
+  }
   .dark\:bg-\[\#262628\] {
     &:where(.dark, .dark *) {
       background-color: #262628;
@@ -923,6 +984,33 @@
       &:hover {
         @media (hover: hover) {
           background-color: #1a2942;
+        }
+      }
+    }
+  }
+  .dark\:hover\:bg-\[\#242320\] {
+    &:where(.dark, .dark *) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: #242320;
+        }
+      }
+    }
+  }
+  .dark\:hover\:bg-\[\#242323\] {
+    &:where(.dark, .dark *) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: #242323;
+        }
+      }
+    }
+  }
+  .dark\:hover\:bg-\[\#242328\] {
+    &:where(.dark, .dark *) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: #242328;
         }
       }
     }

@@ -2,10 +2,10 @@ import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
 const HeaderTablePriceboard = () => {
     return (
-        <thead className="sticky top-0 z-10 bg-[#FFFFFF] dark:bg-[#060606]">
+        <thead className="sticky top-0 z-10 bg-[#FFFFFF] dark:bg-[#161616]">
             <tr>
                 <th
-                    className="text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942] sticky left-0 z-10 dark:bg-[#060606] border-b  bg-[#FFFFFF] "
+                    className="text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323] sticky left-0 z-10 dark:bg-[#161616] border-b  bg-[#FFFFFF] "
                     colSpan={1}
                     rowSpan={0}
                     style={{
@@ -15,7 +15,7 @@ const HeaderTablePriceboard = () => {
                     Mã CK
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]  border-b dark:bg-[#161616] bg-[#FFFFFF] "
                     colSpan={1}
                     rowSpan={0}
                     style={{
@@ -25,7 +25,7 @@ const HeaderTablePriceboard = () => {
                     Trần
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]  border-b dark:bg-[#161616] bg-[#FFFFFF] "
                     colSpan={1}
                     rowSpan={0}
                     style={{
@@ -35,7 +35,7 @@ const HeaderTablePriceboard = () => {
                     Sàn
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]  border-b dark:bg-[#161616] bg-[#FFFFFF] "
                     colSpan={1}
                     rowSpan={0}
                     style={{
@@ -45,7 +45,7 @@ const HeaderTablePriceboard = () => {
                     TC
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]  border-b  bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="overview_dayVolume"
                     rowSpan={0}
@@ -53,12 +53,12 @@ const HeaderTablePriceboard = () => {
                         minWidth: "60px",
                         width: "60px",
                     }}>
-                    <CaretLeftOutlined sizes="small" className="absolute top-0 left-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
-                    <CaretRightOutlined sizes="small" className="absolute top-0 right-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
+                    <CaretLeftOutlined sizes="small" className="absolute top-0 left-0 cursor-pointer h-full px-1 hover:bg-[#fffbf5] dark:hover:bg-[#242323] " />
+                    <CaretRightOutlined sizes="small" className="absolute top-0 right-0 cursor-pointer h-full px-1 hover:bg-[#fffbf5] dark:hover:bg-[#242323] " />
                     Tổng KL
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  hidden bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]  border-b  hidden bg-[#FFFFFF] "
                     colSpan={1}
                     id="overview_dayValue"
                     rowSpan={0}
@@ -66,7 +66,7 @@ const HeaderTablePriceboard = () => {
                         minWidth: "60px",
                         width: "60px",
                     }}>
-                    <button className="absolute top-0 left-0 h-full px-1 hover:bg-text-light-highlight/20 bg-[#FFFFFF] ">
+                    <button className="absolute top-0 left-0 h-full px-1 hover:bg-[#fffbf5] bg-[#FFFFFF] ">
                         <svg
                             fill="none"
                             height="8"
@@ -81,7 +81,7 @@ const HeaderTablePriceboard = () => {
                             />
                         </svg>
                     </button>
-                    <button className="absolute top-0 right-0 h-full px-1 hover:bg-text-light-highlight/20 bg-[#FFFFFF] ">
+                    <button className="absolute top-0 right-0 h-full px-1 hover:bg-[#fffbf5] bg-[#FFFFFF] ">
                         <svg
                             fill="none"
                             height="8"
@@ -99,7 +99,7 @@ const HeaderTablePriceboard = () => {
                     Tổng GT
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium     bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium     bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={6}
                     rowSpan={1}
                     style={{
@@ -109,7 +109,7 @@ const HeaderTablePriceboard = () => {
                     Bên mua
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium     bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium     dark:bg-[#161616] bg-[#FFFFFF] "
                     colSpan={3}
                     id="match"
                     rowSpan={1}
@@ -120,7 +120,7 @@ const HeaderTablePriceboard = () => {
                     Khớp lệnh
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium     bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium     bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={6}
                     rowSpan={1}
                     style={{
@@ -130,7 +130,7 @@ const HeaderTablePriceboard = () => {
                     Bên bán
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium     bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium     dark:bg-[#161616] bg-[#FFFFFF] "
                     colSpan={3}
                     rowSpan={1}
                     style={{
@@ -140,21 +140,21 @@ const HeaderTablePriceboard = () => {
                     Giá
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium     bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium     bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={2}
                     rowSpan={1}
                     style={{
                         minWidth: "120px",
                         width: "120px",
                     }}>
-                    <CaretLeftOutlined sizes="small" className="absolute top-0 left-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
-                    <CaretRightOutlined sizes="small" className="absolute top-0 right-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
+                    <CaretLeftOutlined sizes="small" className="absolute top-0 left-0 cursor-pointer h-full px-1 hover:bg-[#fffbf5]" />
+                    <CaretRightOutlined sizes="small" className="absolute top-0 right-0 cursor-pointer h-full px-1 hover:bg-[#fffbf5]" />
                     Nước ngoài
                 </th>
             </tr>
             <tr>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_bids_2_price"
                     rowSpan={1}
@@ -165,7 +165,7 @@ const HeaderTablePriceboard = () => {
                     Giá 3
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_bids_2_volume"
                     rowSpan={1}
@@ -176,7 +176,7 @@ const HeaderTablePriceboard = () => {
                     KL 3
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_bids_1_price"
                     rowSpan={1}
@@ -187,7 +187,7 @@ const HeaderTablePriceboard = () => {
                     Giá 2
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_bids_1_volume"
                     rowSpan={1}
@@ -198,7 +198,7 @@ const HeaderTablePriceboard = () => {
                     KL 2
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_bids_0_price"
                     rowSpan={1}
@@ -209,7 +209,7 @@ const HeaderTablePriceboard = () => {
                     Giá 1
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_bids_0_volume"
                     rowSpan={1}
@@ -220,7 +220,7 @@ const HeaderTablePriceboard = () => {
                     KL 1
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b dark:bg-[#161616] bg-[#FFFFFF] "
                     colSpan={1}
                     rowSpan={1}
                     style={{
@@ -230,7 +230,7 @@ const HeaderTablePriceboard = () => {
                     Giá
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b dark:bg-[#161616] bg-[#FFFFFF] "
                     colSpan={1}
                     rowSpan={1}
                     style={{
@@ -240,7 +240,7 @@ const HeaderTablePriceboard = () => {
                     KL
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-light-primary-default/5 dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b dark:bg-[#161616] "
                     colSpan={1}
                     id="overview_dayChange"
                     rowSpan={1}
@@ -248,12 +248,12 @@ const HeaderTablePriceboard = () => {
                         minWidth: "60px",
                         width: "60px",
                     }}>
-                    <CaretLeftOutlined sizes="small" className="absolute top-0 left-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
-                    <CaretRightOutlined sizes="small" className="absolute top-0 right-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
+                    <CaretLeftOutlined sizes="small" className="absolute top-0 left-0 cursor-pointer h-full px-1 hover:bg-[#fffbf5] dark:hover:bg-[#242323] " />
+                    <CaretRightOutlined sizes="small" className="absolute top-0 right-0 cursor-pointer h-full px-1 hover:bg-[#fffbf5] dark:hover:bg-[#242323] " />
                     +/-
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-light-primary-default/5 dark:bg-[#7878802E] hidden bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b dark:bg-[#161616] hidden bg-[#FFFFFF] "
                     colSpan={1}
                     id="overview_dayChangePercent"
                     rowSpan={1}
@@ -261,7 +261,7 @@ const HeaderTablePriceboard = () => {
                         minWidth: "60px",
                         width: "60px",
                     }}>
-                    <button className="absolute top-0 left-0 h-full px-1 hover:bg-text-light-highlight/20 bg-[#FFFFFF] ">
+                    <button className="absolute top-0 left-0 h-full px-1 hover:bg-[#fffbf5] bg-[#FFFFFF] ">
                         <svg
                             fill="none"
                             height="8"
@@ -276,7 +276,7 @@ const HeaderTablePriceboard = () => {
                             />
                         </svg>
                     </button>
-                    <button className="absolute top-0 right-0 h-full px-1 hover:bg-text-light-highlight/20 bg-[#FFFFFF] ">
+                    <button className="absolute top-0 right-0 h-full px-1 hover:bg-[#fffbf5] bg-[#FFFFFF] ">
                         <svg
                             fill="none"
                             height="8"
@@ -294,7 +294,7 @@ const HeaderTablePriceboard = () => {
                     %
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_asks_0_price"
                     rowSpan={1}
@@ -305,7 +305,7 @@ const HeaderTablePriceboard = () => {
                     Giá 1
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_asks_0_volume"
                     rowSpan={1}
@@ -316,7 +316,7 @@ const HeaderTablePriceboard = () => {
                     KL 1
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_asks_1_price"
                     rowSpan={1}
@@ -327,7 +327,7 @@ const HeaderTablePriceboard = () => {
                     Giá 2
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_asks_1_volume"
                     rowSpan={1}
@@ -338,7 +338,7 @@ const HeaderTablePriceboard = () => {
                     KL 2
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_asks_2_price"
                     rowSpan={1}
@@ -349,7 +349,7 @@ const HeaderTablePriceboard = () => {
                     Giá 3
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     id="orderbook_asks_2_volume"
                     rowSpan={1}
@@ -360,7 +360,7 @@ const HeaderTablePriceboard = () => {
                     KL 3
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b dark:bg-[#161616] bg-[#FFFFFF] "
                     colSpan={1}
                     rowSpan={1}
                     style={{
@@ -370,7 +370,7 @@ const HeaderTablePriceboard = () => {
                     Cao
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b dark:bg-[#161616] bg-[#FFFFFF] "
                     colSpan={1}
                     rowSpan={1}
                     style={{
@@ -380,7 +380,7 @@ const HeaderTablePriceboard = () => {
                     TB
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b dark:bg-[#161616] bg-[#FFFFFF] "
                     colSpan={1}
                     rowSpan={1}
                     style={{
@@ -390,7 +390,7 @@ const HeaderTablePriceboard = () => {
                     Thấp
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     rowSpan={1}
                     style={{
@@ -400,7 +400,7 @@ const HeaderTablePriceboard = () => {
                     Mua
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-[#FFFFFF] dark:bg-[#7878802E] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf5] dark:hover:bg-[#242323]   border-b bg-[#FFFFFF] dark:bg-[#161616] "
                     colSpan={1}
                     rowSpan={1}
                     style={{
