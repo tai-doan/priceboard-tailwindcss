@@ -1,14 +1,13 @@
-import HeaderIndex from "../header/header-index";
+import IndexGroup from "./index-group";
 
-
-const PriceIndex = () => {
+const OverviewIndex = () => {
     return (
         <div className="flex justify-between gap-4 px-3 pt-2 overflow-hidden text-caption text-v3-text-light-default dark:text-v3-text-dark-default">
             <div className="flex gap-2.5 overflow-x-auto snap-x mac-scrollbar">
-                <HeaderIndex />
-                <HeaderIndex />
-                <HeaderIndex />
-                <HeaderIndex />
+                <IndexGroup />
+                <IndexGroup />
+                <IndexGroup />
+                <IndexGroup />
             </div>
             <div className="hidden overflow-x-auto snap-x mac-scrollbar lg:block">
                 <table className="min-w-full border-separate divide-y divide-v3-line-light-1 dark:divide-v3-line-dark-1 text-outline 2xl:text-caption border-spacing-0">
@@ -203,4 +202,4 @@ const PriceIndex = () => {
     )
 }
 
-export default PriceIndex;
+export default OverviewIndex;
