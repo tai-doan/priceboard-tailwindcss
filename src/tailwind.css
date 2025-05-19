@@ -832,6 +832,11 @@
       border-color: var(--color-black);
     }
   }
+  .dark\:bg-\[\#306BF20D\] {
+    &:where(.dark, .dark *) {
+      background-color: #306BF20D;
+    }
+  }
   .dark\:bg-\[\#060606\] {
     &:where(.dark, .dark *) {
       background-color: #060606;

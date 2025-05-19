@@ -1,4 +1,4 @@
-
+import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
 const HeaderTablePriceboard = () => {
     return (
@@ -22,16 +22,6 @@ const HeaderTablePriceboard = () => {
                         minWidth: "40px",
                         width: "40px",
                     }}>
-                    TC
-                </th>
-                <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
-                    colSpan={1}
-                    rowSpan={0}
-                    style={{
-                        minWidth: "40px",
-                        width: "40px",
-                    }}>
                     Trần
                 </th>
                 <th
@@ -45,6 +35,16 @@ const HeaderTablePriceboard = () => {
                     Sàn
                 </th>
                 <th
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    colSpan={1}
+                    rowSpan={0}
+                    style={{
+                        minWidth: "40px",
+                        width: "40px",
+                    }}>
+                    TC
+                </th>
+                <th
                     className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]  border-b  bg-[#FFFFFF] dark:bg-[#7878802E] "
                     colSpan={1}
                     id="overview_dayVolume"
@@ -53,36 +53,8 @@ const HeaderTablePriceboard = () => {
                         minWidth: "60px",
                         width: "60px",
                     }}>
-                    <button className="absolute top-0 left-0 h-full px-1 hover:bg-text-light-highlight/20 bg-[#FFFFFF] dark:bg-[#7878802E] ">
-                        <svg
-                            fill="none"
-                            height="8"
-                            viewBox="0 0 8 8"
-                            width="8"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                clipRule="evenodd"
-                                d="M6 5.56858C6 6.4619 4.91786 6.90696 4.28936 6.27213L2.70359 4.67039C2.31501 4.2779 2.3182 3.64472 2.71071 3.25616L4.29648 1.68636C4.92789 1.06131 6 1.50857 6 2.39704V5.56858Z"
-                                fill="currentColor"
-                                fillRule="evenodd"
-                            />
-                        </svg>
-                    </button>
-                    <button className="absolute top-0 right-0 h-full px-1 hover:bg-text-light-highlight/20 bg-[#FFFFFF] dark:bg-[#7878802E] ">
-                        <svg
-                            fill="none"
-                            height="8"
-                            viewBox="0 0 8 8"
-                            width="8"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                clipRule="evenodd"
-                                d="M2 5.56858C2 6.4619 3.08214 6.90696 3.71064 6.27213L5.29641 4.67039C5.68499 4.2779 5.6818 3.64472 5.28929 3.25616L3.70352 1.68636C3.07211 1.06131 2 1.50857 2 2.39704L2 5.56858Z"
-                                fill="currentColor"
-                                fillRule="evenodd"
-                            />
-                        </svg>
-                    </button>
+                    <CaretLeftOutlined sizes="small" className="absolute top-0 left-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
+                    <CaretRightOutlined sizes="small" className="absolute top-0 right-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
                     Tổng KL
                 </th>
                 <th
@@ -175,6 +147,8 @@ const HeaderTablePriceboard = () => {
                         minWidth: "120px",
                         width: "120px",
                     }}>
+                    <CaretLeftOutlined sizes="small" className="absolute top-0 left-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
+                    <CaretRightOutlined sizes="small" className="absolute top-0 right-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
                     Nước ngoài
                 </th>
             </tr>
@@ -266,7 +240,7 @@ const HeaderTablePriceboard = () => {
                     KL
                 </th>
                 <th
-                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-light-primary-default/5 dark:bg-[#7878802E] bg-[#FFFFFF] "
+                    className="relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#d8e7ff] dark:hover:bg-[#1a2942]   border-b bg-light-primary-default/5 dark:bg-[#7878802E] "
                     colSpan={1}
                     id="overview_dayChange"
                     rowSpan={1}
@@ -274,36 +248,8 @@ const HeaderTablePriceboard = () => {
                         minWidth: "60px",
                         width: "60px",
                     }}>
-                    <button className="absolute top-0 left-0 h-full px-1 hover:bg-text-light-highlight/20 bg-[#FFFFFF] ">
-                        <svg
-                            fill="none"
-                            height="8"
-                            viewBox="0 0 8 8"
-                            width="8"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                clipRule="evenodd"
-                                d="M6 5.56858C6 6.4619 4.91786 6.90696 4.28936 6.27213L2.70359 4.67039C2.31501 4.2779 2.3182 3.64472 2.71071 3.25616L4.29648 1.68636C4.92789 1.06131 6 1.50857 6 2.39704V5.56858Z"
-                                fill="currentColor"
-                                fillRule="evenodd"
-                            />
-                        </svg>
-                    </button>
-                    <button className="absolute top-0 right-0 h-full px-1 hover:bg-text-light-highlight/20 bg-[#FFFFFF] ">
-                        <svg
-                            fill="none"
-                            height="8"
-                            viewBox="0 0 8 8"
-                            width="8"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                clipRule="evenodd"
-                                d="M2 5.56858C2 6.4619 3.08214 6.90696 3.71064 6.27213L5.29641 4.67039C5.68499 4.2779 5.6818 3.64472 5.28929 3.25616L3.70352 1.68636C3.07211 1.06131 2 1.50857 2 2.39704L2 5.56858Z"
-                                fill="currentColor"
-                                fillRule="evenodd"
-                            />
-                        </svg>
-                    </button>
+                    <CaretLeftOutlined sizes="small" className="absolute top-0 left-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
+                    <CaretRightOutlined sizes="small" className="absolute top-0 right-0 cursor-pointer h-full px-1 hover:bg-text-light-highlight/20" />
                     +/-
                 </th>
                 <th

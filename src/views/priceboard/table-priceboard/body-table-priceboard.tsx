@@ -11,11 +11,6 @@ const BodyTablePriceboard = () => {
                         <button className="w-full h-full px-2 text-left">ACB</button>
                     </td>
                     <td
-                        className={"xl:pr-1 py-1 group-hover:bg-[#e0ecff] dark:group-hover:bg-[#17253a] relative text-caption first:border-t-0 border-r first:border-l border-light-line dark:border-dark-line text-right text-light-price-ref dark:text-dark-price-ref " + (i % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#306BF20D] " : " dark:bg-[#78788061] bg-[#306BF21A] ")}
-                        id="cell-value-0_overview_referPrice">
-                        25.55
-                    </td>
-                    <td
                         className={"xl:pr-1 py-1 group-hover:bg-[#e0ecff] dark:group-hover:bg-[#17253a] relative text-caption first:border-t-0 border-r first:border-l border-light-line dark:border-dark-line text-right text-light-price-ceil dark:text-dark-price-ceil " + (i % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#306BF20D] " : " dark:bg-[#78788061] bg-[#306BF21A] ")}
                         id="cell-value-0_overview_ceiling">
                         27.30
@@ -24,6 +19,11 @@ const BodyTablePriceboard = () => {
                         className={"xl:pr-1 py-1 group-hover:bg-[#e0ecff] dark:group-hover:bg-[#17253a] relative text-caption first:border-t-0 border-r first:border-l border-light-line dark:border-dark-line text-right text-light-price-floor dark:text-dark-price-floor " + (i % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#306BF20D] " : " dark:bg-[#78788061] bg-[#306BF21A] ")}
                         id="cell-value-0_overview_floor">
                         23.80
+                    </td>
+                    <td
+                        className={"xl:pr-1 py-1 group-hover:bg-[#e0ecff] dark:group-hover:bg-[#17253a] relative text-caption first:border-t-0 border-r first:border-l border-light-line dark:border-dark-line text-right text-light-price-ref dark:text-dark-price-ref " + (i % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#306BF20D] " : " dark:bg-[#78788061] bg-[#306BF21A] ")}
+                        id="cell-value-0_overview_referPrice">
+                        25.55
                     </td>
                     <td
                         className={"xl:pr-1 py-1 group-hover:bg-[#e0ecff] dark:group-hover:bg-[#17253a] relative text-caption first:border-t-0 border-r first:border-l border-light-line dark:border-dark-line text-right text-light-default dark:text-dark-default " + (i % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
