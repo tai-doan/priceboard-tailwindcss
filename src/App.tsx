@@ -15,7 +15,7 @@ const App = () => {
   }, [])
 
   return (
-    <main className='min-h-screen space-y-1 bg-v3-bg-light-frame dark:bg-v3-bg-dark-frame'>
+    <main className='min-h-screen space-y-1 bg-light-frame dark:bg-dark-frame'>
       <Header />
       <Body>
         <Priceboard />

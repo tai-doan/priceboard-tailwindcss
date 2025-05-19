@@ -1,7 +1,7 @@
 const HeaderIndex = () => {
     return (
         <div className="snap-start flex-shrink-0 max-w-[222px] 2xl:max-w-fit px-2 rounded-md bg-[#dfdfdf20]">
-            <div className="h-[90px] border border-v3-line-light-1 dark:border-v3-line-dark-1 w-[320]"
+            <div className="h-[90px] border border-light-line dark:border-dark-line w-[320]"
 >
                 <div className="relative w-full h-full">
                     <div id="chart-VNIndex" className="relative w-full h-full">
@@ -114,7 +114,7 @@ const HeaderIndex = () => {
                         </div>
                     </div>
                     <div
-                        className="absolute z-10 hidden p-1 text-white transition-opacity duration-200 rounded shadow-lg pointer-events-none bg-v3-bg-dark-frame w-28"
+                        className="absolute z-10 hidden p-1 text-white transition-opacity duration-200 rounded shadow-lg pointer-events-none bg-dark-frame w-28"
                         style={{ display: "none", left: 117, top: 36 }}
                     >
                         <div className="space-y-1">
@@ -149,7 +149,7 @@ const HeaderIndex = () => {
             <div className="flex flex-col items-center justify-center py-1">
                 <div className="flex items-center gap-1">
                     <span className="flex-shrink-0 font-bold">VNINDEX</span>
-                    <div className="flex items-center flex-shrink-0 gap-1 text-v3-chart-light-text-red dark:text-v3-chart-dark-text-red">
+                    <div className="flex items-center flex-shrink-0 gap-1 text-light-price-down dark:text-dark-price-down">
                         <svg
                             width={10}
                             height={12}
@@ -187,7 +187,7 @@ const HeaderIndex = () => {
                     <span>20,340.5 tỷ</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1 text-v3-chart-light-text-green dark:text-v3-chart-dark-text-green">
+                    <span className="inline-flex items-center gap-1 text-light-price-up dark:text-dark-price-up">
                         <svg
                             width={10}
                             height={12}
@@ -219,10 +219,10 @@ const HeaderIndex = () => {
                         132
                     </span>
                     <span className="inline-flex items-center gap-1">
-                        <div className="w-2 h-2 rounded-full bg-v3-chart-light-chart-bg-yellow dark:bg-v3-chart-dark-chart-bg-yellow" />
+                        <div className="w-2 h-2 rounded-full bg-light-chart-yellow dark:bg-dark-chart-yellow" />
                         46
                     </span>
-                    <span className="inline-flex items-center gap-1 text-v3-chart-light-text-red dark:text-v3-chart-dark-text-red">
+                    <span className="inline-flex items-center gap-1 text-light-price-down dark:text-dark-price-down">
                         <svg
                             width={10}
                             height={12}
@@ -253,7 +253,7 @@ const HeaderIndex = () => {
                         </svg>
                         186
                     </span>
-                    <span className="text-v3-chart-light-text-blue dark:text-v3-chart-dark-text-blue">
+                    <span className="text-light-price-floor dark:text-dark-price-floor">
                         (0)
                     </span>
                     <span>Mở cửa</span>
