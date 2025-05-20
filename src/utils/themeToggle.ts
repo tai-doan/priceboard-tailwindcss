@@ -1,3 +1,4 @@
+import { setLocalStorage } from ".";
 import { APP_CONSTANT } from "./constant";
 
 // Hàm để lấy <html> element
@@ -27,10 +28,10 @@ export const toggleTheme = (): void => {
   if (isDark) {
     html.classList.remove('dark');
     html.classList.add('light');
-    localStorage.setItem(APP_CONSTANT.THEME, 'light');
+    setLocalStorage(APP_CONSTANT.THEME, 'light');
   } else {
     html.classList.remove('light');
     html.classList.add('dark');
-    localStorage.setItem(APP_CONSTANT.THEME, 'dark');
+    setLocalStorage(APP_CONSTANT.THEME, 'dark');
   }
 };

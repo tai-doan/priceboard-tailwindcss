@@ -1,9 +1,10 @@
 import React, { createContext, useEffect, useRef, useState, type FC } from "react";
 import * as SocketIO from "socket.io-client";
 import { Socket } from "socket.io-client";
-import { getLocalStorage } from "../utils";
+import { convertMapToObject, convertObjectToMap, getLocalStorage, setLocalStorage } from "../utils";
 import channels from "../utils/channels";
 import { APP_CONSTANT, socketSubPath, socketURL } from "../utils/constant";
+import type { KRXMDDSIDX } from "../utils/models/marketData";
 import SubscribeInfo, { type ISubInfo } from "../utils/models/subscribeInfo";
 
 type CheckSubMapParams = {
@@ -23,6 +24,7 @@ const reqInfoMap = new Map();
 // Khai báo các type sử dụng
 type SocketContextProps = {
   socket: Socket | null;
+  marketData: Map<string, any>,
   socketEmit?: (key: string, value: any) => void;
   subscribeFunctWithControl?: ({ }: ISubInfo) => void,
 }
@@ -31,8 +33,15 @@ type PriceboardSocketProviderProps = {
   children: React.ReactNode;
 }
 
+interface IStock {
+  code: string;
+  nameVI: string;
+  nameEN?: string;
+}
+
 export const SocketContext = createContext<SocketContextProps>({
   socket: null,
+  marketData: new Map(),
 });
 
 const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children }) => {
@@ -42,6 +51,13 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
   const [socketState, setSocketState] = useState<Socket | null>(null);
 
   const socket_sv = useRef<Socket | null>(null);
+
+  // Chứa danh sách các thông tin data của sàn, mã chứng khoán, mã trong sàn,...
+  // key là các topic subscribe - value là giá trị server trả
+  let marketData: Map<string, any> = new Map();
+  let marketIndexMap: Map<string, any> = new Map();
+
+  const [stockList, setStockList] = useState<IStock[]>([]);
 
   const socketEmit = (channel: string, option: any) => {
     if (!socket_sv.current) return;
@@ -59,7 +75,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
       secure: true,
       timeout: 2000,
       reconnection: false,
-      // transports: ["websocket"],
+      transports: ["websocket"],
       // extraHeaders: {
       //   Authorization: `Bearer ${token}`,
       // },
@@ -67,10 +83,10 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
     })
     // Cập nhật state socket khi có kết nối mới
     setSocketState(socket_sv.current);
-    socketStartListener(socket_sv.current);
+    handleSocketListener(socket_sv.current);
   }
 
-  const socketStartListener = (socket: Socket) => {
+  const handleSocketListener = (socket: Socket) => {
     // Xử lý connect
     socket.on('connect', () => {
       connectionFlag.current = true;
@@ -101,19 +117,22 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
 
     // Xử lý subcribe để lấy data mới
     socket.on(channels.SUB_RES, (data: any) => {
-      console.log('SUB_RES', data)
+      // console.log('SUB_RES', data)
       const { onSuccess, onFailed, ...reqMap } = getReqInfoMapValue(data.ClientSeq)
       console.log('SUB_RES reqMap', reqMap)
       if (data.Result === 1) {
-        if (reqMap.topic.includes('MDDS|SI')) {
-          setTimeout(() => {
-            onSuccess(data)
-          }, 100)
-        } else {
-          setTimeout(() => {
-            onSuccess(data)
-          }, 100)
-        }
+        setTimeout(() => {
+          onSuccess(data)
+        }, 100)
+        // if (reqMap.topic.includes('MDDS|SI')) {
+        //   setTimeout(() => {
+        //     onSuccess(data)
+        //   }, 100)
+        // } else {
+        //   setTimeout(() => {
+        //     onSuccess(data)
+        //   }, 100)
+        // }
         // Clear timeoutSub khi sub thành công
         if (reqMap.topic) {
           clearTimeOutRequest(reqMap.controlTimeOutKey)
@@ -136,6 +155,34 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
 
     // Xử lý data realtime trả về
     socket.on(channels.onFOSStream, (data: any) => {
+      if (!data || !data.topic) return
+
+      if (
+        data.topic.includes("KRXMDDS|STKVER") ||
+        data.topic.includes("KRXMDDS|IDX") ||
+        data.topic.includes("KRXMDDS|STKLST")
+      ) {
+        // Cache lại data dữ liệu để tái sử dụng
+        marketData.set(data.topic, data);
+        setLocalStorage(APP_CONSTANT.MARKET_DATA, JSON.stringify(convertMapToObject(marketData)));
+
+        if (data.topic.includes("KRXMDDS|IDX")) {
+          const _data = data.data as KRXMDDSIDX;
+          const listIndex = _data['IDX'];
+          for (let i = 0; i < listIndex.length; i++) {
+            const item = listIndex[i];
+            marketIndexMap.set(`${_data.t30001}|${item.t30167}`, item);
+          }
+        }
+
+        if (data.topic.includes("KRXMDDS|STKLST") && data?.STOCK?.length) {
+          // const _stockList: IStock[] = data.STOCK.map((item: any) => ({
+          //   code: item.S,
+          //   nameVI: item.N,
+          // }))
+          // setStockList(_stockList);
+        }
+      }
       console.log("onFOSStream socket: ", data);
     })
   }
@@ -527,6 +574,25 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
   }
 
   useEffect(() => {
+    const marketDataLocalStr = getLocalStorage(APP_CONSTANT.MARKET_DATA);
+    let marketDataLocal: { [key: string]: any } = {};
+    try {
+      marketDataLocal = JSON.parse(marketDataLocalStr ?? "{}");
+    } catch (error) {
+      console.error("Error parsing market data:", error);
+    }
+    Object.keys(marketDataLocal).forEach(e => {
+      if (e.includes("KRXMDDS|IDX")) {
+        // Lấy từ local để gán vào marketIndexMap
+        const _data = marketDataLocal[e]['data'] as KRXMDDSIDX;
+        const listIndex = _data['IDX'];
+        for (let i = 0; i < listIndex.length; i++) {
+          const item = listIndex[i];
+          marketIndexMap.set(`${_data.t30001}|${item.t30167}`, item);
+        }
+      }
+    });
+    marketData = convertObjectToMap(marketDataLocal);
     intNewConnection();
     return () => {
       socket_sv.current?.disconnect();
@@ -538,6 +604,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
     <SocketContext.Provider
       value={{
         socket: socketState || null,
+        marketData: marketData,
         socketEmit,
         subscribeFunctWithControl,
       }}
