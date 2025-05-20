@@ -5,6 +5,8 @@ export default function usePriceboardSocket() {
   const {
     socket,
     marketData,
+    indexList,
+    stockList,
     socketEmit,
     subscribeFunctWithControl,
   } = useContext(SocketContext);
@@ -12,6 +14,8 @@ export default function usePriceboardSocket() {
   return {
     socket,
     marketData,
+    indexList,
+    stockList,
     socketEmit,
     subscribeFunctWithControl,
   }

@@ -25,6 +25,8 @@ const reqInfoMap = new Map();
 type SocketContextProps = {
   socket: Socket | null;
   marketData: Map<string, any>,
+  indexList: IIndex[],
+  stockList: IStock[],
   socketEmit?: (key: string, value: any) => void;
   subscribeFunctWithControl?: ({ }: ISubInfo) => void,
 }
@@ -39,9 +41,18 @@ interface IStock {
   nameEN?: string;
 }
 
+interface IIndex {
+  indexCode: string; // Code của sàn chính STO, TSX, UPX
+  code: string; // Code định danh
+  nameVI: string; // Tên tiếng việt
+  nameEN?: string; // Tên tiếng anh
+}
+
 export const SocketContext = createContext<SocketContextProps>({
   socket: null,
   marketData: new Map(),
+  indexList: [],
+  stockList: [],
 });
 
 const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children }) => {
@@ -57,6 +68,9 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
   let marketData: Map<string, any> = new Map();
   let marketIndexMap: Map<string, any> = new Map();
 
+  // Danh sách tất cả các sàn có trên thị trường
+  const [indexList, setIndexList] = useState<IIndex[]>([]);
+  // Danh sách các mã chứng khoán có trên thị trường
   const [stockList, setStockList] = useState<IStock[]>([]);
 
   const socketEmit = (channel: string, option: any) => {
@@ -165,6 +179,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
         // Cache lại data dữ liệu để tái sử dụng
         marketData.set(data.topic, data);
         setLocalStorage(APP_CONSTANT.MARKET_DATA, JSON.stringify(convertMapToObject(marketData)));
+        console.log("marketData: ", marketData);
 
         if (data.topic.includes("KRXMDDS|IDX")) {
           const _data = data.data as KRXMDDSIDX;
@@ -581,17 +596,27 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
     } catch (error) {
       console.error("Error parsing market data:", error);
     }
+    let _indexList: IIndex[] = []
     Object.keys(marketDataLocal).forEach(e => {
       if (e.includes("KRXMDDS|IDX")) {
         // Lấy từ local để gán vào marketIndexMap
         const _data = marketDataLocal[e]['data'] as KRXMDDSIDX;
         const listIndex = _data['IDX'];
+        _indexList = _indexList.concat(listIndex.map((i) => ({
+          indexCode: _data.t30001,
+          code: i.t30167,
+          nameVI: i.t30632,
+          nameEN: i.t30633,
+        })))
         for (let i = 0; i < listIndex.length; i++) {
           const item = listIndex[i];
           marketIndexMap.set(`${_data.t30001}|${item.t30167}`, item);
         }
       }
     });
+    console.log("_indexList ", _indexList);
+    setIndexList(_indexList);
+
     marketData = convertObjectToMap(marketDataLocal);
     intNewConnection();
     return () => {
@@ -605,6 +630,8 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
       value={{
         socket: socketState || null,
         marketData: marketData,
+        indexList: indexList,
+        stockList: stockList,
         socketEmit,
         subscribeFunctWithControl,
       }}
