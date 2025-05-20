@@ -138,6 +138,27 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
         setTimeout(() => {
           onSuccess(data)
         }, 100)
+        if (reqMap.controlTimeOutKey.includes("KRXMDDS|IDX")) {
+          const data = convertMapToObject(marketData)
+          let _indexList: IIndex[] = []
+          Object.keys(data).forEach(key => {
+            if (key.includes("KRXMDDS|IDX")) {
+              const _data = data[key]['data'] as KRXMDDSIDX;
+              const listIndex = _data['IDX'];
+              _indexList = _indexList.concat(listIndex.map((i) => ({
+                indexCode: _data.t30001,
+                code: i.t30167,
+                nameVI: i.t30632,
+                nameEN: i.t30633,
+              })))
+              for (let i = 0; i < listIndex.length; i++) {
+                const item = listIndex[i];
+                marketIndexMap.set(`${_data.t30001}|${item.t30167}`, item);
+              }
+            }
+          });
+          setIndexList(_indexList);
+        }
         // if (reqMap.topic.includes('MDDS|SI')) {
         //   setTimeout(() => {
         //     onSuccess(data)
@@ -597,10 +618,10 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
       console.error("Error parsing market data:", error);
     }
     let _indexList: IIndex[] = []
-    Object.keys(marketDataLocal).forEach(e => {
-      if (e.includes("KRXMDDS|IDX")) {
+    Object.keys(marketDataLocal).forEach(key => {
+      if (key.includes("KRXMDDS|IDX")) {
         // Lấy từ local để gán vào marketIndexMap
-        const _data = marketDataLocal[e]['data'] as KRXMDDSIDX;
+        const _data = marketDataLocal[key]['data'] as KRXMDDSIDX;
         const listIndex = _data['IDX'];
         _indexList = _indexList.concat(listIndex.map((i) => ({
           indexCode: _data.t30001,
