@@ -1,20 +1,19 @@
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, type MenuProps } from "antd";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import usePriceboardSocket from "../../hooks/usePriceboardSocket";
-
 
 const baseMenuClass = "group px-4 relative group text-caption font-medium py-0.5 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 ring-light-primary-offset-hover dark:ring-dark-primary-offset-hover transition-all focus-visible:outline-none focus-visible:ring focus-visible:ring-offset";
 
 const MenuPriceboard = () => {
-  const { indexList } = usePriceboardSocket();
+  const { indexList, marketData, subscribeFunctWithControl, } = usePriceboardSocket();
   const [hoseMenu, setHoseMenu] = useState<MenuProps['items']>([]);
   const [hnxMenu, setHnxMenu] = useState<MenuProps['items']>([]);
   const [upcomMenu, setUpcomMenu] = useState<MenuProps['items']>([]);
-  const indexCdRef = useRef('STO|101');
+  const indexCdRef = useRef('');
   const [menuSelected, setMenuSelected] = useState({
     key: indexCdRef.current,
-    label: 'VN30',
+    label: '',
   });
 
   useEffect(() => {
@@ -37,10 +36,39 @@ const MenuPriceboard = () => {
     setHnxMenu(hnx);
     setUpcomMenu(upc);
 
+    setMenuSelected(hose.find(x => x.label === 'VN30') ?? {
+      key: indexCdRef.current,
+      label: '',
+    });
+
     return () => {
 
     }
   }, [indexList])
+
+  useEffect(() => {
+    if (menuSelected.key) {
+      handleChangeMenu(menuSelected.key);
+    }
+  }, [menuSelected.key])
+
+  const handleChangeMenu = useCallback((path: string) => {
+    subscribeFunctWithControl?.({
+      component: "PRICEBOARD",
+      command: "SUB",
+      topic: ["KRXMDDS|IGS|" + path],
+      value: [""],
+      onSuccess: () => {
+        console.log("marketData trước khi gọi onSuccess: ", marketData);
+        subscribeFunctWithControl({
+          component: "PRICEBOARD",
+          command: "UNSUB",
+          topic: ["KRXMDDS|IGS|" + path],
+          value: [""],
+        })
+      },
+    })
+  }, [subscribeFunctWithControl])
 
   return (
     <div className="inline-flex items-center justify-center rounded-lg bg-light-frame dark:bg-dark-input p-0.5">

@@ -66,7 +66,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
   // Chứa danh sách các thông tin data của sàn, mã chứng khoán, mã trong sàn,...
   // key là các topic subscribe - value là giá trị server trả
   let marketData: Map<string, any> = new Map();
-  let marketIndexMap: Map<string, any> = new Map();
+  const marketIndexMap: Map<string, any> = new Map();
 
   // Danh sách tất cả các sàn có trên thị trường
   const [indexList, setIndexList] = useState<IIndex[]>([]);
@@ -195,6 +195,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
       if (
         data.topic.includes("KRXMDDS|STKVER") ||
         data.topic.includes("KRXMDDS|IDX") ||
+        data.topic.includes("KRXMDDS|IGS|") || // Danh sách mã chứng khoán của sàn
         data.topic.includes("KRXMDDS|STKLST")
       ) {
         // Cache lại data dữ liệu để tái sử dụng
