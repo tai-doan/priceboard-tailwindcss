@@ -221,9 +221,6 @@
   .float-right {
     float: right;
   }
-  .mx-2 {
-    margin-inline: calc(var(--spacing) * 2);
-  }
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
   }
@@ -557,6 +554,13 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
+  }
+  .group-hover\:rotate-180 {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        rotate: 180deg;
+      }
+    }
   }
   .group-hover\:\!bg-\[\#d3dceb\] {
     &:is(:where(.group):hover *) {

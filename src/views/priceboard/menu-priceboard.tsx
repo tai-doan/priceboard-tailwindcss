@@ -1,9 +1,10 @@
+import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, type MenuProps } from "antd";
 import { useEffect, useRef, useState } from "react";
 import usePriceboardSocket from "../../hooks/usePriceboardSocket";
 
 
-const baseMenuClass = "px-4 relative group text-caption font-medium py-0.5 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 ring-light-primary-offset-hover dark:ring-dark-primary-offset-hover transition-all focus-visible:outline-none focus-visible:ring focus-visible:ring-offset";
+const baseMenuClass = "group px-4 relative group text-caption font-medium py-0.5 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 ring-light-primary-offset-hover dark:ring-dark-primary-offset-hover transition-all focus-visible:outline-none focus-visible:ring focus-visible:ring-offset";
 
 const MenuPriceboard = () => {
   const { indexList } = usePriceboardSocket();
@@ -65,6 +66,7 @@ const MenuPriceboard = () => {
           }
         >
           {menuSelected.key.includes("STO") ? menuSelected.label : "HOSE"}
+          &nbsp;{<DownOutlined className="group-hover:rotate-180 transition-all" />}
         </button>
       </Dropdown>
       <Dropdown
@@ -89,6 +91,7 @@ const MenuPriceboard = () => {
           }
         >
           {menuSelected.key.includes("STX") ? menuSelected.label : "HNX"}
+          &nbsp;{<DownOutlined className="group-hover:rotate-180 transition-all" />}
         </button>
       </Dropdown>
       <Dropdown
@@ -113,6 +116,7 @@ const MenuPriceboard = () => {
           }
         >
           {menuSelected.key.includes("UPX") ? menuSelected.label : "UPCOM"}
+          &nbsp;{<DownOutlined className="group-hover:rotate-180 transition-all" />}
         </button>
       </Dropdown>
     </div>
