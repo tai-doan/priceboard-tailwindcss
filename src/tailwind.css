@@ -449,6 +449,9 @@
   .bg-\[\#dfdfdf20\] {
     background-color: #dfdfdf20;
   }
+  .bg-\[\#eaeaea\] {
+    background-color: #eaeaea;
+  }
   .bg-\[\#fff\] {
     background-color: #fff;
   }
@@ -572,10 +575,38 @@
       }
     }
   }
+  .group-hover\:\!bg-\[\#33343C3D\] {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: #33343C3D !important;
+      }
+    }
+  }
+  .group-hover\:\!bg-\[\#33343C\] {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: #33343C !important;
+      }
+    }
+  }
   .group-hover\:\!bg-\[\#d3dceb\] {
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
         background-color: #d3dceb !important;
+      }
+    }
+  }
+  .group-hover\:bg-\[\#33343C3D\] {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: #33343C3D;
+      }
+    }
+  }
+  .group-hover\:bg-\[\#33343C\] {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: #33343C;
       }
     }
   }
@@ -721,6 +752,11 @@
       background-color: #78788061;
     }
   }
+  .dark\:bg-\[\#eaeaea\] {
+    &:where(.dark, .dark *) {
+      background-color: #eaeaea;
+    }
+  }
   .dark\:text-\[\#0BDF39\] {
     &:where(.dark, .dark *) {
       color: #0BDF39;
@@ -745,11 +781,29 @@
       }
     }
   }
+  .dark\:group-hover\:\!bg-\[\#33343C\] {
+    &:where(.dark, .dark *) {
+      &:is(:where(.group):hover *) {
+        @media (hover: hover) {
+          background-color: #33343C !important;
+        }
+      }
+    }
+  }
   .dark\:group-hover\:bg-\[\#17253a\] {
     &:where(.dark, .dark *) {
       &:is(:where(.group):hover *) {
         @media (hover: hover) {
           background-color: #17253a;
+        }
+      }
+    }
+  }
+  .dark\:group-hover\:bg-\[\#33343C\] {
+    &:where(.dark, .dark *) {
+      &:is(:where(.group):hover *) {
+        @media (hover: hover) {
+          background-color: #33343C;
         }
       }
     }
