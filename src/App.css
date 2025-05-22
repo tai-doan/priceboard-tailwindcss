@@ -32,7 +32,7 @@
 
 .bg-button-dark-default {
   --tw-bg-opacity: 1;
-  background-color: rgb(48 107 242/var(--tw-bg-opacity, 1))
+  background-color: rgb(110 54 26/var(--tw-bg-opacity, 1))
 }
 
 .bg-button-dark-disabled\/25 {
@@ -41,7 +41,7 @@
 
 .bg-button-light-default {
   --tw-bg-opacity: 1;
-  background-color: rgb(48 107 242/var(--tw-bg-opacity, 1))
+  background-color: rgb(110 54 26/var(--tw-bg-opacity, 1))
 }
 
 .bg-light-chart-yellow {
@@ -113,7 +113,7 @@
 }
 
 .dark\:bg-dark-input:is(.dark *) {
-  background-color: #7878803D
+  background-color: #3C3C3C
 }
 
 .dark\:bg-light-frame:is(.dark *) {
@@ -123,7 +123,7 @@
 
 .dark\:bg-button-dark-default:is(.dark *) {
   --tw-bg-opacity: 1;
-  background-color: rgb(48 107 242/var(--tw-bg-opacity, 1))
+  background-color: rgb(110 54 26/var(--tw-bg-opacity, 1))
 }
 
 .dark\:bg-dark-chart-yellow:is(.dark *) {
@@ -580,12 +580,12 @@
 
 .dark\:text-dark-price-floor:is(.dark *) {
   --tw-text-opacity: 1;
-  color: rgb(64 196 255/var(--tw-text-opacity, 1))
+  color: rgb(0 201 255/var(--tw-text-opacity, 1))
 }
 
 .dark\:text-dark-price-up:is(.dark *) {
   --tw-text-opacity: 1;
-  color: rgb(0 200 83/var(--tw-text-opacity, 1))
+  color: rgb(11 223 57/var(--tw-text-opacity, 1))
 }
 
 .dark\:text-dark-price-ceil:is(.dark *) {
@@ -766,7 +766,7 @@
 }
 
 .text-light-price-ref {
-  color: #F0A614;
+  color: #E78B03;
 }
 
 .text-light-price-down {
