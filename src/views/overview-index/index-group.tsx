@@ -1,8 +1,7 @@
 const HeaderIndex = () => {
     return (
         <div className="snap-start flex-shrink-0 max-w-[222px] 2xl:max-w-fit px-2 rounded-md bg-[#dfdfdf20]">
-            <div className="h-[90px] border border-light-line dark:border-dark-line w-[320]"
->
+            <div className="h-[90px] border border-light-line dark:border-dark-line w-[320]">
                 <div className="relative w-full h-full">
                     <div id="chart-VNIndex" className="relative w-full h-full">
                         <div

@@ -9,7 +9,7 @@ const OverviewIndex = () => {
                 <IndexGroup />
                 <IndexGroup />
             </div>
-            <div className="hidden overflow-x-auto snap-x mac-scrollbar lg:block">
+            <div className="hidden overflow-x-auto snap-x mac-scrollbar lg:block min-w-fit">
                 <table className="min-w-full border-separate divide-y divide-v3-line-light-1 dark:divide-dark-line text-outline 2xl:text-caption border-spacing-0">
                     <thead>
                         <tr>

@@ -225,7 +225,7 @@
 
 .hover\:text-light-primary-hover:hover {
   --tw-text-opacity: 1;
-  color: rgb(51 136 254/var(--tw-text-opacity, 1))
+  color: rgb(110 54 26/var(--tw-text-opacity, 1))
 }
 
 .hover\:text-dark-default:hover {
@@ -344,7 +344,7 @@
 .group:hover .group-hover\:text-dark-primary-hover,
 .group:hover .group-hover\:text-light-primary-hover {
   --tw-text-opacity: 1;
-  color: rgb(51 136 254/var(--tw-text-opacity, 1))
+  color: rgb(110 54 26/var(--tw-text-opacity, 1))
 }
 
 .group:hover .group-hover\:text-light-highlight {
@@ -610,7 +610,7 @@
 
 .dark\:text-dark-primary-hover:is(.dark *) {
   --tw-text-opacity: 1;
-  color: rgb(51 136 254/var(--tw-text-opacity, 1))
+  color: rgb(235 235 245/var(--tw-text-opacity, 1))
 }
 
 .dark\:text-dark-default:is(.dark *) {
@@ -658,7 +658,7 @@
 
 .dark\:hover\:text-dark-primary-hover:hover:is(.dark *) {
   --tw-text-opacity: 1;
-  color: rgb(51 136 254/var(--tw-text-opacity, 1))
+  color: rgb(235 235 245/var(--tw-text-opacity, 1))
 }
 
 .dark\:hover\:text-white:hover:is(.dark *) {
@@ -673,7 +673,7 @@
 
 .hover\:dark\:text-dark-primary-hover:is(.dark *):hover {
   --tw-text-opacity: 1;
-  color: rgb(51 136 254/var(--tw-text-opacity, 1))
+  color: rgb(235 235 245/var(--tw-text-opacity, 1))
 }
 
 .hover\:dark\:text-white:is(.dark *):hover {
@@ -712,7 +712,7 @@
 
 .group:hover .dark\:group-hover\:text-dark-primary-hover:is(.dark *) {
   --tw-text-opacity: 1;
-  color: rgb(51 136 254/var(--tw-text-opacity, 1))
+  color: rgb(235 235 245/var(--tw-text-opacity, 1))
 }
 
 .group:hover .group-hover\:dark\:text-text-1:is(.dark *) {
