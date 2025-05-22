@@ -1,4 +1,4 @@
-const HeaderIndex = () => {
+const IndexGroup = () => {
     return (
         <div className="snap-start flex-shrink-0 max-w-[222px] 2xl:max-w-fit px-2 rounded-md bg-[#dfdfdf20]">
             <div className="h-[90px] border border-light-line dark:border-dark-line w-[320]">
@@ -263,4 +263,4 @@ const HeaderIndex = () => {
     )
 }
 
-export default HeaderIndex;
+export default IndexGroup;

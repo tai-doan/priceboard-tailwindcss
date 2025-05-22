@@ -273,6 +273,9 @@
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
   }
+  .-ml-1 {
+    margin-left: calc(var(--spacing) * -1);
+  }
   .-ml-1\.5 {
     margin-left: calc(var(--spacing) * -1.5);
   }
@@ -293,6 +296,9 @@
   }
   .inline-flex {
     display: inline-flex;
+  }
+  .table {
+    display: table;
   }
   .\!h-\[28px\] {
     height: 28px !important;
@@ -345,6 +351,9 @@
   .w-\[320\] {
     width: 320;
   }
+  .w-fit {
+    width: fit-content;
+  }
   .w-full {
     width: 100%;
   }
@@ -356,6 +365,12 @@
   }
   .max-w-\[230px\] {
     max-width: 230px;
+  }
+  .max-w-fit {
+    max-width: fit-content;
+  }
+  .max-w-full {
+    max-width: 100%;
   }
   .min-w-\[69px\] {
     min-width: 69px;
@@ -378,8 +393,17 @@
   .flex-1 {
     flex: 1;
   }
+  .flex-1\/4 {
+    flex: calc(1/4 * 100%);
+  }
+  .flex-shrink {
+    flex-shrink: 1;
+  }
   .flex-shrink-0 {
     flex-shrink: 0;
+  }
+  .border-collapse {
+    border-collapse: collapse;
   }
   .border-separate {
     border-collapse: separate;
@@ -575,6 +599,9 @@
   .bg-blue-500 {
     background-color: var(--color-blue-500);
   }
+  .p-0 {
+    padding: calc(var(--spacing) * 0);
+  }
   .p-0\.5 {
     padding: calc(var(--spacing) * 0.5);
   }
@@ -601,6 +628,9 @@
   }
   .px-6 {
     padding-inline: calc(var(--spacing) * 6);
+  }
+  .py-0 {
+    padding-block: calc(var(--spacing) * 0);
   }
   .py-0\.5 {
     padding-block: calc(var(--spacing) * 0.5);
@@ -889,9 +919,19 @@
       width: 80px;
     }
   }
+  .xl\:w-full {
+    @media (width >= 80rem) {
+      width: 100%;
+    }
+  }
   .xl\:max-w-fit {
     @media (width >= 80rem) {
       max-width: fit-content;
+    }
+  }
+  .xl\:flex-1 {
+    @media (width >= 80rem) {
+      flex: 1;
     }
   }
   .xl\:pr-1 {
@@ -899,9 +939,29 @@
       padding-right: calc(var(--spacing) * 1);
     }
   }
+  .\32 xl\:max-w-\[300px\] {
+    @media (width >= 96rem) {
+      max-width: 300px;
+    }
+  }
+  .\32 xl\:max-w-\[330px\] {
+    @media (width >= 96rem) {
+      max-width: 330px;
+    }
+  }
   .\32 xl\:max-w-fit {
     @media (width >= 96rem) {
       max-width: fit-content;
+    }
+  }
+  .\32 xl\:max-w-full {
+    @media (width >= 96rem) {
+      max-width: 100%;
+    }
+  }
+  .\32 xl\:flex-1 {
+    @media (width >= 96rem) {
+      flex: 1;
     }
   }
   .\32 xl\:gap-1 {
