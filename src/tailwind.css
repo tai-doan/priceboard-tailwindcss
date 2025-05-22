@@ -258,6 +258,9 @@
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
   }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
   .mt-4 {
     margin-top: calc(var(--spacing) * 4);
   }
@@ -574,6 +577,9 @@
   .border-l-0 {
     border-left-style: var(--tw-border-style);
     border-left-width: 0px;
+  }
+  .bg-\[\#2e2e2e\] {
+    background-color: #2e2e2e;
   }
   .bg-\[\#306BF20D\] {
     background-color: #306BF20D;
@@ -987,6 +993,11 @@
   .dark\:border-black {
     &:where(.dark, .dark *) {
       border-color: var(--color-black);
+    }
+  }
+  .dark\:bg-\[\#2e2e2e\] {
+    &:where(.dark, .dark *) {
+      background-color: #2e2e2e;
     }
   }
   .dark\:bg-\[\#060606\] {

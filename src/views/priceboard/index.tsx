@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from "react";
 import usePriceboardSocket from "../../hooks/usePriceboardSocket";
 import { getChangedKeys, getLocalStorage, setLocalStorage } from "../../utils";
@@ -5,6 +6,8 @@ import channels from "../../utils/channels";
 import { APP_CONSTANT } from "../../utils/constant";
 import OverviewIndex from "../overview-index";
 import Priceboard from "./priceboard";
+
+const priceboardQueryClient = new QueryClient()
 
 const PriceboardLayout = () => {
     const { socket, subscribeFunctWithControl } = usePriceboardSocket();
@@ -84,12 +87,12 @@ const PriceboardLayout = () => {
         }
     }, [socket]);
 
-    return (
+    return (<QueryClientProvider client={priceboardQueryClient}>
         <div className="h-full space-y-4 overflow-hidden bg-light-1 dark:bg-dark-1">
             <OverviewIndex />
             <Priceboard />
         </div>
-    )
+    </QueryClientProvider>)
 }
 
 export default PriceboardLayout;
