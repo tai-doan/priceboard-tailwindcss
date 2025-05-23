@@ -784,3 +784,8 @@
 .text-light-price-ceil {
   color: #DC20CE;
 }
+
+.border-neutral-12 {
+  --tw-border-opacity: 0.5;
+  border-color: rgb(157 157 157/var(--tw-border-opacity, 1))
+}

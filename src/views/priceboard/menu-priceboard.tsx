@@ -1,4 +1,4 @@
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import { Dropdown, type MenuProps } from "antd";
 import { useCallback, useEffect, useRef, useState } from "react";
 import usePriceboardSocket from "../../hooks/usePriceboardSocket";
