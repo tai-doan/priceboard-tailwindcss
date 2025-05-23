@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
-import './App.css';
+// import './App.css';
 import PriceboardSocketProvider from './provider/priceboard-socket';
 import { applyStoredTheme } from './utils/themeToggle';
 import Body from './views/body';
 import Header from './views/header';
 import PriceboardLayout from './views/priceboard';
+import './styles/index';
 
 
 const App = () => {
