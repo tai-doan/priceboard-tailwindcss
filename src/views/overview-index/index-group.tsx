@@ -9,18 +9,18 @@ type IndexTableProps = {
 
 const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
     return (
-        <div className="snap-start flex-shrink-0 max-w-[222px] 2xl:max-w-fit px-2 rounded-md bg-[#dfdfdf20] dark:bg-[#2e2e2e]">
+        <div className="snap-start flex-shrink-0 max-w-[222px] 2xl:max-w-xs px-2 rounded-md bg-[#dfdfdf20] dark:bg-[#2e2e2e]">
             <div className="h-[90px] mt-2 border border-light-line dark:border-dark-line w-[320]">
                 <div className="relative w-full h-full">
                     <div id="chart-VNIndex" className="relative w-full h-full">
                         {/* Vẽ chart ở đây */}
                         <div
-                            className="tv-lightweight-charts"
+                            className="tv-lightweight-charts w-full h-full"
                             style={{
                                 overflow: "hidden",
                                 direction: "ltr",
-                                width: 358,
-                                height: 88,
+                                width: 243,
+                                // height: 88,
                                 WebkitUserSelect: "none"
                             }}
                         >
@@ -29,10 +29,10 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
                 </div>
             </div>
             <div className="flex flex-col items-center justify-center py-1">
-                <div className="flex items-center gap-1">
-                    <span className="flex-shrink-0 font-bold">{index.code}</span>
+                <div className="flex content-between w-full gap-1">
+                    <span className="flex-1 font-bold">{index.code}</span>
                     <div
-                        className={"flex items-center flex-shrink-0 gap-1 " +
+                        className={"flex flex-shrink-0 items-center gap-1 " +
                             (index.price > Number(index.referPrice)
                                 ? " text-light-price-up dark:text-dark-price-up"
                                 : index.price < Number(index.referPrice)
