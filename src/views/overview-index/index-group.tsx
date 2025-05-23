@@ -34,7 +34,7 @@ const volumeSeriesOptions: HistogramSeriesPartialOptions = {
 
 const chartOptions = {
     autoSize: true,
-    width: 240,
+    // width: 240,
     layout: {
         background: { type: "solid", color: 'transparent' },
     },
