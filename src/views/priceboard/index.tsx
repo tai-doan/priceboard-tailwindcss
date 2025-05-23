@@ -7,7 +7,13 @@ import { APP_CONSTANT } from "../../utils/constant";
 import OverviewIndex from "../overview-index";
 import Priceboard from "./priceboard";
 
-const priceboardQueryClient = new QueryClient()
+const priceboardQueryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            // refetchOnWindowFocus: false, // default: true
+        },
+    },
+})
 
 const PriceboardLayout = () => {
     const { socket, subscribeFunctWithControl } = usePriceboardSocket();
@@ -20,6 +26,14 @@ const PriceboardLayout = () => {
             command: "SUB",
             topic: ["KRXMDDS|STKVER"],
             value: [""],
+            onSuccess: () => {
+                subscribeFunctWithControl!({
+                    component: "PRICEBOARD",
+                    command: "UNSUB",
+                    topic: ["KRXMDDS|STKVER"],
+                    value: [""],
+                })
+            }
         })
 
         socket?.on(channels.onFOSStream, (data) => {
@@ -47,12 +61,28 @@ const PriceboardLayout = () => {
                             command: "SUB",
                             topic: ["KRXMDDS|IDX|STO", "KRXMDDS|IDX|STX", "KRXMDDS|IDX|UPX"],
                             value: [""],
+                            onSuccess: () => {
+                                subscribeFunctWithControl!({
+                                    component: "PRICEBOARD",
+                                    command: "UNSUB",
+                                    topic: ["KRXMDDS|IDX|STO", "KRXMDDS|IDX|STX", "KRXMDDS|IDX|UPX"],
+                                    value: [""],
+                                })
+                            }
                         })
                         subscribeFunctWithControl!({
                             component: "PRICEBOARD",
                             command: "SUB",
                             topic: changeKeys.map((item) => `KRXMDDS|STKLST|${item}|VI`),
                             value: [""],
+                            onSuccess: () => {
+                                subscribeFunctWithControl!({
+                                    component: "PRICEBOARD",
+                                    command: "UNSUB",
+                                    topic: changeKeys.map((item) => `KRXMDDS|STKLST|${item}|VI`),
+                                    value: [""],
+                                })
+                            }
                         })
                     }
                 } else {
@@ -62,6 +92,14 @@ const PriceboardLayout = () => {
                         command: "SUB",
                         topic: ["KRXMDDS|IDX|STO", "KRXMDDS|IDX|STX", "KRXMDDS|IDX|UPX"],
                         value: [""],
+                        onSuccess: () => {
+                            subscribeFunctWithControl!({
+                                component: "PRICEBOARD",
+                                command: "UNSUB",
+                                topic: ["KRXMDDS|IDX|STO", "KRXMDDS|IDX|STX", "KRXMDDS|IDX|UPX"],
+                                value: [""],
+                            })
+                        }
                     })
                     const mapStkVer = INFO.map((item: any) => ({
                         [item.exchange]: item.version
@@ -72,6 +110,14 @@ const PriceboardLayout = () => {
                         command: "SUB",
                         topic: Object.keys(mapStkVer).map((item) => `KRXMDDS|STKLST|${item}|VI`),
                         value: [""],
+                        onSuccess: () => {
+                            subscribeFunctWithControl!({
+                                component: "PRICEBOARD",
+                                command: "UNSUB",
+                                topic: Object.keys(mapStkVer).map((item) => `KRXMDDS|STKLST|${item}|VI`),
+                                value: [""],
+                            })
+                        }
                     })
                 }
             }

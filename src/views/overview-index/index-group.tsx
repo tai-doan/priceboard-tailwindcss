@@ -33,37 +33,37 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
                     <span className="flex-shrink-0 font-bold">{index.code}</span>
                     <div
                         className={"flex items-center flex-shrink-0 gap-1 " +
-                            (index.price > Number(index.openPrice)
+                            (index.price > Number(index.referPrice)
                                 ? " text-light-price-up dark:text-dark-price-up"
-                                : index.price < Number(index.openPrice)
+                                : index.price < Number(index.referPrice)
                                     ? " text-light-price-down dark:text-dark-price-down"
                                     : " text-light-price-ref dark:text-dark-price-ref")
                         }
                     >
-                        {index.price > Number(index.openPrice)
+                        {index.price > Number(index.referPrice)
                             ? <ArrowUpOutlined /> :
-                            index.price < Number(index.openPrice)
+                            index.price < Number(index.referPrice)
                                 ? <ArrowDownOutlined />
                                 : <></>}
-                        <span>{FormatNumber({ value: index.price, fractionSize: 2 })}</span>
-                        <div>{`(${FormatNumber({ value: index.dayChange, fractionSize: 2 })} ${FormatNumber({ value: index.dayChangePercent, fractionSize: 2 })}%)`}</div>
+                        <span>{FormatNumber({ value: index.price, fractionSize: 2, empty: 0 })}</span>
+                        <div>{`(${FormatNumber({ value: index.dayChange, fractionSize: 2, empty: 0 })} ${FormatNumber({ value: index.dayChangePercent, fractionSize: 2, empty: 0 })}%)`}</div>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span>{FormatNumber({ value: index.dayVolume ?? 0, fractionSize: 2 })} CP</span>
-                    <span>{FormatNumber({ value: index.dayValue ?? 0, fractionSize: 2, key: 'short' })}</span>
+                    <span>{FormatNumber({ value: index.dayVolume ?? 0, fractionSize: 2, empty: 0 })} CP</span>
+                    <span>{FormatNumber({ value: index.dayValue ?? 0, fractionSize: 2, empty: 0, key: 'short' })}</span>
                 </div>
                 <div className="flex items-center gap-2">
                     <span className="inline-flex items-center gap-1 text-light-price-up dark:text-dark-price-up">
                         <ArrowUpOutlined />
-                        {FormatNumber({ value: index.advances ?? 0, fractionSize: 0 })}
+                        {FormatNumber({ value: index.advances ?? 0, fractionSize: 0, empty: 0 })}
                     </span>
                     <span className="inline-flex items-center gap-1 text-light-price-ref dark:text-dark-price-ref">
-                        {FormatNumber({ value: index.noChanges ?? 0, fractionSize: 0 })}
+                        {FormatNumber({ value: index.noChanges ?? 0, fractionSize: 0, empty: 0 })}
                     </span>
                     <span className="inline-flex items-center gap-1 text-light-price-down dark:text-dark-price-down">
                         <ArrowDownOutlined />
-                        {FormatNumber({ value: index.declines ?? 0, fractionSize: 0 })}
+                        {FormatNumber({ value: index.declines ?? 0, fractionSize: 0, empty: 0 })}
                     </span>
                     <span className="text-light-price-floor dark:text-dark-price-floor">
                         ({FormatNumber({ value: index.floor ?? 0, fractionSize: 0, empty: 0 })})

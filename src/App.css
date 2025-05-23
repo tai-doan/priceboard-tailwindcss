@@ -600,7 +600,7 @@
 
 .dark\:text-dark-price-ref:is(.dark *) {
   --tw-text-opacity: 1;
-  color: rgb(233 199 2/var(--tw-text-opacity, 1))
+  color: rgb(255 207 0/var(--tw-text-opacity, 1))
 }
 
 .dark\:text-dark-primary-default:is(.dark *) {
