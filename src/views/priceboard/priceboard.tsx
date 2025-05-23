@@ -13,8 +13,8 @@ const Priceboard = () => {
             <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2 px-4">
                     <div className="flex items-center justify-end flex-1 gap-4">
-                        <div className="text-[10px]">
-                            <div className="rounded-md flex justify-center items-center px-2 bg-light-input dark:bg-dark-input border-[1px] border-neutral-12 dark:border-black text-neutral-1 dark:text-text-1 focus:border-primary-1 max-w-[130px] !h-[24px] !text-[12px] float-right">
+                        <div className="text-[10px] !h-[26px]">
+                            <div className="rounded-md flex justify-center items-center px-2 bg-light-input dark:bg-dark-input border-[1px] border-neutral-12 dark:border-black text-neutral-1 dark:text-text-1 focus:border-primary-1 max-w-[130px] h-full !text-[12px] float-right">
                                 <span className="ant-input-prefix">
                                     <SearchOutlined className="text-neutral-3 dark:text-text-3" />
                                 </span>

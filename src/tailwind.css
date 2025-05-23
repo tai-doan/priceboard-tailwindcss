@@ -296,11 +296,23 @@
   .\!h-\[24px\] {
     height: 24px !important;
   }
+  .\!h-\[26px\] {
+    height: 26px !important;
+  }
   .\!h-\[28px\] {
     height: 28px !important;
   }
   .h-7 {
     height: calc(var(--spacing) * 7);
+  }
+  .h-\[20px\] {
+    height: 20px;
+  }
+  .h-\[24px\] {
+    height: 24px;
+  }
+  .h-\[26px\] {
+    height: 26px;
   }
   .h-\[36px\] {
     height: 36px;
