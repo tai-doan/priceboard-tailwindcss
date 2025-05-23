@@ -1,4 +1,4 @@
-import { DownOutlined, SearchOutlined } from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, type MenuProps } from "antd";
 import { useCallback, useEffect, useRef, useState } from "react";
 import usePriceboardSocket from "../../hooks/usePriceboardSocket";
@@ -85,6 +85,7 @@ const MenuPriceboard = () => {
             setMenuSelected(hoseMenu?.find(x => x?.key === item.key))
           }
         }}
+        overlayClassName="bg-light-frame dark:bg-dark-frame mac-scrollbar text-white"
       >
         <button
           type="button"
@@ -110,6 +111,7 @@ const MenuPriceboard = () => {
             setMenuSelected(hnxMenu?.find(x => x?.key === item.key))
           }
         }}
+        overlayClassName="bg-light-frame dark:bg-dark-frame"
       >
         <button
           type="button"
@@ -135,6 +137,7 @@ const MenuPriceboard = () => {
             setMenuSelected(upcomMenu?.find(x => x?.key === item.key))
           }
         }}
+        overlayClassName="bg-light-frame dark:bg-dark-frame"
       >
         <button
           type="button"

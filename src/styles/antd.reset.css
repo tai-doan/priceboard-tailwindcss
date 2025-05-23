@@ -1,0 +1,27 @@
+ul, li {
+  background-color: inherit !important;
+}
+
+.ant-dropdown {
+  .ant-dropdown-menu {
+    .ant-dropdown-menu-item {
+      &:hover {
+        background-color: #DFDFDF80 !important;
+      }
+    }
+  }
+}
+
+.dark {
+  .ant-dropdown {
+    .ant-dropdown-menu {
+      .ant-dropdown-menu-item {
+        color: var(--color-text-1);
+
+        &:hover {
+          background-color: #33343C !important;
+        }
+      }
+    }
+  }
+}

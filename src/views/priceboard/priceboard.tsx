@@ -34,12 +34,12 @@ const Priceboard = () => {
                         </div>
                     </div>
                     <div className="inline-flex items-center justify-center rounded-lg bg-light-frame dark:bg-dark-input p-0.5">
-                        <button type="button" className="relative group text-caption font-medium py-0.5 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 ring-light-primary-offset-hover dark:ring-dark-primary-offset-hover transition-all focus-visible:outline-none focus-visible:ring focus-visible:ring-offset bg-button-light-default dark:bg-button-dark-default text-white dark:text-white hover:text-white dark:hover:text-white">
+                        <button type="button" className="relative group text-caption font-medium py-0.5 inline-flex items-center justify-center whitespace-nowrap rounded-md px-8 ring-light-primary-offset-hover dark:ring-dark-primary-offset-hover transition-all focus-visible:outline-none focus-visible:ring focus-visible:ring-offset bg-button-light-default dark:bg-button-dark-default text-white dark:text-white hover:text-white dark:hover:text-white">
                             Bảng giá
                         </button>
-                        <button type="button" className="relative group text-caption font-medium py-0.5 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 ring-light-primary-offset-hover dark:ring-dark-primary-offset-hover transition-all focus-visible:outline-none focus-visible:ring focus-visible:ring-offset text-light-subtext-2 dark:text-dark-subtext-2">
+                        {/* <button type="button" className="relative group text-caption font-medium py-0.5 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 ring-light-primary-offset-hover dark:ring-dark-primary-offset-hover transition-all focus-visible:outline-none focus-visible:ring focus-visible:ring-offset text-light-subtext-2 dark:text-dark-subtext-2">
                             Cơ bản
-                        </button>
+                        </button> */}
                         </div>
                     <MenuPriceboard />
                 </div>
