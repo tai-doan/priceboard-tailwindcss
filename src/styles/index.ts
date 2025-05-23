@@ -1,4 +1,4 @@
-import './scrollbar.css';
-import './animations.css';
+import './scrollbar.scss';
+import './animations.scss';
 import './custom.scss';
-import './antd.reset.css';
+import './antd.reset.scss';
