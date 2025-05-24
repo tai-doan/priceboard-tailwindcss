@@ -172,7 +172,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
         //   }, 100)
         // }
         // Clear timeoutSub khi sub thành công
-        if (reqMap.topic) {
+        if (reqMap.controlTimeOutKey) {
           clearTimeOutRequest(reqMap.controlTimeOutKey)
         }
       } else {
@@ -233,9 +233,8 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
     })
   }
 
-  const handleTimeOut = (onTimeout: Function, controlTimeOutKey: string, Command: string, topic: string[], value: string[], fromseq: any, size: number[], type: any, component: string) => {
+  const handleTimeOut = (onTimeout: Function, controlTimeOutKey: string, topic: string[], value: string[], component: string) => {
     console.log('subcribeFunctStream bị timeout: ', controlTimeOutKey)
-    console.log(Command, topic, value, fromseq, size, type)
     removeSubInfoFromMap({ topic, value, component })
     clearTimeOutRequest(controlTimeOutKey)
     // Xử lý time out cho từng subcribeFunctStream nếu có
@@ -247,6 +246,8 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
   }
 
   const clearTimeOutRequest = (controlTimeOutKey: string) => {
+    console.log("clearTimeOutRequest: ", controlTimeOutKey);
+
     if (controlTimeOutObj[controlTimeOutKey]) clearTimeout(controlTimeOutObj[controlTimeOutKey])
     controlTimeOutObj[controlTimeOutKey] = null;
     return
@@ -413,7 +414,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
     const arrayUnsubInfo = []
     for (const [arrTopicAsKey, arrValue] of Object.entries(objWithTopicAsKey)) {
       let topic = JSON.parse(arrTopicAsKey)
-      if (arrValue.length === 0 || topic.length === 0) {
+      if (arrValue.length === 0 && topic.length === 0) {
         // Không làm gì
       } else {
         arrayUnsubInfo.push({
@@ -441,7 +442,6 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
      */
     /**
      */
-    let controlTimeOutKey = ''
     /**
      * Kiểm tra các trường hợp SUB|UNSUB|GET_HIST và tiến hành
      * Control Timeout, Thông tin sub khác nhau
@@ -450,16 +450,17 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
       const arraySubInfo = checkSubMapBeforeSub({ topic, value, component })
       console.log('Chuẩn bị Sub:', arraySubInfo)
       arraySubInfo.map((subInfo) => {
-        if (subInfo['value'].length === 0) return
-        if (subInfo['topic'].length === 0) return
+        if (subInfo['value'].length === 0 && subInfo['topic'].length === 0) return
+        // if (subInfo['topic'].length === 0) return
         // Add info to subcontrol
         addNewSub({
           topic: subInfo['topic'],
           value: subInfo['value'],
           component: subInfo['component'],
         })
+        console.log("sau khi addNewSub-> subControlMap: ", subControlMap);
         // Generate key subscribe
-        controlTimeOutKey = String(command) + '|' + JSON.stringify(subInfo.topic) + '|' + JSON.stringify(subInfo.value)
+        const controlTimeOutKey = String(command) + '|' + JSON.stringify(subInfo.topic) + '|' + JSON.stringify(subInfo.value)
         // Clear timeout của UNSUB tương đương khi SUB => tránh trường hợp UNSUB đang timeout mà SUB đã thành công => 10s sau UNSUB thành công => sai
         clearTimeOutRequest(String("UN" + controlTimeOutKey))
         /**
@@ -477,7 +478,6 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
           value: subInfo.value,
           onSuccess,
           onFailed,
-          key: controlTimeOutKey,
         })
         // SetTimeout cho subcribeFunctStream
         controlTimeOutObj[controlTimeOutKey] = setTimeout(
@@ -485,10 +485,9 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
           time,
           onTimeout,
           controlTimeOutKey,
-          command,
           subInfo.topic,
           subInfo.value,
-          component,
+          subInfo.component,
         )
       })
     }
@@ -497,7 +496,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
       const arrayUnsubInfo = removeSubInfoFromMap({ topic, value, component })
       arrayUnsubInfo.map((unsubInfo) => {
         // Generate key subscribe
-        controlTimeOutKey = String(command) + '|' + JSON.stringify(unsubInfo.topic) + '|' + JSON.stringify(unsubInfo.value)
+        const controlTimeOutKey = String(command) + '|' + JSON.stringify(unsubInfo.topic) + '|' + JSON.stringify(unsubInfo.value)
         // Clear timeout của SUB tương đương khi UNSUB => tránh trường hợp SUB đang timeout mà UNSUB đã thành công => sau 10s SUB lại => vô nghĩa
         clearTimeOutRequest(controlTimeOutKey.slice(2))
         /**
@@ -519,7 +518,6 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
           value: unsubInfo.value,
           onSuccess,
           onFailed,
-          key: controlTimeOutKey,
         })
         // SetTimeout cho subcribeFunctStream
         controlTimeOutObj[controlTimeOutKey] = setTimeout(
@@ -527,10 +525,9 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
           time,
           onTimeout,
           controlTimeOutKey,
-          command,
           unsubInfo.topic,
           unsubInfo.value,
-          component,
+          unsubInfo.component,
         )
       })
     }
@@ -543,12 +540,8 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
     command = '',
     topic = [],
     value = [],
-    fromseq = '',
-    size = [0],
-    type = '',
     onSuccess = () => null,
     onFailed = () => null,
-    key,
   }: {
     command: 'SUB' | 'UNSUB' | 'GET_HIST' | ''
     topic: string[]
@@ -615,6 +608,8 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
         command: 'SUB',
         topic: JSON.parse(arrTopicAsKey),
         value: arrValue,
+        onFailed: () => null,
+        onSuccess: () => null,
       })
     }
   }

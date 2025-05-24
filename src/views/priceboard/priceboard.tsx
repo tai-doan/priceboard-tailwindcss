@@ -4,12 +4,15 @@ import { toggleTheme } from "../../utils/themeToggle";
 import MenuPriceboard from "./menu-priceboard";
 import PriceboardFooter from "./priceboard-footer";
 import TablePriceboard from "./table-priceboard";
+import { useState } from "react";
 
 const Priceboard = () => {
-    const [stockCd, setStockCd] = useSafeState('');
-    const [indexCd, setIndexCd] = useSafeState('');
+    const [stockCd, setStockCd] = useState('');
+    const [indexCd, setIndexCd] = useState('');
 
     const handleChangeIndex = (indexCode: string) => {
+        console.log("!PRICEBOARD handleChangeIndex: ", indexCode, indexCd);
+
         setIndexCd(indexCode);
     }
 
