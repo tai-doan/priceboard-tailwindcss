@@ -7,6 +7,7 @@ export default function usePriceboardSocket() {
     marketData,
     indexList,
     stockList,
+    stockIndexData,
     socketEmit,
     subscribeFunctWithControl,
   } = useContext(SocketContext);
@@ -16,6 +17,7 @@ export default function usePriceboardSocket() {
     marketData,
     indexList,
     stockList,
+    stockIndexData,
     socketEmit,
     subscribeFunctWithControl,
   }

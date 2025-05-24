@@ -44,9 +44,9 @@ const PriceboardLayout = () => {
                 const localVerStr = getLocalStorage(APP_CONSTANT.STOCK_VERSION) ?? "{}"
                 const localVer = JSON.parse(localVerStr);
                 const { INFO } = data?.data ?? [];
-                if (!!localVer) {
+                if (localVer) {
                     const mapStkVer = INFO.reduce((acc: any, cur: any) => {
-                        let key = cur['exchange']
+                        const key = cur['exchange']
                         if (!acc[key]) {
                             acc[key] = cur.version;
                         }
@@ -54,7 +54,7 @@ const PriceboardLayout = () => {
                     }, {})
                     const changeKeys = getChangedKeys(mapStkVer, localVer)
                     setLocalStorage(APP_CONSTANT.STOCK_VERSION, JSON.stringify(mapStkVer));
-                    if (!!changeKeys.length) {
+                    if (changeKeys.length) {
                         // Lấy danh sách sàn toàn bộ thị trường
                         subscribeFunctWithControl!({
                             component: "PRICEBOARD",

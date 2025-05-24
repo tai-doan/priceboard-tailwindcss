@@ -1,5 +1,5 @@
 interface FormatNumberProps {
-    value: number | '0' | ' ' | '';
+    value: number | '0' | ' ' | '' | string;
     fractionSize?: 0 | 1 | 2 | 3 | 4;
     empty?: 1 | 0;
     key?: 'dash' | 'input_plcord' | 'short';

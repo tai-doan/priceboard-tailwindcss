@@ -5,7 +5,13 @@ import usePriceboardSocket from "../../hooks/usePriceboardSocket";
 
 const baseMenuClass = "group px-4 relative group text-caption font-medium py-0.5 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 ring-light-primary-offset-hover dark:ring-dark-primary-offset-hover transition-all focus-visible:outline-none focus-visible:ring focus-visible:ring-offset";
 
-const MenuPriceboard = () => {
+const MenuPriceboard = (
+  {
+    changeIndexCallback = () => { }
+  }: {
+    changeIndexCallback: (value: string) => void
+  }
+) => {
   const { indexList, marketData, subscribeFunctWithControl, } = usePriceboardSocket();
   const [hoseMenu, setHoseMenu] = useState<MenuProps['items']>([]);
   const [hnxMenu, setHnxMenu] = useState<MenuProps['items']>([]);
@@ -53,6 +59,7 @@ const MenuPriceboard = () => {
   }, [menuSelected.key])
 
   const handleChangeMenu = useCallback((path: string) => {
+    changeIndexCallback(path);
     subscribeFunctWithControl?.({
       component: "PRICEBOARD",
       command: "SUB",

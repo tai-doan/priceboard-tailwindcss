@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import BodyTablePriceboard from "./body-table-priceboard";
 import HeaderTablePriceboard from "./header-table-priceboard";
 
-const TablePriceboard = () => {
+const TablePriceboard = ({ indexCd = '' }: { indexCd: string }) => {
     const [tableHeight, setTableHeight] = useState(500);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const TablePriceboard = () => {
                 marginTop: 0,
             }}>
                 <HeaderTablePriceboard />
-                <BodyTablePriceboard />
+                <BodyTablePriceboard indexCd={indexCd} />
             </table>
         </div>
     )

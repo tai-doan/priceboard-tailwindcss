@@ -7,6 +7,11 @@ import TablePriceboard from "./table-priceboard";
 
 const Priceboard = () => {
     const [stockCd, setStockCd] = useSafeState('');
+    const [indexCd, setIndexCd] = useSafeState('');
+
+    const handleChangeIndex = (indexCode: string) => {
+        setIndexCd(indexCode);
+    }
 
     return (<>
         <div id="priceboard-layout" className="h-full space-y-4">
@@ -41,7 +46,7 @@ const Priceboard = () => {
                             Cơ bản
                         </button> */}
                         </div>
-                    <MenuPriceboard />
+                    <MenuPriceboard changeIndexCallback={handleChangeIndex} />
                 </div>
                 <button className="flex items-center justify-center mr-3 border rounded-lg group w-7 h-7 border-v3-text-light-subtext-2 dark:border-v3-text-dark-subtext-2 hover:border-light-primary-hover dark:hover:border-dark-primary-hover">
                     <SettingOutlined onClick={() => {
@@ -49,7 +54,7 @@ const Priceboard = () => {
                     }} />
                 </button>
             </div>
-            <TablePriceboard />
+            <TablePriceboard indexCd={indexCd} />
             <PriceboardFooter />
         </div>
     </>

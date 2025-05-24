@@ -29,6 +29,7 @@ type SocketContextProps = {
   stockList: IStock[],
   socketEmit?: (key: string, value: any) => void;
   subscribeFunctWithControl?: ({ }: ISubInfo) => void,
+  stockIndexData: {},
 }
 
 type PriceboardSocketProviderProps = {
@@ -53,6 +54,7 @@ export const SocketContext = createContext<SocketContextProps>({
   marketData: new Map(),
   indexList: [],
   stockList: [],
+  stockIndexData: {},
 });
 
 const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children }) => {
@@ -72,6 +74,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
   const [indexList, setIndexList] = useState<IIndex[]>([]);
   // Danh sách các mã chứng khoán có trên thị trường
   const [stockList, setStockList] = useState<IStock[]>([]);
+  const [stockIndexData, setStockIndexData] = useState({});
 
   const socketEmit = (channel: string, option: any) => {
     if (!socket_sv.current) return;
@@ -212,6 +215,13 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
           }
         }
 
+        if (data.topic.includes("KRXMDDS|IGS|")) {
+          const _stockData = {
+            [data.data.t30001 + "|" + data.data.t30167]: data.data.STOCK
+          }
+          setStockIndexData({ ...stockIndexData, _stockData })
+        }
+
         if (data.topic.includes("KRXMDDS|STKLST") && data?.STOCK?.length) {
           // const _stockList: IStock[] = data.STOCK.map((item: any) => ({
           //   code: item.S,
@@ -220,7 +230,6 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
           // setStockList(_stockList);
         }
       }
-      console.log("onFOSStream socket: ", data);
     })
   }
 
@@ -656,6 +665,7 @@ const PriceboardSocketProvider: FC<PriceboardSocketProviderProps> = ({ children 
         stockList: stockList,
         socketEmit,
         subscribeFunctWithControl,
+        stockIndexData,
       }}
     >
       {children}

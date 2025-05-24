@@ -6,5 +6,5 @@ export const APP_CONSTANT = {
   THEME: "theme",
 }
 
-export const socketURL = 'https://trading.apsc.vn';
+export const socketURL = 'https://ysflex.yuanta.com.vn';
 export const socketSubPath = '/market';

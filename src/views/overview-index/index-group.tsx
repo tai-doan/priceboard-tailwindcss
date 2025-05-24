@@ -142,8 +142,8 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
     }, [data]);
 
     return (
-        <div className="snap-start flex-shrink-0 max-w-[222px] 2xl:max-w-xs px-2 rounded-md bg-[#dfdfdf20] dark:bg-[#2e2e2e]">
-            <div className="h-[90px] mt-2 border border-light-line dark:border-dark-line w-[320]">
+        <div className="snap-start flex-shrink-0 max-w-[222px] 2xl:max-w-fit px-2 rounded-md bg-[#dfdfdf20] dark:bg-[#2e2e2e]">
+            <div className="h-[90px] mt-2 border border-light-line dark:border-dark-line w-[320px]">
                 <div ref={chartContainerRef} className="relative w-full h-full" />
             </div>
             <div className="flex flex-col items-center justify-center py-1">
