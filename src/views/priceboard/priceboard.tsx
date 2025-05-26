@@ -18,7 +18,7 @@ const Priceboard = () => {
     }
 
     return (<>
-        <div id="priceboard-layout" className="h-full space-y-4">
+        <div id="priceboard-layout" className="!h-full relative space-y-2">
             <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2 px-4">
                     <div className="flex items-center justify-end flex-1 gap-4">
@@ -58,6 +58,7 @@ const Priceboard = () => {
                     }} />
                 </button>
             </div>
+            {/* <TablePriceboard indexCd={indexCd} /> */}
             <TablePriceboardV2 indexCd={indexCd} />
             <PriceboardFooter />
         </div>

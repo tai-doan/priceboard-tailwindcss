@@ -20,22 +20,22 @@ const changeBackground = (id: string, newValue: string | number, oldValue: strin
     if (elemm.classList.contains('!bg-price-down')) {
       return
     }
-    elemm.classList.add('!bg-price-down')
     elemm.classList.add('!text-white')
+    elemm.classList.add('!bg-price-down')
     setTimeout(() => {
-      elemm.classList.remove('!bg-price-down')
       elemm.classList.remove('!text-white')
+      elemm.classList.remove('!bg-price-down')
     }, 600)
     return
   } else if (Number(newValue) > Number(oldValue)) {
     if (elemm.classList.contains('!bg-price-up')) {
       return
     }
-    elemm.classList.add('!bg-price-up')
     elemm.classList.add('!text-white')
+    elemm.classList.add('!bg-price-up')
     setTimeout(() => {
-      elemm.classList.remove('!bg-price-up')
       elemm.classList.remove('!text-white')
+      elemm.classList.remove('!bg-price-up')
     }, 600)
     return
   }

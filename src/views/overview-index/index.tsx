@@ -25,7 +25,7 @@ const OverviewIndex = () => {
     }, [data, isSuccess]);
 
     return (
-        <div className="flex justify-between gap-4 px-3 pt-2 overflow-hidden text-caption text-light-default dark:text-dark-default">
+        <div className="flex justify-between gap-4 px-3 pt-2 overflow-hidden text-caption text-light-default dark:text-dark-default !h-[179px]">
             <div className="flex gap-2.5 overflow-x-auto snap-x mac-scrollbar">
                 {indexSymbols.map((item, index) => <IndexGroup index={item} key={index} />)}
             </div>

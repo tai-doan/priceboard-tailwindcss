@@ -67,7 +67,7 @@ const PriceboardRow = React.memo(({ row, virtualRow, index, baseClass, getColor 
             />
             <PriceboardCell
                 value={row?.TPBID?.[0]?.t271}
-                className={baseClass + getColor(row.t20013, row?.TPBID?.[0]?.t271) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(row.t20013, row?.TPBID?.[0]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + row.t55 + "_" + index + "_bids_0_volume"}
             />
             <PriceboardCell
@@ -77,7 +77,7 @@ const PriceboardRow = React.memo(({ row, virtualRow, index, baseClass, getColor 
             />
             <PriceboardCell
                 value={row?.TPBID?.[1]?.t271}
-                className={baseClass + getColor(row.t20013, row?.TPBID?.[1]?.t271) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(row.t20013, row?.TPBID?.[1]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + row.t55 + "_" + index + "_bids_1_volume"}
             />
             <PriceboardCell
@@ -87,7 +87,7 @@ const PriceboardRow = React.memo(({ row, virtualRow, index, baseClass, getColor 
             />
             <PriceboardCell
                 value={row?.TPBID?.[2]?.t271}
-                className={baseClass + getColor(row.t20013, row?.TPBID?.[2]?.t271) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(row.t20013, row?.TPBID?.[2]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + row.t55 + "_" + index + "_bids_2_volume"}
             />
             {/* Khớp */}
@@ -119,7 +119,7 @@ const PriceboardRow = React.memo(({ row, virtualRow, index, baseClass, getColor 
             />
             <PriceboardCell
                 value={row?.TPOFFER?.[0]?.t271}
-                className={baseClass + getColor(row.t20013, row?.TPOFFER?.[0]?.t271) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(row.t20013, row?.TPOFFER?.[0]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + row.t55 + "_" + index + "_0_volume"}
             />
             <PriceboardCell
@@ -129,7 +129,7 @@ const PriceboardRow = React.memo(({ row, virtualRow, index, baseClass, getColor 
             />
             <PriceboardCell
                 value={row?.TPOFFER?.[1]?.t271}
-                className={baseClass + getColor(row.t20013, row?.TPOFFER?.[1]?.t271) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(row.t20013, row?.TPOFFER?.[1]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + row.t55 + "_" + index + "_1_volume"}
             />
             <PriceboardCell
@@ -139,7 +139,7 @@ const PriceboardRow = React.memo(({ row, virtualRow, index, baseClass, getColor 
             />
             <PriceboardCell
                 value={row?.TPOFFER?.[2]?.t271}
-                className={baseClass + getColor(row.t20013, row?.TPOFFER?.[2]?.t271) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(row.t20013, row?.TPOFFER?.[2]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + row.t55 + "_" + index + "_2_volume"}
             />
             {/* Cao thấp trung bình */}

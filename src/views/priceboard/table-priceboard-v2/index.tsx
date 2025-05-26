@@ -1,7 +1,6 @@
-import { getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
+import { getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef, type SortingState } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import usePrevious from '../../../hooks/usePrevious';
 import usePriceboardSocket from '../../../hooks/usePriceboardSocket';
 import type { StockData } from '../../../interface/stock';
 import { getNewItemsOnly, getOldItemsOnly } from '../../../utils';
@@ -15,7 +14,7 @@ const baseClass = "xl:pr-1 py-1 group-hover:bg-[#33343C3D] dark:group-hover:bg-[
 const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
     const { socket, subscribeFunctWithControl } = usePriceboardSocket();
     const [tableHeight, setTableHeight] = useState(500);
-    // const [sorting, setSorting] = useState<SortingState>([]);
+    const [sorting, setSorting] = useState<SortingState>([]);
     const columns = useMemo<Array<ColumnDef<StockData>>>(
         () => [
             // Mã CK
@@ -399,11 +398,10 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
 
     useEffect(() => {
         const handleResize = () => {
-            const { top } = document.getElementById("table-priceboard")!.getBoundingClientRect();
-            const { height } = document.getElementById("priceboard-layout")!.getBoundingClientRect();
+            const { height, top } = document.getElementById("priceboard-layout")!.getBoundingClientRect();
 
             if (!!height && !!top) {
-                setTableHeight(height - top + 28);
+                setTableHeight(height - top - 8);
             }
         }
         handleResize();
@@ -497,14 +495,13 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
 
     return (
         <div
-            className='relative !h-full overflow-hidden'
+            className='relative overflow-hidden'
             ref={parentRef}
+            style={{ height: tableHeight }}
         >
             <div
-                className={`relative overflow-auto mac-scrollbar h-full`}
-                style={{
-                    height: tableHeight - 140,
-                }}
+                className={`relative overflow-auto mac-scrollbar`}
+                style={{ maxHeight: rowVirtualizer.getTotalSize(), height: '-webkit-fill-available' }}
             >
                 <table id="table-priceboard" className="w-full border-separate border-spacing-0" style={{
                     tableLayout: "fixed",
