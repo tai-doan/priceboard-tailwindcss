@@ -1,4 +1,5 @@
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
+import { memo } from "react";
 
 const HeaderTablePriceboard = () => {
     return (
@@ -415,4 +416,4 @@ const HeaderTablePriceboard = () => {
     )
 }
 
-export default HeaderTablePriceboard;
+export default memo(HeaderTablePriceboard);

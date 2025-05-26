@@ -50,6 +50,9 @@
   --color-button-light-default: rgb(110, 54, 26);
   --color-button-dark-default: rgb(110, 54, 26);
   --color-button-primary: rgb(0 166 80);
+  --color-price-up: #25A549;
+  --color-price-down: #FD1414;
+  --color-neutral: #dfdfdf;
 
   /* Opacities */
   --opacity-5: 0.05;

@@ -73,6 +73,30 @@ export interface IStockST {
     t40231: string;
 }
 
+export interface IStockMT {
+    t30001: string;
+    t20004: string;
+    t55:    string;
+    t30624: string;
+    t60:    string;
+    FRG:    { [key: string]: number };
+    DMT:    { [key: string]: number };
+}
+
+export interface IStockMD {
+    t30001: string;
+    t20004: string;
+    t55:    string;
+    t30624: string;
+    t270:   number;
+    t271:   number;
+    t30270: number;
+    t346:   number;
+    t30271: number;
+    t4000:  string;
+    t60:    string;
+}
+
 export interface IStockTP {
     t30001: string;
     t20004: string;
@@ -141,3 +165,5 @@ export class MarketTPDataParser {
         return this.data;
     }
 }
+
+export type StockData = IStockSI & IStockST & IStockTP & IStockMT & IStockMD;
