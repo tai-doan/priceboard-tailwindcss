@@ -20,6 +20,8 @@ const changeBackground = (id: string, newValue: string | number, oldValue: strin
     if (elemm.classList.contains('!bg-price-down')) {
       return
     }
+    // Remove thẻ up (nếu có)
+    elemm.classList.remove('!bg-price-up')
     elemm.classList.add('!text-white')
     elemm.classList.add('!bg-price-down')
     setTimeout(() => {
@@ -31,6 +33,8 @@ const changeBackground = (id: string, newValue: string | number, oldValue: strin
     if (elemm.classList.contains('!bg-price-up')) {
       return
     }
+    // Remove thẻ down (nếu có)
+    elemm.classList.remove('!bg-price-down')
     elemm.classList.add('!text-white')
     elemm.classList.add('!bg-price-up')
     setTimeout(() => {

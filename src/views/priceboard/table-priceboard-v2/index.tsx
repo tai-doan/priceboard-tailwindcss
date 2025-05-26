@@ -374,28 +374,6 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
     const [tableData, setTableData] = useState<StockData[]>([]);
     const subStockList = useRef<string[]>([]);
 
-    const table = useReactTable({
-        data: tableData,
-        columns,
-        // state: {
-        //     sorting,
-        // },
-        // onSortingChange: setSorting,
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        debugTable: false,
-    });
-
-    const { rows } = table.getRowModel();
-
-    const parentRef = React.useRef<HTMLDivElement>(null);
-    const rowVirtualizer = useVirtualizer({
-        count: rows.length,
-        getScrollElement: () => parentRef.current,
-        estimateSize: () => 26,
-        overscan: 20,
-    });
-
     useEffect(() => {
         const handleResize = () => {
             const { height, top } = document.getElementById("priceboard-layout")!.getBoundingClientRect();
@@ -487,6 +465,28 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
         }
     }, [socket])
 
+    const table = useReactTable({
+        data: tableData,
+        columns,
+        state: {
+            sorting,
+        },
+        onSortingChange: setSorting,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        debugTable: false,
+    });
+
+    const { rows } = table.getRowModel();
+
+    const parentRef = React.useRef<HTMLDivElement>(null);
+    const rowVirtualizer = useVirtualizer({
+        count: rows.length,
+        getScrollElement: () => parentRef.current,
+        estimateSize: () => 26,
+        overscan: 10,
+    });
+
     const getColor = (refPrice = 0, matchPrice = 0) => {
         if (refPrice < matchPrice) return " text-light-price-up dark:text-dark-price-up "
         if (refPrice > matchPrice) return " text-light-price-down dark:text-dark-price-down "
@@ -496,12 +496,13 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
     return (
         <div
             className='relative overflow-hidden'
-            ref={parentRef}
+            // ref={parentRef}
             style={{ height: tableHeight }}
         >
             <div
-                className={`relative overflow-auto mac-scrollbar`}
-                style={{ maxHeight: rowVirtualizer.getTotalSize(), height: '-webkit-fill-available' }}
+                ref={parentRef}
+                className={`relative overflow-auto mac-scrollbar !h-full`}
+                style={{ maxHeight: rowVirtualizer.getTotalSize() }}
             >
                 <table id="table-priceboard" className="w-full border-separate border-spacing-0" style={{
                     tableLayout: "fixed",
