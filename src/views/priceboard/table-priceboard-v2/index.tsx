@@ -531,7 +531,7 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
                 }}>
                     <HeaderTablePriceboard />
                     <tbody>
-                        {/* {table.getTopRows().map((row, index) => {
+                        {table.getTopRows().map((row, index) => {
                             return (
                                 <PriceboardRow
                                     row={row}
@@ -554,8 +554,8 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
                                     getColor={getColor}
                                 />
                             );
-                        })} */}
-                        {rowVirtualizer.getVirtualItems().map((virtualRow, index) => {
+                        })}
+                        {/* {rowVirtualizer.getVirtualItems().map((virtualRow, index) => {
                             const row = rows[virtualRow.index];
                             return (
                                 <PriceboardRow
@@ -569,7 +569,7 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
                                     getColor={getColor}
                                 />
                             );
-                        })}
+                        })} */}
                     </tbody>
                 </table>
             </div>

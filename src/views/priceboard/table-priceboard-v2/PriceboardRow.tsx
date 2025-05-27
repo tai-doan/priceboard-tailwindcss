@@ -81,43 +81,51 @@ const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, 
             {/* KL/GT giao dịch */}
             <PriceboardCell
                 type='normal'
+                flashType='neutral'
                 value={rowData.t387}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_dayVolume"}
                 className={baseClass + " text-light-default dark:text-dark-default " + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
             />
             <PriceboardCell
                 type='normal'
+                flashType='neutral'
                 value={rowData.t381}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_dayValue"}
                 className={baseClass + " text-light-default dark:text-dark-default hidden " + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
             />
             {/* Bên mua */}
             <PriceboardCell
+                type='bid'
                 value={rowData?.TPBID?.[0]?.t270}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[0]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_0_price"}
             />
             <PriceboardCell
+                type='bid'
                 value={rowData?.TPBID?.[0]?.t271}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[0]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_0_volume"}
             />
             <PriceboardCell
+                type='bid'
                 value={rowData?.TPBID?.[1]?.t270}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[1]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_1_price"}
             />
             <PriceboardCell
+                type='bid'
                 value={rowData?.TPBID?.[1]?.t271}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[1]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_1_volume"}
             />
             <PriceboardCell
+                type='bid'
                 value={rowData?.TPBID?.[2]?.t270}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[2]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_2_price"}
             />
             <PriceboardCell
+                type='bid'
                 value={rowData?.TPBID?.[2]?.t271}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[2]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_2_volume"}
@@ -145,31 +153,37 @@ const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, 
             />
             {/* Bên bán */}
             <PriceboardCell
+                type='ask'
                 value={rowData?.TPOFFER?.[0]?.t270}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[0]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_0_price"}
             />
             <PriceboardCell
+                type='ask'
                 value={rowData?.TPOFFER?.[0]?.t271}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[0]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_0_volume"}
             />
             <PriceboardCell
+                type='ask'
                 value={rowData?.TPOFFER?.[1]?.t270}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[1]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_1_price"}
             />
             <PriceboardCell
+                type='ask'
                 value={rowData?.TPOFFER?.[1]?.t271}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[1]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_1_volume"}
             />
             <PriceboardCell
+                type='ask'
                 value={rowData?.TPOFFER?.[2]?.t270}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[2]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_2_price"}
             />
             <PriceboardCell
+                type='ask'
                 value={rowData?.TPOFFER?.[2]?.t271}
                 className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[2]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_2_volume"}
@@ -193,12 +207,14 @@ const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, 
             {/* RoomNN */}
             <PriceboardCell
                 type='normal'
+                flashType='neutral'
                 value={rowData.FRG?.t30645}
                 className={baseClass + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_room_buyVol"}
             />
             <PriceboardCell
                 type='normal'
+                flashType='neutral'
                 value={rowData.FRG?.t30643}
                 className={baseClass + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_room_sellVol"}
