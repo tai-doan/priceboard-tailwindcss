@@ -12,6 +12,15 @@ import HeaderTablePriceboard from '../table-priceboard/header-table-priceboard';
 
 const baseClass = "xl:pr-1 py-1 group-hover:bg-[#33343C3D] dark:group-hover:bg-[#33343C] relative text-caption first:border-t-0 border-r first:border-l border-light-line dark:border-dark-line text-right "
 
+
+const getWidthColumn = (key: string) => {
+    const ele = document.getElementById('thead_' + key)
+    if (ele && ele.getBoundingClientRect) {
+        if (ele.getBoundingClientRect) return ele.getBoundingClientRect().width
+        else return ele.offsetWidth
+    } else return 76
+}
+
 const getClassNames = (colID: string, rowIndex: number): string => {
     let className = '';
     if (colID === 'stock_code') {
@@ -257,7 +266,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên mua - Giá 3
             {
                 accessorKey: 'TPBID.0.t270',
-                id: 'TPBID.0.t270',
+                id: 'orderbook_bids_2_price',
                 header: 'Giá 3',
                 // size: 60,
                 minSize: 60,
@@ -272,7 +281,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên mua - KL 3
             {
                 accessorKey: 'TPBID.0.t271',
-                id: 'TPBID.0.t271',
+                id: 'orderbook_bids_2_volume',
                 header: 'KL 3',
                 // size: 60,
                 minSize: 60,
@@ -287,7 +296,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên mua - Giá 2
             {
                 accessorKey: 'TPBID.1.t270',
-                id: 'TPBID.1.t270',
+                id: 'orderbook_bids_1_price',
                 header: 'Giá 2',
                 // size: 60,
                 minSize: 60,
@@ -302,7 +311,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên mua - KL 2
             {
                 accessorKey: 'TPBID.1.t271',
-                id: 'TPBID.1.t271',
+                id: 'orderbook_bids_1_volume',
                 header: 'KL 2',
                 // size: 60,
                 minSize: 60,
@@ -317,7 +326,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên mua - Giá 1
             {
                 accessorKey: 'TPBID.2.t270',
-                id: 'TPBID.2.t270',
+                id: 'orderbook_bids_0_price',
                 header: 'Giá 1',
                 // size: 60,
                 minSize: 60,
@@ -332,7 +341,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên mua - KL 1
             {
                 accessorKey: 'TPBID.2.t271',
-                id: 'TPBID.2.t271',
+                id: 'orderbook_bids_0_volume',
                 header: 'KL 1',
                 // size: 60,
                 minSize: 60,
@@ -392,7 +401,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên bán - Giá 1
             {
                 accessorKey: 'TPOFFER.0.t270',
-                id: 'TPOFFER.0.t270',
+                id: 'orderbook_asks_0_price',
                 header: 'Giá 1',
                 // size: 60,
                 minSize: 60,
@@ -407,7 +416,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên bán - KL 1
             {
                 accessorKey: 'TPOFFER.0.t271',
-                id: 'TPOFFER.0.t271',
+                id: 'orderbook_asks_0_volume',
                 header: 'KL 1',
                 // size: 60,
                 minSize: 60,
@@ -422,7 +431,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên bán - Giá 2
             {
                 accessorKey: 'TPOFFER.1.t270',
-                id: 'TPOFFER.1.t270',
+                id: 'orderbook_asks_1_price',
                 header: 'Giá 2',
                 // size: 60,
                 minSize: 60,
@@ -437,7 +446,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên bán - KL 2
             {
                 accessorKey: 'TPOFFER.1.t271',
-                id: 'TPOFFER.1.t271',
+                id: 'orderbook_asks_1_volume',
                 header: 'KL 2',
                 // size: 60,
                 minSize: 60,
@@ -452,7 +461,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên bán - Giá 3
             {
                 accessorKey: 'TPOFFER.2.t270',
-                id: 'TPOFFER.2.t270',
+                id: 'orderbook_asks_2_price',
                 header: 'Giá 3',
                 // size: 60,
                 minSize: 60,
@@ -467,7 +476,7 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
             // Bên bán - KL 3
             {
                 accessorKey: 'TPOFFER.2.t271',
-                id: 'TPOFFER.2.t271',
+                id: 'orderbook_asks_2_volume',
                 header: 'KL 3',
                 // size: 60,
                 minSize: 60,
@@ -621,13 +630,13 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
                                 data-index={virtualRow.index} //needed for dynamic row height measurement
                                 ref={(node) => rowVirtualizer?.measureElement(node)} //measure dynamic row height
                                 key={row.id + "_" + row.original.t55 + "_" + virtualRow.index}
-                                // style={{
-                                //     display: 'flex',
-                                //     flexDirection: 'row',
-                                //     position: 'absolute',
-                                //     transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
-                                //     width: '100%',
-                                // }}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    position: 'absolute',
+                                    transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
+                                    width: '100%',
+                                }}
                                 className="group"
                             >
                                 {row.getVisibleCells().map((cell) => {
@@ -638,14 +647,16 @@ const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
                                             key={row.id + "_" + row.original.t55 + "_" + cell.id + "_" + virtualRow.index}
                                             className={getClassNames(colId, rowIndex)}
                                             style={{
-                                                // display: 'flex',
-                                                width: cell.column.getSize(),
+                                                display: 'flex',
+                                                width: getWidthColumn(colId),
                                             }}
                                         >
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
+                                            <div className='!w-full !h-full'>
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </div>
                                         </td>
                                     );
                                 })}
