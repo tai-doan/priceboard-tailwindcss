@@ -1,4 +1,5 @@
-import { getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef, type SortingState } from '@tanstack/react-table';
+import { DeleteOutlined, PushpinOutlined } from '@ant-design/icons';
+import { getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef, type RowPinningState, type SortingState } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import usePriceboardSocket from '../../../hooks/usePriceboardSocket';
@@ -14,6 +15,10 @@ const baseClass = "xl:pr-1 py-1 group-hover:bg-[#33343C3D] dark:group-hover:bg-[
 const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
     const { socket, subscribeFunctWithControl } = usePriceboardSocket();
     const [tableHeight, setTableHeight] = useState(500);
+    const [rowPinning, setRowPinning] = React.useState<RowPinningState>({
+        top: [],
+        bottom: [],
+    })
     const [sorting, setSorting] = useState<SortingState>([]);
     const columns = useMemo<Array<ColumnDef<StockData>>>(
         () => [
@@ -22,14 +27,18 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
                 accessorKey: 't55',
                 header: 'Mã CK',
                 size: 40,
-                cell: ({ row }) => (
+                cell: ({ row, }) => (
                     <button className="w-full h-full px-2 text-left overflow-ellipsis overflow-hidden cursor-pointer" title={row.original.t55}>
                         {row.original.t55}
+                        {row.getIsPinned()
+                            ? <DeleteOutlined onClick={() => row.pin(false, true, false)} />
+                            : <PushpinOutlined onClick={() => row.pin('top', true, false)} />}
                     </button>
                 ),
                 meta: {
                     className: "scroll-mt-[52px] border-r first:border-l border-light-line dark:border-dark-line text-caption text-[13px] font-bold group-hover:!bg-[#33343C3D] dark:group-hover:!bg-[#33343C] sticky left-0 z-[1] dark:text-[#FF3737]"
                 }
+
             },
             // Trần
             {
@@ -393,6 +402,10 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
     useEffect(() => {
         dataStockRef.current = {};
         setTableData([]);
+        setRowPinning({
+            top: [],
+            bottom: [],
+        });
         return () => {
         }
     }, [indexCd])
@@ -470,7 +483,15 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
         columns,
         state: {
             sorting,
+            rowPinning,
         },
+        initialState: {
+            rowPinning: {
+                top: [],
+                bottom: [],
+            },
+        },
+        onRowPinningChange: setRowPinning,
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
@@ -484,7 +505,7 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
         count: rows.length,
         getScrollElement: () => parentRef.current,
         estimateSize: () => 26,
-        overscan: 10,
+        overscan: 500,
     });
 
     const getColor = (refPrice = 0, matchPrice = 0) => {
@@ -496,13 +517,12 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
     return (
         <div
             className='relative overflow-hidden'
-            // ref={parentRef}
+            ref={parentRef}
             style={{ height: tableHeight }}
         >
             <div
-                ref={parentRef}
                 className={`relative overflow-auto mac-scrollbar !h-full`}
-                style={{ maxHeight: rowVirtualizer.getTotalSize() }}
+                style={{ maxHeight: Math.max(tableHeight, rowVirtualizer.getTotalSize()) }}
             >
                 <table id="table-priceboard" className="w-full border-separate border-spacing-0" style={{
                     tableLayout: "fixed",
@@ -511,11 +531,37 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
                 }}>
                     <HeaderTablePriceboard />
                     <tbody>
+                        {/* {table.getTopRows().map((row, index) => {
+                            return (
+                                <PriceboardRow
+                                    row={row}
+                                    rowData={row.original}
+                                    key={row.original.t55}
+                                    index={index}
+                                    baseClass={baseClass}
+                                    getColor={getColor}
+                                />
+                            );
+                        })}
+                        {table.getCenterRows().map((row, index) => {
+                            return (
+                                <PriceboardRow
+                                    row={row}
+                                    rowData={row.original}
+                                    key={row.original.t55}
+                                    index={index}
+                                    baseClass={baseClass}
+                                    getColor={getColor}
+                                />
+                            );
+                        })} */}
                         {rowVirtualizer.getVirtualItems().map((virtualRow, index) => {
                             const row = rows[virtualRow.index];
                             return (
                                 <PriceboardRow
-                                    row={row.original}
+                                    isShowPin={false}
+                                    row={row}
+                                    rowData={row.original}
                                     key={row.original.t55}
                                     virtualRow={virtualRow}
                                     index={index}
