@@ -6,6 +6,7 @@ import PriceboardFooter from "./priceboard-footer";
 import TablePriceboard from "./table-priceboard";
 import { useState } from "react";
 import TablePriceboardV2 from "./table-priceboard-v2";
+import TablePriceboardV3 from "./table-priceboard-v3";
 
 const Priceboard = () => {
     const [stockCd, setStockCd] = useState('');
@@ -59,7 +60,7 @@ const Priceboard = () => {
                 </button>
             </div>
             {/* <TablePriceboard indexCd={indexCd} /> */}
-            <TablePriceboardV2 indexCd={indexCd} />
+            <TablePriceboardV3 indexCd={indexCd} />
             <PriceboardFooter />
         </div>
     </>
