@@ -11,8 +11,8 @@ const HeaderTablePriceboard = () => {
                     colSpan={1}
                     rowSpan={0}
                     style={{
-                        minWidth: "40px",
-                        width: "40px",
+                        minWidth: "60px",
+                        width: "60px",
                     }}>
                     Mã CK
                 </th>
