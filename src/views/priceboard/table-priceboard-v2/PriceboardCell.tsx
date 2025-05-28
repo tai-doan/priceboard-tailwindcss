@@ -44,6 +44,8 @@ const PriceboardCell = React.memo((
           value: value,
           fractionSize: 2,
           empty: 0,
+          key: 'short',
+          translateFunc: () => '',
         })}
       </td>
     );
@@ -55,6 +57,8 @@ const PriceboardCell = React.memo((
           value: value,
           fractionSize: 2,
           empty: 1,
+          key: 'short',
+          translateFunc: () => '',
         })}
       </td>
     );
@@ -66,6 +70,8 @@ const PriceboardCell = React.memo((
           value: value,
           fractionSize: 2,
           empty: 0,
+          key: 'short',
+          translateFunc: () => '',
         })}
       </td>
       // <td className={className} id={id}>
@@ -79,6 +85,8 @@ const PriceboardCell = React.memo((
         value: value,
         fractionSize: 2,
         empty: 0,
+        key: 'short',
+        translateFunc: () => '',
       })}
     </td>
   );

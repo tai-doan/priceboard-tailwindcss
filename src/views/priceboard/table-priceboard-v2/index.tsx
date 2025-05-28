@@ -538,6 +538,7 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
                                     index={index}
                                     baseClass={baseClass}
                                     getColor={getColor}
+                                    isLast={index === table.getTopRows().length - 1}
                                 />
                             );
                         })}

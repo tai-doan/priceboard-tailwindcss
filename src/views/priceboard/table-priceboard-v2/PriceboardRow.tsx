@@ -6,7 +6,7 @@ import React, { memo } from 'react';
 import type { StockData } from '../../../interface/stock';
 import PriceboardCell from './PriceboardCell';
 
-const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, getColor, isShowPin = true, }: {
+const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, getColor, isShowPin = true, isLast = false }: {
     row: Row<StockData>,
     rowData: StockData,
     index: number,
@@ -14,6 +14,7 @@ const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, 
     getColor: Function,
     isShowPin?: boolean,
     virtualRow?: VirtualItem,
+    isLast?: boolean,
 }) => {
     return (
         <tr
