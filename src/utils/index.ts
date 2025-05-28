@@ -47,7 +47,48 @@ function convertObjectToMap(obj: Record<string, any>): Map<string, any> {
   return new Map(Object.entries(obj));
 }
 
+// Hàm đổi màu flash trên bảng giá
+const changeBackground = (id: string, newValue: string | number, oldValue: string | number, compare: 'ref' | 'neutral') => {
+  const elemm = document.getElementById(id)
+  if (!elemm) return;
+  // if (Number.parseInt(newValue) === Number.parseInt(oldValue)) return
+  if (compare === 'neutral') {
+    if (elemm.classList.contains('bg-neutral')) {
+      return
+    }
+    elemm.classList.add('dark:bg-dark-neutral', 'bg-neutral',)
+    setTimeout(() => {
+      elemm.classList.remove('dark:bg-dark-neutral', 'bg-neutral',)
+    }, 600)
+    return;
+  }
+  if (Number(newValue) < Number(oldValue)) {
+    if (elemm.classList.contains('!bg-price-down')) {
+      return
+    }
+    // Remove thẻ up (nếu có)
+    elemm.classList.remove('!bg-price-up')
+    elemm.classList.add('!text-white', '!bg-price-down')
+    setTimeout(() => {
+      elemm.classList.remove('!text-white', '!bg-price-down')
+    }, 600)
+    return
+  } else if (Number(newValue) > Number(oldValue)) {
+    if (elemm.classList.contains('!bg-price-up')) {
+      return
+    }
+    // Remove thẻ down (nếu có)
+    elemm.classList.remove('!bg-price-down')
+    elemm.classList.add('!text-white', '!bg-price-up')
+    setTimeout(() => {
+      elemm.classList.remove('!text-white', '!bg-price-up')
+    }, 600)
+    return
+  }
+}
+
 export {
+  changeBackground,
   convertMapToObject,
   convertObjectToMap,
   getChangedKeys,

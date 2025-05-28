@@ -60,7 +60,7 @@ const Priceboard = () => {
                 </button>
             </div>
             {/* <TablePriceboard indexCd={indexCd} /> */}
-            <TablePriceboardV3 indexCd={indexCd} />
+            <TablePriceboardV2 indexCd={indexCd} />
             <PriceboardFooter />
         </div>
     </>

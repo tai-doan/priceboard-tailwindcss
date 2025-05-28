@@ -2,7 +2,7 @@
 import { DeleteOutlined, PushpinOutlined } from '@ant-design/icons';
 import type { Row } from '@tanstack/react-table';
 import type { VirtualItem } from '@tanstack/react-virtual';
-import React from 'react';
+import React, { memo } from 'react';
 import type { StockData } from '../../../interface/stock';
 import PriceboardCell from './PriceboardCell';
 
@@ -223,4 +223,38 @@ const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, 
     );
 });
 
-export default PriceboardRow;
+export default memo(PriceboardRow, (prevProps, nextProps) => {
+    // Mã CK
+    return prevProps.rowData.t55 === nextProps.rowData.t55 &&
+        // Trần/Sàn/TC
+        prevProps.rowData.t1149 === nextProps.rowData.t1149 &&
+        prevProps.rowData.t1148 === nextProps.rowData.t1148 &&
+        prevProps.rowData.t20013 === nextProps.rowData.t20013 &&
+        // KLGD/GTGD
+        prevProps.rowData.t387 === nextProps.rowData.t387 &&
+        prevProps.rowData.t381 === nextProps.rowData.t381 &&
+        // Bên mua
+        prevProps.rowData.TPBID?.[0]?.t270 === nextProps.rowData.TPBID?.[0]?.t270 &&
+        prevProps.rowData.TPBID?.[0]?.t271 === nextProps.rowData.TPBID?.[0]?.t271 &&
+        prevProps.rowData.TPBID?.[1]?.t270 === nextProps.rowData.TPBID?.[1]?.t270 &&
+        prevProps.rowData.TPBID?.[1]?.t271 === nextProps.rowData.TPBID?.[1]?.t271 &&
+        prevProps.rowData.TPBID?.[2]?.t270 === nextProps.rowData.TPBID?.[2]?.t270 &&
+        prevProps.rowData.TPBID?.[2]?.t271 === nextProps.rowData.TPBID?.[2]?.t271 &&
+        // Khớp
+        prevProps.rowData.t270 === nextProps.rowData.t270 &&
+        prevProps.rowData.t271 === nextProps.rowData.t271 &&
+        // Bên bán
+        prevProps.rowData.TPOFFER?.[0]?.t270 === nextProps.rowData.TPOFFER?.[0]?.t270 &&
+        prevProps.rowData.TPOFFER?.[0]?.t271 === nextProps.rowData.TPOFFER?.[0]?.t271 &&
+        prevProps.rowData.TPOFFER?.[1]?.t270 === nextProps.rowData.TPOFFER?.[1]?.t270 &&
+        prevProps.rowData.TPOFFER?.[1]?.t271 === nextProps.rowData.TPOFFER?.[1]?.t271 &&
+        prevProps.rowData.TPOFFER?.[2]?.t270 === nextProps.rowData.TPOFFER?.[2]?.t270 &&
+        prevProps.rowData.TPOFFER?.[2]?.t271 === nextProps.rowData.TPOFFER?.[2]?.t271 &&
+        // Cao/Trung bình/Thấp
+        prevProps.rowData.t30562 === nextProps.rowData.t30562 &&
+        prevProps.rowData.t40001 === nextProps.rowData.t40001 &&
+        prevProps.rowData.t30563 === nextProps.rowData.t30563 &&
+        // NN mua/bán
+        prevProps.rowData.FRG?.t30645 === nextProps.rowData.FRG?.t30645 &&
+        prevProps.rowData.FRG?.t30643 == nextProps.rowData.FRG?.t30643
+});

@@ -1,7 +1,7 @@
 import { DeleteOutlined, PushpinOutlined } from '@ant-design/icons';
 import { getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef, type RowPinningState, type SortingState } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import usePriceboardSocket from '../../../hooks/usePriceboardSocket';
 import type { StockData } from '../../../interface/stock';
 import { getNewItemsOnly, getOldItemsOnly } from '../../../utils';
@@ -577,4 +577,6 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
     )
 }
 
-export default TablePriceboardV2;
+export default memo(TablePriceboardV2, (prevProps, nextProps) => {
+    return prevProps.indexCd === nextProps.indexCd
+});
