@@ -67,7 +67,7 @@ const changeBackground = (id: string, newValue: string | number, oldValue: strin
       return
     }
     // Remove thẻ up (nếu có)
-    elemm.classList.remove('!bg-price-up')
+    elemm.classList.remove('!text-white', '!bg-price-up')
     elemm.classList.add('!text-white', '!bg-price-down')
     setTimeout(() => {
       elemm.classList.remove('!text-white', '!bg-price-down')
@@ -78,7 +78,7 @@ const changeBackground = (id: string, newValue: string | number, oldValue: strin
       return
     }
     // Remove thẻ down (nếu có)
-    elemm.classList.remove('!bg-price-down')
+    elemm.classList.remove('!text-white', '!bg-price-down')
     elemm.classList.add('!text-white', '!bg-price-up')
     setTimeout(() => {
       elemm.classList.remove('!text-white', '!bg-price-up')

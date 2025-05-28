@@ -226,7 +226,9 @@ const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, 
 
 export default memo(PriceboardRow, (prevProps, nextProps) => {
     // Mã CK
-    return prevProps.rowData.t55 === nextProps.rowData.t55 &&
+    return prevProps.index === nextProps.index &&
+        prevProps.row.index === nextProps.row.index &&
+        prevProps.rowData.t55 === nextProps.rowData.t55 &&
         // Trần/Sàn/TC
         prevProps.rowData.t1149 === nextProps.rowData.t1149 &&
         prevProps.rowData.t1148 === nextProps.rowData.t1148 &&

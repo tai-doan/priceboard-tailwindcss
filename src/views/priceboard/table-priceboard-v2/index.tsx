@@ -388,7 +388,7 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
             () => {
                 setTableData([...Object.values(dataStockRef.current)])
             },
-            400,
+            100,
             { trailing: true }
         )
     )
