@@ -1,6 +1,6 @@
 import { DeleteOutlined, PushpinOutlined } from '@ant-design/icons';
 import { getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef, type RowPinningState, type SortingState } from '@tanstack/react-table';
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { throttle } from 'lodash';
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import usePriceboardSocket from '../../../hooks/usePriceboardSocket';
 import type { StockData } from '../../../interface/stock';
@@ -383,6 +383,16 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
     const [tableData, setTableData] = useState<StockData[]>([]);
     const subStockList = useRef<string[]>([]);
 
+    const throttled = useRef(
+        throttle(
+            () => {
+                setTableData([...Object.values(dataStockRef.current)])
+            },
+            400,
+            { trailing: true }
+        )
+    )
+
     useEffect(() => {
         const handleResize = () => {
             const { height, top } = document.getElementById("priceboard-layout")!.getBoundingClientRect();
@@ -401,7 +411,7 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
 
     useEffect(() => {
         dataStockRef.current = {};
-        setTableData([]);
+        throttled.current();
         setRowPinning({
             top: [],
             bottom: [],
@@ -428,7 +438,7 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
                     return acc;
                 }, {})
 
-                setTableData([...Object.values(dataStockRef.current)])
+                throttled.current();
                 if (!!stockNeedSub.length) {
                     subscribeFunctWithControl!({
                         command: "SUB",
@@ -446,30 +456,18 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
                     })
                 }
             }
-            if (data.topic.includes("KRXMDDS|SI|G1|")) {
-                dataStockRef.current[data.topic.split("|").slice(-1)[0]] = { ...dataStockRef.current[data.topic.split("|").slice(-1)[0]], ...data.data };
-                setTableData(Object.values(dataStockRef.current));
-                return
-            }
-            if (data.topic.includes("KRXMDDS|ST|G1|")) {
-                dataStockRef.current[data.topic.split("|").slice(-1)[0]] = { ...dataStockRef.current[data.topic.split("|").slice(-1)[0]], ...data.data };
-                setTableData(Object.values(dataStockRef.current));
-                return
-            }
-            if (data.topic.includes("KRXMDDS|TP|G1|")) {
-                dataStockRef.current[data.topic.split("|").slice(-1)[0]] = { ...dataStockRef.current[data.topic.split("|").slice(-1)[0]], ...data.data };
-                setTableData(Object.values(dataStockRef.current));
-                return
-            }
-            if (data.topic.includes("KRXMDDS|MT|G1|")) {
-                dataStockRef.current[data.topic.split("|").slice(-1)[0]] = { ...dataStockRef.current[data.topic.split("|").slice(-1)[0]], ...data.data };
-                setTableData(Object.values(dataStockRef.current));
-                return
-            }
-            if (data.topic.includes("KRXMDDS|MD|G1|")) {
-                dataStockRef.current[data.topic.split("|").slice(-1)[0]] = { ...dataStockRef.current[data.topic.split("|").slice(-1)[0]], ...data.data };
-                setTableData(Object.values(dataStockRef.current));
-                return
+            if (data.topic.includes("KRXMDDS|SI|G1|") ||
+                data.topic.includes("KRXMDDS|ST|G1|") ||
+                data.topic.includes("KRXMDDS|TP|G1|") ||
+                data.topic.includes("KRXMDDS|MT|G1|") ||
+                data.topic.includes("KRXMDDS|MD|G1|")) {
+                const stockKey = data.topic.split("|").slice(-1)[0];
+
+                dataStockRef.current[stockKey] = {
+                    ...dataStockRef.current[stockKey],
+                    ...data.data
+                };
+                throttled.current();
             }
         })
 
@@ -500,13 +498,13 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
 
     const { rows } = table.getRowModel();
 
-    const parentRef = React.useRef<HTMLDivElement>(null);
-    const rowVirtualizer = useVirtualizer({
-        count: rows.length,
-        getScrollElement: () => parentRef.current,
-        estimateSize: () => 26,
-        overscan: 500,
-    });
+    // const parentRef = React.useRef<HTMLDivElement>(null);
+    // const rowVirtualizer = useVirtualizer({
+    //     count: rows.length,
+    //     getScrollElement: () => parentRef.current,
+    //     estimateSize: () => 26,
+    //     overscan: 500,
+    // });
 
     const getColor = (refPrice = 0, matchPrice = 0) => {
         if (refPrice < matchPrice) return " text-light-price-up dark:text-dark-price-up "
@@ -517,12 +515,12 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
     return (
         <div
             className='relative overflow-hidden'
-            ref={parentRef}
+            // ref={parentRef}
             style={{ height: tableHeight }}
         >
             <div
                 className={`relative overflow-auto mac-scrollbar !h-full`}
-                style={{ maxHeight: Math.max(tableHeight, rowVirtualizer.getTotalSize()) }}
+                style={{ maxHeight: Math.max(tableHeight, rows.length * 26) }}
             >
                 <table id="table-priceboard" className="w-full border-separate border-spacing-0" style={{
                     tableLayout: "fixed",

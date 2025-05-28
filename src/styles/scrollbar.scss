@@ -22,11 +22,11 @@
   background-color: var(--scrollbar-thumb-light-hover);
 }
 .dark .mac-scrollbar {
-  scrollbar-color: var(--scrollbar-thumb-dark) var(--scrollbar-track-dark);
+  scrollbar-color: #dfdfdf transparent !important;
 }
 .dark .mac-scrollbar::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb-dark);
+  background-color: var(--scrollbar-thumb-dark) !important;
 }
 .dark .mac-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: var(--scrollbar-thumb-dark-hover);
+  background-color: var(--scrollbar-thumb-dark-hover) !important;
 }

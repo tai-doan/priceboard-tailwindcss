@@ -86,7 +86,7 @@
   --scrollbar-thumb-light: rgba(0, 0, 0, 0.3);
   --scrollbar-track-light: rgba(0, 0, 0, 0);
   --scrollbar-thumb-light-hover: rgba(0, 0, 0, 0.5);
-  --scrollbar-thumb-dark: rgba(255, 255, 255, 0.3);
-  --scrollbar-track-dark: rgba(0, 0, 0, 0);
+  --scrollbar-thumb-dark: "#dfdfdf";
+  --scrollbar-track-dark: transparent;
   --scrollbar-thumb-dark-hover: rgba(255, 255, 255, 0.5);
 }
