@@ -1,6 +1,6 @@
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
-import { createChart, type CandlestickSeriesPartialOptions, type ChartOptions, type HistogramSeriesPartialOptions, type IChartApi, } from "lightweight-charts";
+import { createChart, LastPriceAnimationMode, type ChartOptions, type HistogramSeriesPartialOptions, type IChartApi } from "lightweight-charts";
 import moment from "moment";
 import { useEffect, useRef, type FC } from "react";
 import type { ISymbolData } from "../../interface/symbolRequest";
@@ -10,23 +10,12 @@ type IndexTableProps = {
     index: ISymbolData;
 }
 
-const candlestickOptions: CandlestickSeriesPartialOptions = {
-    upColor: "#00AA00",
-    downColor: "#FD1414",
-    borderVisible: false,
-    wickUpColor: "#00AA00",
-    wickDownColor: "#FD1414",
-    lastValueVisible: false,
-    priceLineVisible: false,
-    baseLineVisible: false,
-};
-
 const volumeSeriesOptions: HistogramSeriesPartialOptions = {
     color: "#00AA00",
     priceFormat: {
         type: "volume",
     },
-    priceScaleId: "", // set as an overlay by setting a blank priceScaleId
+    priceScaleId: "",
     lastValueVisible: false,
     priceLineVisible: false,
     baseLineVisible: false,
@@ -34,40 +23,151 @@ const volumeSeriesOptions: HistogramSeriesPartialOptions = {
 
 const chartOptions = {
     autoSize: true,
-    // width: 240,
     layout: {
-        background: { type: "solid", color: 'transparent' },
+        background: {
+            type: "solid",
+            color: "transparent"
+        },
+        textColor: "#C5C6D2",
+        fontSize: 12,
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif"
     },
-    rightPriceScale: false,
-    priceScale: {
-        visible: false, // Ẩn price scale
-    },
-    timeScale: {
-        visible: false,
-    },
-    localization: {
-        locale: "vi-VN",
-        dateFormat: "HH:mm:ss",
-    },
-    handleScale: false,
-    handleScroll: false,
     crosshair: {
-        horzLine: { visible: false, labelVisible: false },
-        vertLine: { labelVisible: false },
+        vertLine: {
+            color: "#F3F5F6",
+            width: 1,
+            style: 3,
+            visible: true,
+            labelVisible: true,
+            labelBackgroundColor: "#131722"
+        },
+        horzLine: {
+            color: "#F3F5F6",
+            width: 1,
+            style: 3,
+            visible: true,
+            labelVisible: true,
+            labelBackgroundColor: "#131722"
+        },
+        mode: 1
     },
     grid: {
-        vertLines: { visible: false },
-        horzLines: { visible: false },
+        vertLines: {
+            color: "transparent",
+            style: 0,
+            visible: true
+        },
+        horzLines: {
+            color: "transparent",
+            style: 0,
+            visible: false
+        }
     },
-    priceLineWidth: 1,
-    baseLineWidth: 0,
-    lastValueVisible: false,
-    priceLineVisible: false,
-    baseLineVisible: false,
-    visible: false,
-    priceLineSource: {
-        lastVisible: 0,
-        lastBar: 1,
+    overlayPriceScales: {
+        show: false,
+        autoScale: true,
+        mode: 0,
+        invertScale: false,
+        alignLabels: true,
+        borderVisible: true,
+        borderColor: "#2B2B43",
+        entireTextOnly: false,
+        visible: false,
+        ticksVisible: false,
+        scaleMargins: {
+            bottom: 0.1,
+            top: 0.2
+        },
+        minimumWidth: 0
+    },
+    leftPriceScale: {
+        autoScale: true,
+        mode: 0,
+        invertScale: false,
+        alignLabels: true,
+        borderVisible: false,
+        borderColor: "transparent",
+        entireTextOnly: false,
+        visible: false,
+        ticksVisible: false,
+        scaleMargins: {
+            bottom: 0,
+            top: 0.5
+        },
+        minimumWidth: 0
+    },
+    rightPriceScale: {
+        autoScale: true,
+        mode: 0,
+        invertScale: false,
+        alignLabels: true,
+        borderVisible: true,
+        borderColor: "#F3F5F6",
+        entireTextOnly: false,
+        visible: false,
+        ticksVisible: false,
+        scaleMargins: {
+            bottom: 0.1,
+            top: 0.1
+        },
+        minimumWidth: 0
+    },
+    timeScale: {
+        rightOffset: 0,
+        barSpacing: 10,
+        minBarSpacing: 0.5,
+        fixLeftEdge: true,
+        fixRightEdge: true,
+        lockVisibleTimeRangeOnResize: false,
+        rightBarStaysOnScroll: true,
+        borderVisible: true,
+        borderColor: "#F3F5F6",
+        visible: true,
+        timeVisible: true,
+        secondsVisible: false,
+        shiftVisibleRangeOnNewBar: true,
+        ticksVisible: true,
+        uniformDistribution: false,
+        minimumHeight: 0,
+    },
+    watermark: {
+        color: "rgba(0, 0, 0, 0)",
+        visible: false,
+        fontSize: 48,
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif",
+        fontStyle: "",
+        text: "",
+        horzAlign: "center",
+        vertAlign: "center"
+    },
+    localization: {
+        locale: "vi",
+        dateFormat: "",
+    },
+    handleScroll: {
+        mouseWheel: false,
+        pressedMouseMove: true,
+        horzTouchDrag: true,
+        vertTouchDrag: true
+    },
+    handleScale: {
+        axisPressedMouseMove: {
+            time: false,
+            price: false
+        },
+        axisDoubleClickReset: {
+            time: false,
+            price: false
+        },
+        mouseWheel: false,
+        pinch: true
+    },
+    kineticScroll: {
+        mouse: false,
+        touch: true
+    },
+    trackingMode: {
+        exitMode: 1
     }
 };
 
@@ -87,47 +187,44 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
         if (!data || !data.length || !chartContainerRef.current) return;
         const chart: IChartApi = createChart(chartContainerRef.current, chartOptions as unknown as ChartOptions);
 
-        // const candlestickSeries = chart.addCandlestickSeries(candlestickOptions);
-        // candlestickSeries.priceScale().applyOptions({
-        //     scaleMargins: {
-        //         top: 0.1,
-        //         bottom: 0.3,
-        //     },
-        // });
-        // const candleStickData = data.map((item: any) => ({
-        //     // ...item,
-        //     open: item.open,
-        //     high: item.highest,
-        //     low: item.lowest,
-        //     close: item.close,
-        //     time: moment(item.time).valueOf(),
-        // })).sort((a: any, b: any) => a.time - b.time)
-        // candlestickSeries.setData(candleStickData);
-        // console.log("candle data: ", candleStickData);
-
-        const lineSeries = chart.addLineSeries({ color: '#0bdf39', lineWidth: 1, });
+        // Cấu hình cho giá
         const lineData = data.map((item: any) => ({
             value: item.close,
             time: moment(item.time).valueOf(),
-            color: item.close >= item.open ? "#0bdf39" : "E04040"
         })).sort((a: any, b: any) => a.time - b.time)
+
+        const lineSeries = chart.addBaselineSeries({
+            lineWidth: 1,
+            lastPriceAnimation: LastPriceAnimationMode.OnDataUpdate,
+            topLineColor: 'rgb(11, 223, 57)',
+            bottomLineColor: '#FD1414',
+            baseValue: { type: 'price', price: lineData[0].value },
+        });
+        lineSeries.priceScale().applyOptions({
+            scaleMargins: {
+                top: 0.1,
+                bottom: 0.2,
+            },
+        });
         lineSeries.setData(lineData);
 
-        const volumeSeries = chart.addHistogramSeries(volumeSeriesOptions);
-        volumeSeries.priceScale().applyOptions({
-            autoScale: false,
-            scaleMargins: {
-                top: 0.8, // highest point of the series will be 80% away from the top
-                bottom: 0,
-            },
-        })
+        // Cấu hình cho khối lượng
         const volumeData = data.map((item: any) => ({
             time: moment(item.time).valueOf(),
             value: item.volume,
-            color: "#fff",
+            color: "#6e361a",
         })).sort((a: any, b: any) => a.time - b.time);
+        const volumeSeries = chart.addHistogramSeries(volumeSeriesOptions);
+        volumeSeries.priceScale().applyOptions({
+            autoScale: true,
+            scaleMargins: {
+                top: 0.4,
+                bottom: 0,
+            },
+        })
         volumeSeries.setData(volumeData);
 
+        // Cấu hình scale để fit chart với container
         chart.timeScale().fitContent();
         const handleResize = () => {
             chart.timeScale().fitContent();
@@ -143,7 +240,7 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
 
     return (
         <div className="snap-start flex-shrink-0 max-w-[222px] 2xl:max-w-fit px-2 rounded-md bg-[#dfdfdf20] dark:bg-[#2e2e2e]">
-            <div className="h-[90px] mt-2 border border-light-line dark:border-dark-line w-[320px]">
+            <div className="h-[90px] w-full 2xl:w-[320px] mt-2 border border-light-line dark:border-dark-line">
                 <div ref={chartContainerRef} className="relative w-full h-full" />
             </div>
             <div className="flex flex-col items-center justify-center py-1">
