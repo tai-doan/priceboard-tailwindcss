@@ -32,7 +32,7 @@
   --color-dark-button-disabled: rgba(120, 120, 128, 0.24); /* Gray with opacity */
   --color-dark-price-floor: rgb(0, 201, 255); /* Cyan */
   --color-dark-price-up: rgb(11, 223, 57); /* Green */
-  --color-dark-price-ref: rgb(240, 130, 0);
+  --color-dark-price-ref: rgb(255, 181, 18);
   --color-dark-price-ceil: rgb(224, 64, 251); /* Magenta */
   --color-dark-price-down: rgb(224, 64, 64); /* Red */
   --color-dark-primary-default: rgb(48, 107, 242); /* Primary blue */

@@ -1,4 +1,5 @@
 import { SearchOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 import { Moon, Sun } from 'react-feather';
 import logo from '../../assets/svg/LPBankS-dark.svg';
 import { useAppStore } from '../../provider/app-store';
@@ -32,10 +33,12 @@ const Header = () => {
                     </div>
                 </div>
                 <div className="flex">
-                    {theme === 'dark'
-                        ? <Moon className='cursor-pointer' size={20} onClick={() => toggleTheme()} />
-                        : <Sun className='cursor-pointer' size={20} onClick={() => toggleTheme()} />
-                    }
+                    <Tooltip title={theme === 'dark' ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'}>
+                        {theme === 'dark'
+                            ? <Moon className='cursor-pointer' size={20} onClick={() => toggleTheme()} />
+                            : <Sun className='cursor-pointer' size={20} onClick={() => toggleTheme()} />
+                        }
+                    </Tooltip>
                 </div>
             </div>
         </div>
