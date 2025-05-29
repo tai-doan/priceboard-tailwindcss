@@ -49,7 +49,7 @@ type PriceboardSocketState = {
   stockMap: Map<string, StockData>;
   versionMap: Map<string, number>; // Giữ version/flag để thông báo cập nhật
   listeners: Set<(symbol: string) => void>;
-  getStock: (symbol: string) => StockData | undefined;
+  getStock: (symbol: string) => StockData;
   setStock(symbol: string, data: StockData): void;
   subscribeToStock(callback: (symbol: string) => void): () => void;
 };
@@ -199,11 +199,11 @@ export const usePriceboardSocketStore = create<PriceboardSocketState>((set, get)
   stockMap: new Map(),
   versionMap: new Map(),
   listeners: new Set(),
-  getStock: (symbol: string) => get().stockMap.get(symbol),
+  getStock: (symbol: string) => get().stockMap.get(symbol) || ({} as StockData),
   setStock: (symbol, data) => {
     const { stockMap, versionMap, listeners } = get();
     // update stock data
-    stockMap.set(symbol, data);
+    stockMap.set(symbol, { ...stockMap.get(symbol), ...data });
     // update version
     versionMap.set(symbol, Date.now());
     // notify listeners

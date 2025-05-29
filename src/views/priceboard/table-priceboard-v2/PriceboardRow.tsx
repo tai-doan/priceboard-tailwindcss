@@ -2,20 +2,22 @@
 import { DeleteOutlined, PushpinOutlined } from '@ant-design/icons';
 import type { Row } from '@tanstack/react-table';
 import type { VirtualItem } from '@tanstack/react-virtual';
-import React, { memo } from 'react';
+import { memo } from 'react';
+import { useStock } from '../../../hooks/useStock';
 import type { StockData } from '../../../interface/stock';
 import PriceboardCell from './PriceboardCell';
 
-const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, getColor, isShowPin = true, isLast = false }: {
+const PriceboardRow = ({ rowKey, row, virtualRow, index, baseClass, getColor, isShowPin = true }: {
+    rowKey: string,
     row: Row<StockData>,
-    rowData: StockData,
     index: number,
     baseClass: string,
     getColor: Function,
     isShowPin?: boolean,
     virtualRow?: VirtualItem,
-    isLast?: boolean,
 }) => {
+    // Lắng nghe dữ liệu của mã chứng khoán thay đổi
+    const rowData = useStock(rowKey);
     return (
         <tr
             key={rowData.t55}
@@ -97,38 +99,38 @@ const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, 
             {/* Bên mua */}
             <PriceboardCell
                 type='bid'
-                value={rowData?.TPBID?.[0]?.t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[0]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPBID_0_t270}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_0_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_0_price"}
             />
             <PriceboardCell
                 type='bid'
-                value={rowData?.TPBID?.[0]?.t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[0]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPBID_0_t271}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_0_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_0_volume"}
             />
             <PriceboardCell
                 type='bid'
-                value={rowData?.TPBID?.[1]?.t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[1]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPBID_1_t270}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_1_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_1_price"}
             />
             <PriceboardCell
                 type='bid'
-                value={rowData?.TPBID?.[1]?.t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[1]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPBID_1_t271}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_1_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_1_volume"}
             />
             <PriceboardCell
                 type='bid'
-                value={rowData?.TPBID?.[2]?.t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[2]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPBID_2_t270}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_2_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_2_price"}
             />
             <PriceboardCell
                 type='bid'
-                value={rowData?.TPBID?.[2]?.t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID?.[2]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPBID_2_t271}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_2_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_2_volume"}
             />
             {/* Khớp */}
@@ -155,38 +157,38 @@ const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, 
             {/* Bên bán */}
             <PriceboardCell
                 type='ask'
-                value={rowData?.TPOFFER?.[0]?.t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[0]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPOFFER_0_t270}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_0_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_0_price"}
             />
             <PriceboardCell
                 type='ask'
-                value={rowData?.TPOFFER?.[0]?.t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[0]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPOFFER_0_t271}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_0_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_0_volume"}
             />
             <PriceboardCell
                 type='ask'
-                value={rowData?.TPOFFER?.[1]?.t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[1]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPOFFER_1_t270}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_1_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_1_price"}
             />
             <PriceboardCell
                 type='ask'
-                value={rowData?.TPOFFER?.[1]?.t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[1]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPOFFER_1_t271}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_1_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_1_volume"}
             />
             <PriceboardCell
                 type='ask'
-                value={rowData?.TPOFFER?.[2]?.t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[2]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPOFFER_2_t270}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_2_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_2_price"}
             />
             <PriceboardCell
                 type='ask'
-                value={rowData?.TPOFFER?.[2]?.t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER?.[2]?.t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                value={rowData?.TPOFFER_2_t271}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_2_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_2_volume"}
             />
             {/* Cao thấp trung bình */}
@@ -222,42 +224,43 @@ const PriceboardRow = React.memo(({ row, rowData, virtualRow, index, baseClass, 
             />
         </tr>
     );
-});
+};
 
 export default memo(PriceboardRow, (prevProps, nextProps) => {
     // Mã CK
     return prevProps.index === nextProps.index &&
         prevProps.row.index === nextProps.row.index &&
-        prevProps.rowData.t55 === nextProps.rowData.t55 &&
-        // Trần/Sàn/TC
-        prevProps.rowData.t1149 === nextProps.rowData.t1149 &&
-        prevProps.rowData.t1148 === nextProps.rowData.t1148 &&
-        prevProps.rowData.t20013 === nextProps.rowData.t20013 &&
-        // KLGD/GTGD
-        prevProps.rowData.t387 === nextProps.rowData.t387 &&
-        prevProps.rowData.t381 === nextProps.rowData.t381 &&
-        // Bên mua
-        prevProps.rowData.TPBID?.[0]?.t270 === nextProps.rowData.TPBID?.[0]?.t270 &&
-        prevProps.rowData.TPBID?.[0]?.t271 === nextProps.rowData.TPBID?.[0]?.t271 &&
-        prevProps.rowData.TPBID?.[1]?.t270 === nextProps.rowData.TPBID?.[1]?.t270 &&
-        prevProps.rowData.TPBID?.[1]?.t271 === nextProps.rowData.TPBID?.[1]?.t271 &&
-        prevProps.rowData.TPBID?.[2]?.t270 === nextProps.rowData.TPBID?.[2]?.t270 &&
-        prevProps.rowData.TPBID?.[2]?.t271 === nextProps.rowData.TPBID?.[2]?.t271 &&
-        // Khớp
-        prevProps.rowData.t270 === nextProps.rowData.t270 &&
-        prevProps.rowData.t271 === nextProps.rowData.t271 &&
-        // Bên bán
-        prevProps.rowData.TPOFFER?.[0]?.t270 === nextProps.rowData.TPOFFER?.[0]?.t270 &&
-        prevProps.rowData.TPOFFER?.[0]?.t271 === nextProps.rowData.TPOFFER?.[0]?.t271 &&
-        prevProps.rowData.TPOFFER?.[1]?.t270 === nextProps.rowData.TPOFFER?.[1]?.t270 &&
-        prevProps.rowData.TPOFFER?.[1]?.t271 === nextProps.rowData.TPOFFER?.[1]?.t271 &&
-        prevProps.rowData.TPOFFER?.[2]?.t270 === nextProps.rowData.TPOFFER?.[2]?.t270 &&
-        prevProps.rowData.TPOFFER?.[2]?.t271 === nextProps.rowData.TPOFFER?.[2]?.t271 &&
-        // Cao/Trung bình/Thấp
-        prevProps.rowData.t30562 === nextProps.rowData.t30562 &&
-        prevProps.rowData.t40001 === nextProps.rowData.t40001 &&
-        prevProps.rowData.t30563 === nextProps.rowData.t30563 &&
-        // NN mua/bán
-        prevProps.rowData.FRG?.t30645 === nextProps.rowData.FRG?.t30645 &&
-        prevProps.rowData.FRG?.t30643 == nextProps.rowData.FRG?.t30643
+        prevProps.rowKey === nextProps.rowKey
+    // prevProps.rowData.t55 === nextProps.rowData.t55 &&
+    // // Trần/Sàn/TC
+    // prevProps.rowData.t1149 === nextProps.rowData.t1149 &&
+    // prevProps.rowData.t1148 === nextProps.rowData.t1148 &&
+    // prevProps.rowData.t20013 === nextProps.rowData.t20013 &&
+    // // KLGD/GTGD
+    // prevProps.rowData.t387 === nextProps.rowData.t387 &&
+    // prevProps.rowData.t381 === nextProps.rowData.t381 &&
+    // // Bên mua
+    // prevProps.rowData.TPBID?.[0]?.t270 === nextProps.rowData.TPBID?.[0]?.t270 &&
+    // prevProps.rowData.TPBID?.[0]?.t271 === nextProps.rowData.TPBID?.[0]?.t271 &&
+    // prevProps.rowData.TPBID?.[1]?.t270 === nextProps.rowData.TPBID?.[1]?.t270 &&
+    // prevProps.rowData.TPBID?.[1]?.t271 === nextProps.rowData.TPBID?.[1]?.t271 &&
+    // prevProps.rowData.TPBID?.[2]?.t270 === nextProps.rowData.TPBID?.[2]?.t270 &&
+    // prevProps.rowData.TPBID?.[2]?.t271 === nextProps.rowData.TPBID?.[2]?.t271 &&
+    // // Khớp
+    // prevProps.rowData.t270 === nextProps.rowData.t270 &&
+    // prevProps.rowData.t271 === nextProps.rowData.t271 &&
+    // // Bên bán
+    // prevProps.rowData.TPOFFER?.[0]?.t270 === nextProps.rowData.TPOFFER?.[0]?.t270 &&
+    // prevProps.rowData.TPOFFER?.[0]?.t271 === nextProps.rowData.TPOFFER?.[0]?.t271 &&
+    // prevProps.rowData.TPOFFER?.[1]?.t270 === nextProps.rowData.TPOFFER?.[1]?.t270 &&
+    // prevProps.rowData.TPOFFER?.[1]?.t271 === nextProps.rowData.TPOFFER?.[1]?.t271 &&
+    // prevProps.rowData.TPOFFER?.[2]?.t270 === nextProps.rowData.TPOFFER?.[2]?.t270 &&
+    // prevProps.rowData.TPOFFER?.[2]?.t271 === nextProps.rowData.TPOFFER?.[2]?.t271 &&
+    // // Cao/Trung bình/Thấp
+    // prevProps.rowData.t30562 === nextProps.rowData.t30562 &&
+    // prevProps.rowData.t40001 === nextProps.rowData.t40001 &&
+    // prevProps.rowData.t30563 === nextProps.rowData.t30563 &&
+    // // NN mua/bán
+    // prevProps.rowData.FRG?.t30645 === nextProps.rowData.FRG?.t30645 &&
+    // prevProps.rowData.FRG?.t30643 == nextProps.rowData.FRG?.t30643
 });

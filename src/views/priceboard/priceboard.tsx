@@ -4,7 +4,7 @@ import { toggleTheme } from "../../utils/themeToggle";
 import MenuPriceboard from "./menu-priceboard";
 import PriceboardFooter from "./priceboard-footer";
 import TablePriceboard from "./table-priceboard";
-import { useState } from "react";
+import { memo, useState } from "react";
 import TablePriceboardV2 from "./table-priceboard-v2";
 import TablePriceboardV3 from "./table-priceboard-v3";
 
@@ -67,4 +67,4 @@ const Priceboard = () => {
     )
 };
 
-export default Priceboard;
+export default memo(Priceboard);

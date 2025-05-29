@@ -102,6 +102,18 @@ export interface IStockTP {
     t20004: string;
     t55: string;
     t30624: string;
+    TPBID_0_t270: string;
+    TPBID_0_t271: string;
+    TPBID_1_t270: string;
+    TPBID_1_t271: string;
+    TPBID_2_t270: string;
+    TPBID_2_t271: string;
+    TPOFFER_0_t270: string;
+    TPOFFER_0_t271: string;
+    TPOFFER_1_t270: string;
+    TPOFFER_1_t271: string;
+    TPOFFER_2_t270: string;
+    TPOFFER_2_t271: string;
     TPBID: TPBID_OFFER[];
     TPOFFER: TPBID_OFFER[];
 }
@@ -165,5 +177,28 @@ export class MarketTPDataParser {
         return this.data;
     }
 }
+
+export function flattenStockData(stockData: IStockTP): Record<string, any> {
+    const flattenedData: Record<string, any> = {};
+
+    // Flatten TPBID
+    stockData.TPBID.forEach((offer, index) => {
+        const key_t270 = `TPBID_${index}_t270`;
+        flattenedData[key_t270] = offer.t270;
+        const key_t271 = `TPBID_${index}_t271`;
+        flattenedData[key_t271] = offer.t271;
+    });
+
+    // Flatten TPOFFER
+    stockData.TPOFFER.forEach((offer, index) => {
+        const key_t270 = `TPOFFER_${index}_t270`;
+        flattenedData[key_t270] = offer.t270;
+        const key_t271 = `TPOFFER_${index}_t271`;
+        flattenedData[key_t271] = offer.t271;
+    });
+
+    return flattenedData;
+}
+
 
 export type StockData = IStockSI & IStockST & IStockTP & IStockMT & IStockMD;

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import * as SocketIO from "socket.io-client";
 import { Socket } from "socket.io-client";
 
@@ -7,6 +7,7 @@ import channels from "../utils/channels";
 import { APP_CONSTANT, socketSubPath, socketURL } from "../utils/constant";
 import type { KRXMDDSIDX } from "../utils/models/marketData";
 import { usePriceboardSocketStore } from "./priceboard-socket-store";
+import { flattenStockData } from "../interface/stock";
 
 const io_1 = SocketIO.io;
 const marketIndexMap: Map<string, any> = new Map();
@@ -22,6 +23,7 @@ const PriceboardSocketManager = () => {
   const setStockList = usePriceboardSocketStore((s) => s.setStockList);
   const setStockIndexData = usePriceboardSocketStore((s) => s.setStockIndexData);
   const reSubAllWhenReconnectMarket = usePriceboardSocketStore((s) => s.reSubAllWhenReconnectMarket);
+  const setStock = usePriceboardSocketStore((s) => s.setStock);
 
 
   const handleSocketListener = (socket: Socket) => {
@@ -95,6 +97,21 @@ const PriceboardSocketManager = () => {
           // setStockList(_stockList);
         }
       }
+
+      if (data.topic.includes("KRXMDDS|SI|G1|") ||
+        data.topic.includes("KRXMDDS|ST|G1|") ||
+        data.topic.includes("KRXMDDS|TP|G1|") ||
+        data.topic.includes("KRXMDDS|MT|G1|") ||
+        data.topic.includes("KRXMDDS|MD|G1|")) {
+        const stockKey = data.topic.split("|").slice(-1)[0];
+        setStock(stockKey, data.data)
+      }
+
+      if (data.topic.includes("KRXMDDS|TP|G1|")) {
+        const stockKey = data.topic.split("|").slice(-1)[0];
+        const dataTP = flattenStockData(data.data);
+        setStock(stockKey, dataTP as any)
+      }
     });
   };
 
@@ -153,4 +170,4 @@ const PriceboardSocketManager = () => {
   return null; // This component only sets up socket + Zustand, renders nothing
 };
 
-export default PriceboardSocketManager;
+export default memo(PriceboardSocketManager);

@@ -136,7 +136,7 @@ const chartOptions = {
         fontSize: 18,
         fontFamily: "-apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif",
         fontStyle: "",
-        text: "LPB Security",
+        text: "LPBank Securities",
         horzAlign: "center",
         vertAlign: "center"
     },

@@ -1,6 +1,6 @@
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, type MenuProps } from "antd";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import usePriceboardSocket from "../../hooks/usePriceboardSocket";
 import { usePriceboardSocketStore } from "../../provider/priceboard-socket-store";
 
@@ -162,4 +162,4 @@ const MenuPriceboard = (
   )
 }
 
-export default MenuPriceboard;
+export default memo(MenuPriceboard);
