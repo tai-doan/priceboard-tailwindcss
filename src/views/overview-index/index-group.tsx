@@ -265,26 +265,28 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
                         <div>{`(${FormatNumber({ value: index.dayChange, fractionSize: 2, empty: 0 })} ${FormatNumber({ value: index.dayChangePercent, fractionSize: 2, empty: 0 })}%)`}</div>
                     </div>
                 </div>
-                <div className="flex items-center gap-2">
-                    <span>{FormatNumber({ value: index.dayVolume ?? 0, fractionSize: 2, empty: 0 })} CP</span>
-                    <span>{FormatNumber({ value: index.dayValue ?? 0, fractionSize: 2, empty: 0, key: 'short' })}</span>
+                <div className="flex content-between w-full gap-2">
+                    <div className="flex-1 text-left">{FormatNumber({ value: index.dayVolume ?? 0, fractionSize: 2, empty: 0 })} CP</div>
+                    <div className="flex-1 text-right">{FormatNumber({ value: index.dayValue ?? 0, fractionSize: 2, empty: 0, key: 'short' })}</div>
                 </div>
-                <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1 text-light-price-up dark:text-dark-price-up">
-                        <ArrowUpOutlined />
-                        {FormatNumber({ value: index.advances ?? 0, fractionSize: 0, empty: 0 })}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-light-price-ref dark:text-dark-price-ref">
-                        {FormatNumber({ value: index.noChanges ?? 0, fractionSize: 0, empty: 0 })}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-light-price-down dark:text-dark-price-down">
-                        <ArrowDownOutlined />
-                        {FormatNumber({ value: index.declines ?? 0, fractionSize: 0, empty: 0 })}
-                    </span>
-                    <span className="text-light-price-floor dark:text-dark-price-floor">
-                        ({FormatNumber({ value: index.floor ?? 0, fractionSize: 0, empty: 0 })})
-                    </span>
-                    <span>{index.marketStatus === 'open' ? 'Mở cửa' : 'Đóng cửa'}</span>
+                <div className="flex content-between w-full gap-2">
+                    <div className="flex flex-1 items-start gap-2">
+                        <span className="inline-flex items-center gap-1 text-light-price-up dark:text-dark-price-up">
+                            <ArrowUpOutlined />
+                            {FormatNumber({ value: index.advances ?? 0, fractionSize: 0, empty: 0 })}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-light-price-ref dark:text-dark-price-ref">
+                            {FormatNumber({ value: index.noChanges ?? 0, fractionSize: 0, empty: 0 })}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-light-price-down dark:text-dark-price-down">
+                            <ArrowDownOutlined />
+                            {FormatNumber({ value: index.declines ?? 0, fractionSize: 0, empty: 0 })}
+                        </span>
+                        <span className="text-light-price-floor dark:text-dark-price-floor">
+                            ({FormatNumber({ value: index.floor ?? 0, fractionSize: 0, empty: 0 })})
+                        </span>
+                    </div>
+                    <div className="flex-1 text-right">{index.marketStatus === 'open' ? 'Mở cửa' : 'Đóng cửa'}</div>
                 </div>
             </div>
         </div>
