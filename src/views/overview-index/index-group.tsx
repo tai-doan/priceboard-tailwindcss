@@ -131,12 +131,12 @@ const chartOptions = {
         minimumHeight: 0,
     },
     watermark: {
-        color: "rgba(0, 0, 0, 0)",
-        visible: false,
-        fontSize: 48,
+        color: "#f89c1b4d",
+        visible: true,
+        fontSize: 18,
         fontFamily: "-apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif",
         fontStyle: "",
-        text: "",
+        text: "LPB Security",
         horzAlign: "center",
         vertAlign: "center"
     },
@@ -170,6 +170,7 @@ const chartOptions = {
         exitMode: 1
     }
 };
+
 
 const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
     const chartContainerRef = useRef<HTMLDivElement>(null);
