@@ -4,9 +4,10 @@ import usePriceboardSocket from "../../../hooks/usePriceboardSocket";
 import useSafeState from "../../../hooks/useSafeState";
 import channels from "../../../utils/channels";
 import RowTablePriceboard from "./row-table-priceboard";
+import { usePriceboardSocketStore } from "../../../provider/priceboard-socket-store";
 
 const BodyTablePriceboard = ({ indexCd = '' }: { indexCd: string }) => {
-    const { socket, subscribeFunctWithControl, } = usePriceboardSocket();
+    const { socket, subscribeFunctWithControl, } = usePriceboardSocketStore();
     const [stockList, setStockList] = useSafeState([]);
     const previousStockList = usePrevious(stockList);
 

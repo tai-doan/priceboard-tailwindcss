@@ -7,6 +7,7 @@ import PriceboardLayout from './views/priceboard';
 
 // import style
 import './styles/index';
+import PriceboardSocketManager from './provider/priceboard-socket-manager';
 
 
 const App = () => {
@@ -21,9 +22,10 @@ const App = () => {
     <main className='min-h-screen space-y-1 bg-light-frame dark:bg-dark-frame'>
       <Header />
       <Body>
-        <PriceboardSocketProvider>
+        <>
+        <PriceboardSocketManager />
           <PriceboardLayout />
-        </PriceboardSocketProvider>
+        </>
       </Body>
     </main>
   )

@@ -4,11 +4,12 @@ import useSafeState from "../../../hooks/useSafeState";
 import { MarketTPDataParser, type IStockSI, type IStockST, type IStockTP } from "../../../interface/stock";
 import channels from "../../../utils/channels";
 import FormatNumber from "../../../utils/formater/FormatNumber";
+import { usePriceboardSocketStore } from "../../../provider/priceboard-socket-store";
 
 const baseClass = "xl:pr-1 py-1 group-hover:bg-[#33343C3D] dark:group-hover:bg-[#33343C] relative text-caption first:border-t-0 border-r first:border-l border-light-line dark:border-dark-line text-right "
 
 const RowTablePriceboard = ({ stock = '', index = 0 }: { stock: string, index: number }) => {
-    const { socket, } = usePriceboardSocket();
+    const { socket, } = usePriceboardSocketStore();
     const dataStockRef = useRef<IStockSI & IStockST>({} as any);
     const [dataStock, setDataStock] = useSafeState<IStockSI & IStockST>({} as any);
     const [dataSI, setDataSI] = useSafeState<IStockSI>({} as IStockSI);

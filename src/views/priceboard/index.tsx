@@ -6,6 +6,7 @@ import channels from "../../utils/channels";
 import { APP_CONSTANT } from "../../utils/constant";
 import OverviewIndex from "../overview-index";
 import Priceboard from "./priceboard";
+import { usePriceboardSocketStore } from '../../provider/priceboard-socket-store';
 
 const priceboardQueryClient = new QueryClient({
     defaultOptions: {
@@ -16,7 +17,7 @@ const priceboardQueryClient = new QueryClient({
 })
 
 const PriceboardLayout = () => {
-    const { socket, subscribeFunctWithControl } = usePriceboardSocket();
+    const { socket, subscribeFunctWithControl } = usePriceboardSocketStore(s => s);
 
     useEffect(() => {
         if (!socket) return;

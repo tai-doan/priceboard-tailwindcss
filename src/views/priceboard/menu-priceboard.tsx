@@ -2,6 +2,7 @@ import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, type MenuProps } from "antd";
 import { useCallback, useEffect, useRef, useState } from "react";
 import usePriceboardSocket from "../../hooks/usePriceboardSocket";
+import { usePriceboardSocketStore } from "../../provider/priceboard-socket-store";
 
 const baseMenuClass = "group px-4 relative group text-caption font-medium py-0.5 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 ring-light-primary-offset-hover dark:ring-dark-primary-offset-hover transition-all focus-visible:outline-none focus-visible:ring focus-visible:ring-offset";
 
@@ -12,7 +13,7 @@ const MenuPriceboard = (
     changeIndexCallback: (value: string) => void
   }
 ) => {
-  const { indexList, marketData, subscribeFunctWithControl, } = usePriceboardSocket();
+  const { indexList, marketData, subscribeFunctWithControl, } = usePriceboardSocketStore();
   const [hoseMenu, setHoseMenu] = useState<MenuProps['items']>([]);
   const [hnxMenu, setHnxMenu] = useState<MenuProps['items']>([]);
   const [upcomMenu, setUpcomMenu] = useState<MenuProps['items']>([]);

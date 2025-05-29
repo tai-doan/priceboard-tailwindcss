@@ -9,6 +9,7 @@ import { getNewItemsOnly, getOldItemsOnly } from '../../../utils';
 import channels from '../../../utils/channels';
 import FormatNumber from '../../../utils/formater/FormatNumber';
 import HeaderTablePriceboard from '../table-priceboard/header-table-priceboard';
+import { usePriceboardSocketStore } from '../../../provider/priceboard-socket-store';
 
 const baseClass = "xl:pr-1 py-1 group-hover:bg-[#33343C3D] dark:group-hover:bg-[#33343C] relative text-caption first:border-t-0 border-r first:border-l border-light-line dark:border-dark-line text-right "
 
@@ -74,7 +75,7 @@ const getClassNames = (colID: string, rowIndex: number): string => {
 }
 
 const TablePriceboardV3 = ({ indexCd = '' }: { indexCd: string }) => {
-    const { socket, subscribeFunctWithControl } = usePriceboardSocket();
+    const { socket, subscribeFunctWithControl } = usePriceboardSocketStore();
     const [tableHeight, setTableHeight] = useState(500);
     const [rowPinning, setRowPinning] = React.useState<RowPinningState>({
         top: [],
