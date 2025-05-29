@@ -270,10 +270,13 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
                     <div className="flex-1 text-right">{FormatNumber({ value: index.dayValue ?? 0, fractionSize: 2, empty: 0, key: 'short' })}</div>
                 </div>
                 <div className="flex content-between w-full gap-2">
-                    <div className="flex flex-1 items-start gap-2">
+                    <div className="flex flex-1 items-start gap-4">
                         <span className="inline-flex items-center gap-1 text-light-price-up dark:text-dark-price-up">
                             <ArrowUpOutlined />
                             {FormatNumber({ value: index.advances ?? 0, fractionSize: 0, empty: 0 })}
+                            <span className="text-light-price-ceil dark:text-dark-price-ceil">
+                                ({FormatNumber({ value: index.ceiling ?? 0, fractionSize: 0, empty: 0 })})
+                            </span>
                         </span>
                         <span className="inline-flex items-center gap-1 text-light-price-ref dark:text-dark-price-ref">
                             {FormatNumber({ value: index.noChanges ?? 0, fractionSize: 0, empty: 0 })}
@@ -281,9 +284,9 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
                         <span className="inline-flex items-center gap-1 text-light-price-down dark:text-dark-price-down">
                             <ArrowDownOutlined />
                             {FormatNumber({ value: index.declines ?? 0, fractionSize: 0, empty: 0 })}
-                        </span>
-                        <span className="text-light-price-floor dark:text-dark-price-floor">
-                            ({FormatNumber({ value: index.floor ?? 0, fractionSize: 0, empty: 0 })})
+                            <span className="text-light-price-floor dark:text-dark-price-floor">
+                                ({FormatNumber({ value: index.floor ?? 0, fractionSize: 0, empty: 0 })})
+                            </span>
                         </span>
                     </div>
                     <div className="flex-1 text-right">{index.marketStatus === 'open' ? 'Mở cửa' : 'Đóng cửa'}</div>
