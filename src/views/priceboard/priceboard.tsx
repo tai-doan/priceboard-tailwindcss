@@ -1,12 +1,8 @@
-import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
-import useSafeState from "../../hooks/useSafeState";
-import { toggleTheme } from "../../utils/themeToggle";
+import { SearchOutlined } from "@ant-design/icons";
+import { memo, useState } from "react";
 import MenuPriceboard from "./menu-priceboard";
 import PriceboardFooter from "./priceboard-footer";
-import TablePriceboard from "./table-priceboard";
-import { memo, useState } from "react";
 import TablePriceboardV2 from "./table-priceboard-v2";
-import TablePriceboardV3 from "./table-priceboard-v3";
 
 const Priceboard = () => {
     const [stockCd, setStockCd] = useState('');
@@ -50,14 +46,14 @@ const Priceboard = () => {
                         {/* <button type="button" className="relative group text-caption font-medium py-0.5 inline-flex items-center justify-center whitespace-nowrap rounded-md px-2 ring-light-primary-offset-hover dark:ring-dark-primary-offset-hover transition-all focus-visible:outline-none focus-visible:ring focus-visible:ring-offset text-light-subtext-2 dark:text-dark-subtext-2">
                             Cơ bản
                         </button> */}
-                        </div>
+                    </div>
                     <MenuPriceboard changeIndexCallback={handleChangeIndex} />
                 </div>
-                <button className="flex items-center justify-center mr-3 border rounded-lg group w-7 h-7 border-v3-text-light-subtext-2 dark:border-v3-text-dark-subtext-2 hover:border-light-primary-hover dark:hover:border-dark-primary-hover">
+                {/* <button className="flex items-center justify-center mr-3 border rounded-lg group w-7 h-7 border-v3-text-light-subtext-2 dark:border-v3-text-dark-subtext-2 hover:border-light-primary-hover dark:hover:border-dark-primary-hover">
                     <SettingOutlined onClick={() => {
                         toggleTheme();
                     }} />
-                </button>
+                </button> */}
             </div>
             {/* <TablePriceboard indexCd={indexCd} /> */}
             <TablePriceboardV2 indexCd={indexCd} />

@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
-import PriceboardSocketProvider from './provider/priceboard-socket';
-import { applyStoredTheme } from './utils/themeToggle';
+import { applyStoredTheme } from './provider/app-store';
 import Body from './views/body';
 import Header from './views/header';
 import PriceboardLayout from './views/priceboard';
 
 // import style
-import './styles/index';
 import PriceboardSocketManager from './provider/priceboard-socket-manager';
+import './styles/index';
 
 
 const App = () => {
@@ -23,7 +22,7 @@ const App = () => {
       <Header />
       <Body>
         <>
-        <PriceboardSocketManager />
+          <PriceboardSocketManager />
           <PriceboardLayout />
         </>
       </Body>

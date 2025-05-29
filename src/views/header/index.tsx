@@ -1,7 +1,10 @@
 import { SearchOutlined } from '@ant-design/icons';
+import { Moon, Sun } from 'react-feather';
 import logo from '../../assets/svg/LPBankS-dark.svg';
+import { useAppStore } from '../../provider/app-store';
 
 const Header = () => {
+    const { toggleTheme, theme } = useAppStore();
     return (
         <div
             className="sticky inset-x-0 top-0 z-10 flex items-center justify-between w-full px-6 py-2 overflow-hidden bg-[#FFFFFF] dark:bg-dark-1 text-light-default dark:text-dark-default"
@@ -27,6 +30,12 @@ const Header = () => {
                         </span>
                         <input placeholder="Tìm kiếm cổ phiếu..." className="" type="text" value="" />
                     </div>
+                </div>
+                <div className="flex">
+                    {theme === 'dark'
+                        ? <Moon className='cursor-pointer' size={20} onClick={() => toggleTheme()} />
+                        : <Sun className='cursor-pointer' size={20} onClick={() => toggleTheme()} />
+                    }
                 </div>
             </div>
         </div>
