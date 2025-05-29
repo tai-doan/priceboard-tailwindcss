@@ -1,5 +1,5 @@
-import { ArrowDownOutlined, ArrowUpOutlined, CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { useState, type FC } from "react";
+import * as Icon from 'react-feather';
 import type { ISymbolData } from "../../interface/symbolRequest";
 import FormatNumber from "../../utils/formater/FormatNumber";
 
@@ -23,11 +23,11 @@ const IndexTable: FC<IndexTableProps> = ({ indexSymbols = [] }) => {
             <div className="flex items-center justify-center gap-1">
               <div className="flex items-center justify-center gap-1">
                 <button onClick={() => setIsShowChangePercent(prev => !prev)} className="absolute cursor-pointer inset-y-0 flex items-center justify-center p-1 text-light-secondary dark:text-dark-secondary hover:text-light-primary-hover dark:hover:text-dark-primary-hover left-1">
-                  <CaretLeftOutlined style={{ width: 8, height: 10 }} />
+                  <Icon.ChevronLeft size={12} />
                 </button>
                 <span className="cursor-pointer">+/-</span>
                 <button onClick={() => setIsShowChangePercent(prev => !prev)} className="absolute cursor-pointer inset-y-0 flex items-center justify-center p-1 text-light-secondary dark:text-dark-secondary hover:text-light-primary-hover dark:hover:text-dark-primary-hover right-1">
-                  <CaretRightOutlined style={{ width: 8, height: 10 }} />
+                  <Icon.ChevronRight size={12} />
                 </button>
               </div>
             </div>
@@ -73,7 +73,7 @@ const IndexTable: FC<IndexTableProps> = ({ indexSymbols = [] }) => {
             <div className="grid grid-cols-3 gap-1 2xl:gap-2">
               <div className="grid items-center grid-cols-5 2xl:gap-1 text-light-price-up dark:text-dark-price-up">
                 <span className="col-span-2">
-                  <ArrowUpOutlined />
+                  <Icon.ChevronsUp size={14} />
                 </span>
                 <div className="col-span-3 text-center">{FormatNumber({ value: item.advances ?? 0, fractionSize: 0, empty: 0 })}</div>
               </div>
@@ -84,7 +84,7 @@ const IndexTable: FC<IndexTableProps> = ({ indexSymbols = [] }) => {
               </div>
               <div className="-ml-1.5 grid grid-cols-5 2xl:gap-1 items-center text-light-price-down dark:text-dark-price-down">
                 <span className="col-span-2">
-                  <ArrowDownOutlined />
+                  <Icon.ChevronsDown size={14} />
                 </span>
                 <div className="col-span-3 text-center">
                   {FormatNumber({ value: item.declines ?? 0, fractionSize: 0, empty: 0 })}

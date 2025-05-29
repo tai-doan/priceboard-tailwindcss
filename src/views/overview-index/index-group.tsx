@@ -1,8 +1,8 @@
-import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { createChart, LastPriceAnimationMode, type ChartOptions, type HistogramSeriesPartialOptions, type IChartApi } from "lightweight-charts";
 import moment from "moment";
 import { useEffect, useRef, type FC } from "react";
+import * as Icon from 'react-feather';
 import type { ISymbolData } from "../../interface/symbolRequest";
 import FormatNumber from "../../utils/formater/FormatNumber";
 
@@ -240,7 +240,7 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
     }, [data]);
 
     return (
-        <div className="snap-start flex-shrink-0 max-w-[222px] 2xl:max-w-fit px-2 rounded-md bg-[#dfdfdf20] dark:bg-[#2e2e2e]">
+        <div className="snap-start flex-shrink-0 max-w-[260px] 2xl:max-w-fit px-2 rounded-md bg-[#dfdfdf20] dark:bg-[#2e2e2e]">
             <div className="h-[90px] w-full 2xl:w-[320px] mt-2 border border-light-line dark:border-dark-line">
                 <div ref={chartContainerRef} className="relative w-full h-full" />
             </div>
@@ -257,9 +257,9 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
                         }
                     >
                         {index.price > Number(index.referPrice)
-                            ? <ArrowUpOutlined /> :
+                            ? <Icon.ChevronsUp size={16} /> :
                             index.price < Number(index.referPrice)
-                                ? <ArrowDownOutlined />
+                                ? <Icon.ChevronsDown size={16} />
                                 : <></>}
                         <span>{FormatNumber({ value: index.price, fractionSize: 2, empty: 0 })}</span>
                         <div>{`(${FormatNumber({ value: index.dayChange, fractionSize: 2, empty: 0 })} ${FormatNumber({ value: index.dayChangePercent, fractionSize: 2, empty: 0 })}%)`}</div>
@@ -272,7 +272,7 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
                 <div className="flex content-between w-full gap-2">
                     <div className="flex flex-1 items-start gap-4">
                         <span className="inline-flex items-center gap-1 text-light-price-up dark:text-dark-price-up">
-                            <ArrowUpOutlined />
+                            <Icon.ChevronsUp size={14} />
                             {FormatNumber({ value: index.advances ?? 0, fractionSize: 0, empty: 0 })}
                             <span className="text-light-price-ceil dark:text-dark-price-ceil">
                                 ({FormatNumber({ value: index.ceiling ?? 0, fractionSize: 0, empty: 0 })})
@@ -282,14 +282,14 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
                             {FormatNumber({ value: index.noChanges ?? 0, fractionSize: 0, empty: 0 })}
                         </span>
                         <span className="inline-flex items-center gap-1 text-light-price-down dark:text-dark-price-down">
-                            <ArrowDownOutlined />
+                            <Icon.ChevronsDown size={14} />
                             {FormatNumber({ value: index.declines ?? 0, fractionSize: 0, empty: 0 })}
                             <span className="text-light-price-floor dark:text-dark-price-floor">
                                 ({FormatNumber({ value: index.floor ?? 0, fractionSize: 0, empty: 0 })})
                             </span>
                         </span>
                     </div>
-                    <div className="flex-1 text-right">{index.marketStatus === 'open' ? 'Mở cửa' : 'Đóng cửa'}</div>
+                    <div className="flex-1 text-right">{index.marketStatus === 'open' ? 'Đang GD' : 'Ngừng GD'}</div>
                 </div>
             </div>
         </div>
