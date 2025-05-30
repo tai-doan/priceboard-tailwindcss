@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
-import { applyStoredTheme } from './provider/app-store';
+import { applyStoredTheme, initStoreApp } from './provider/app-store';
+import PriceboardSocketManager from './provider/priceboard-socket-manager';
 import Body from './views/body';
 import Header from './views/header';
 import PriceboardLayout from './views/priceboard';
 
 // import style
-import PriceboardSocketManager from './provider/priceboard-socket-manager';
 import './styles/index';
 
 
 const App = () => {
   useEffect(() => {
+    initStoreApp();
     applyStoredTheme();
 
     return () => {
