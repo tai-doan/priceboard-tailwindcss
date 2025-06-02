@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createChart, LastPriceAnimationMode, type ChartOptions, type HistogramSeriesPartialOptions, type IChartApi } from "lightweight-charts";
+import { createChart, LastPriceAnimationMode, LineStyle, type ChartOptions, type HistogramSeriesPartialOptions, type IChartApi } from "lightweight-charts";
 import moment from "moment";
 import { useEffect, useRef, type FC } from "react";
 import * as Icon from 'react-feather';
@@ -199,7 +199,11 @@ const IndexGroup: FC<IndexTableProps> = ({ index = {} as ISymbolData }) => {
             lastPriceAnimation: LastPriceAnimationMode.OnDataUpdate,
             topLineColor: 'rgb(11, 223, 57)',
             bottomLineColor: '#FD1414',
-            baseValue: { type: 'price', price: lineData[0].value },
+            baseValue: { type: 'price', price: lineData[0].value, },
+            baseLineWidth: 2,
+            baseLineVisible: true,
+            baseLineColor: '#ed9e37',
+            baseLineStyle: LineStyle.Dashed,
         });
         lineSeries.priceScale().applyOptions({
             scaleMargins: {

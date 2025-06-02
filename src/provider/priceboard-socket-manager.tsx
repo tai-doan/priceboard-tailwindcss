@@ -100,7 +100,7 @@ const PriceboardSocketManager = () => {
 
       if (data.topic.includes("KRXMDDS|SI|G1|") ||
         data.topic.includes("KRXMDDS|ST|G1|") ||
-        data.topic.includes("KRXMDDS|TP|G1|") ||
+        // data.topic.includes("KRXMDDS|TP|G1|") ||
         data.topic.includes("KRXMDDS|MT|G1|") ||
         data.topic.includes("KRXMDDS|MD|G1|")) {
         const stockKey = data.topic.split("|").slice(-1)[0];
