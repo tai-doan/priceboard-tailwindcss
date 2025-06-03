@@ -47,7 +47,7 @@ const PriceboardRow = ({ rowKey, row, virtualRow, index, baseClass, getColor, is
                     !isShowPin
                         ? <button className="w-full h-full px-2 text-left overflow-ellipsis overflow-hidden cursor-pointer " title={rowData.t55}>{rowData.t55}</button>
                         : <div className="w-full h-full px-2 overflow-ellipsis flex flex-column justify-between overflow-hidden cursor-pointer" title={rowData.t55}>
-                            <button className={getColor(rowData.t20013, rowData.t270) + " text-left"}>{rowData.t55}</button>
+                            <button className={getColor(rowData.t20013, rowData.t270, rowData) + " text-left"}>{rowData.t55}</button>
                             {row.getIsPinned()
                                 ? <DeleteOutlined
                                     title='Click để gỡ mã CK ra khỏi đầu danh mục'
@@ -83,14 +83,14 @@ const PriceboardRow = ({ rowKey, row, virtualRow, index, baseClass, getColor, is
             />
             {/* KL/GT giao dịch */}
             <PriceboardCell
-                type='normal'
+                type='volume'
                 flashType='neutral'
                 value={rowData.t387}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_dayVolume"}
                 className={baseClass + " text-light-default dark:text-dark-default " + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
             />
             <PriceboardCell
-                type='normal'
+                type='volume'
                 flashType='neutral'
                 value={rowData.t381}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_dayValue"}
@@ -100,57 +100,58 @@ const PriceboardRow = ({ rowKey, row, virtualRow, index, baseClass, getColor, is
             <PriceboardCell
                 type='bid'
                 value={rowData?.TPBID_0_t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_0_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_0_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_0_price"}
             />
             <PriceboardCell
                 type='bid'
                 value={rowData?.TPBID_0_t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_0_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_0_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_0_volume"}
             />
             <PriceboardCell
                 type='bid'
                 value={rowData?.TPBID_1_t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_1_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_1_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_1_price"}
             />
             <PriceboardCell
                 type='bid'
                 value={rowData?.TPBID_1_t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_1_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_1_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_1_volume"}
             />
             <PriceboardCell
                 type='bid'
                 value={rowData?.TPBID_2_t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_2_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_2_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_2_price"}
             />
             <PriceboardCell
                 type='bid'
                 value={rowData?.TPBID_2_t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_2_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPBID_2_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_bids_2_volume"}
             />
             {/* Khớp */}
             <PriceboardCell
-                className={baseClass + getColor(rowData.t20013, rowData.t270) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#FFFFFF] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
+                className={baseClass + getColor(rowData.t20013, rowData.t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#FFFFFF] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_price"}
                 value={rowData.t270}
             />
             <PriceboardCell
-                className={baseClass + getColor(rowData.t20013, rowData.t270) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#FFFFFF] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
+                type='volume'
+                className={baseClass + getColor(rowData.t20013, rowData.t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#FFFFFF] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_volume"}
                 value={rowData.t271}
             />
             <PriceboardCell
-                className={baseClass + getColor(rowData.t20013, rowData.t270) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#FFFFFF] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
+                className={baseClass + getColor(rowData.t20013, rowData.t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#FFFFFF] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_dayChange"}
                 value={rowData.t270 - rowData.t20013}
             />
             <PriceboardCell
-                className={baseClass + " dark:text-[#FF3737] hidden " + getColor(rowData.t20013, rowData.t270) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#FFFFFF] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
+                className={baseClass + " dark:text-[#FF3737] hidden " + getColor(rowData.t20013, rowData.t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#FFFFFF] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_dayChangePercent"}
                 value={(rowData.t270 - rowData.t20013) / rowData.t20013 * 100}
             />
@@ -158,53 +159,53 @@ const PriceboardRow = ({ rowKey, row, virtualRow, index, baseClass, getColor, is
             <PriceboardCell
                 type='ask'
                 value={rowData?.TPOFFER_0_t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_0_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_0_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_0_price"}
             />
             <PriceboardCell
                 type='ask'
                 value={rowData?.TPOFFER_0_t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_0_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_0_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_0_volume"}
             />
             <PriceboardCell
                 type='ask'
                 value={rowData?.TPOFFER_1_t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_1_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_1_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_1_price"}
             />
             <PriceboardCell
                 type='ask'
                 value={rowData?.TPOFFER_1_t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_1_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_1_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_1_volume"}
             />
             <PriceboardCell
                 type='ask'
                 value={rowData?.TPOFFER_2_t270}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_2_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_2_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_2_price"}
             />
             <PriceboardCell
                 type='ask'
                 value={rowData?.TPOFFER_2_t271}
-                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_2_t270) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
+                className={baseClass + getColor(rowData.t20013, rowData?.TPOFFER_2_t270, rowData) + (index % 2 !== 0 ? " dark:bg-[#060606] bg-[#fff] " : " dark:bg-[#262628] bg-[#F3F5F6] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_2_volume"}
             />
             {/* Cao thấp trung bình */}
             <PriceboardCell
                 value={rowData?.t30562}
-                className={baseClass + getColor(rowData.t20013, rowData.t30562) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#F3F5F6] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
+                className={baseClass + getColor(rowData.t20013, rowData.t30562, rowData) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#F3F5F6] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_highPrice"}
             />
             <PriceboardCell
                 value={rowData?.t40001}
-                className={baseClass + getColor(rowData.t20013, rowData.t40001) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#F3F5F6] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
+                className={baseClass + getColor(rowData.t20013, rowData.t40001, rowData) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#F3F5F6] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_avgPrice"}
             />
             <PriceboardCell
                 value={rowData?.t30563}
-                className={baseClass + getColor(rowData.t20013, rowData.t30563) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#F3F5F6] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
+                className={baseClass + getColor(rowData.t20013, rowData.t30563, rowData) + (index % 2 !== 0 ? " dark:bg-[#7878802E] bg-[#F3F5F6] " : " dark:bg-[#78788061] bg-[#eaeaea] ")}
                 id={"cell-value-" + rowData.t55 + "_" + index + "_lowPrice"}
             />
             {/* RoomNN */}

@@ -15,6 +15,17 @@ type VolumeUnit = '1' | '10' | '100';
 type PriceUnit = '1' | '1000';
 type ValueUnit = '1000000' | '1000000000';
 
+export const getVolumeFractionSizeFormat = (value: VolumeUnit): number => {
+  if (value === '100') return 2;
+  if (value === '10') return 1;
+  return 0;
+}
+
+export const getPriceFractionSizeFormat = (value: PriceUnit): number => {
+  if (value === '1000') return 4;
+  return 0;
+}
+
 // Hàm để lấy <html> element
 const getHtmlElement = (): HTMLElement => {
   return document.documentElement;

@@ -1,7 +1,8 @@
 import React, { memo, useEffect } from "react";
 import usePrevious from "../../../hooks/usePrevious";
-import FormatNumber from "../../../utils/formater/FormatNumber";
+import { getPriceFractionSizeFormat, getVolumeFractionSizeFormat, useAppStore } from "../../../provider/app-store";
 import { changeBackground } from "../../../utils";
+import FormatNumber from "../../../utils/formater/FormatNumber";
 
 /**
  * @param value - Giá trị đầu vào
@@ -29,6 +30,7 @@ const PriceboardCell = React.memo((
   }
 ) => {
   const prevValue = usePrevious(value);
+  const { volumeUnit } = useAppStore();
 
   useEffect(() => {
     if (id)
@@ -77,6 +79,16 @@ const PriceboardCell = React.memo((
       // <td className={className} id={id}>
       //   {cellRender ?? value}
       // </td>
+    );
+  }
+  if (type === 'volume') {
+    return (
+      <td className={className} id={id}>
+        {cellRender ?? FormatNumber({
+          value: value,
+          empty: 0,
+        }).slice(0, -getVolumeFractionSizeFormat(volumeUnit))}
+      </td>
     );
   }
   return (

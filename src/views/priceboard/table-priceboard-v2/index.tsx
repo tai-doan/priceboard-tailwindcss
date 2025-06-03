@@ -1,6 +1,6 @@
 import { getCoreRowModel, getSortedRowModel, useReactTable, type ColumnDef, type RowPinningState, type SortingState } from '@tanstack/react-table';
 import { throttle } from 'lodash';
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { StockData } from '../../../interface/stock';
 import { usePriceboardSocketStore } from '../../../provider/priceboard-socket-store';
 import { getNewItemsOnly, getOldItemsOnly } from '../../../utils';
@@ -300,11 +300,15 @@ const TablePriceboardV2 = ({ indexCd = '' }: { indexCd: string }) => {
     //     overscan: 500,
     // });
 
-    const getColor = (refPrice = 0, matchPrice = 0) => {
+    const getColor = useCallback((refPrice = 0, matchPrice = 0, rowData = {}) => {
+        if (refPrice === matchPrice) return " text-light-price-ref dark:text-dark-price-ref "
+        // @ts-ignore
+        if (matchPrice === rowData.t1149) return " text-light-price-ceil dark:text-dark-price-ceil "
+        // @ts-ignore
+        if (matchPrice === rowData.t1148) return " text-light-price-floor dark:text-dark-price-floor "
         if (refPrice < matchPrice) return " text-light-price-up dark:text-dark-price-up "
         if (refPrice > matchPrice) return " text-light-price-down dark:text-dark-price-down "
-        if (refPrice === matchPrice) return " text-light-price-ref dark:text-dark-price-ref "
-    }
+    }, []);
 
     return (
         <div
