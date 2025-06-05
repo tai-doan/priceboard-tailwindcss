@@ -429,6 +429,7 @@ ag-grid-aurelia {
   text-overflow: ellipsis;
   -ms-flex-item-align: stretch;
   align-self: stretch;
+  justify-content: center;
 }
 
 .ag-header-cell-label .ag-header-cell-text {

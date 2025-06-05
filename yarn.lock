@@ -1298,17 +1298,25 @@ acorn@^8.14.0:
   resolved "https://registry.npmjs.org/acorn/-/acorn-8.14.1.tgz"
   integrity sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==
 
-ag-grid-community@26.0.0:
-  version "26.0.0"
-  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-26.0.0.tgz#2f26d4e89f5d2b8264065e8a542c42973e1cb306"
-  integrity sha512-ewm640koOut+1nl+rDf/pUyM6/V2xbZ8T7VTzM0NZQNhn8TFG3grKs5iEzsKel8mwMWCSIO82xr356QNE11Hog==
+ag-charts-types@11.3.2:
+  version "11.3.2"
+  resolved "https://registry.yarnpkg.com/ag-charts-types/-/ag-charts-types-11.3.2.tgz#b1b4e2d273911cdd6d78ce7b4a6c561fa22796bf"
+  integrity sha512-trPGqgGYiTeLgtf9nLuztDYOPOFOLbqHn1g2D99phf7QowcwdX0TPx0wfWG8Hm90LjB8IH+G2s3AZe2vrdAtMQ==
 
-ag-grid-react@26.0.0:
-  version "26.0.0"
-  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-26.0.0.tgz#5d4f39a0b26452c7d195502e674069688cf4d1e6"
-  integrity sha512-u/8PS1Y9tZFPo8CTd8Ucq8DAPI4LY0HZRmPOYuXzaInDzM+P7nFdZFG+nm2KAGE/8Eko3eW85pVM251ghJsxjg==
+ag-grid-community@33.3.2, ag-grid-community@^33.3.2:
+  version "33.3.2"
+  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-33.3.2.tgz#bd3e41170958cb81da71a74a3021af66fc6ebdc1"
+  integrity sha512-9bx0e/+ykOyLvUxHqmdy0cRVANH6JAtv0yZdnBZEXYYqBAwN+G5a4NY+2I1KvoOCYzbk8SnStG7y4hCdVAAWOQ==
   dependencies:
-    prop-types "^15.6.2"
+    ag-charts-types "11.3.2"
+
+ag-grid-react@^33.3.2:
+  version "33.3.2"
+  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-33.3.2.tgz#c9c5f53f4712929b5b526bba7329ad7496583c32"
+  integrity sha512-5bv4JIJvGov23sduIUIyQTqpa/qhoQrRkQm5pFOQb7RMwusfx6xBPrkLwIIlCJiQ8g0OOinxWzZ2kQ2Zml6tLw==
+  dependencies:
+    ag-grid-community "33.3.2"
+    prop-types "^15.8.1"
 
 ajv@^6.12.4:
   version "6.12.6"
@@ -3140,7 +3148,7 @@ prettier@^3.5.3:
   resolved "https://registry.npmjs.org/prettier/-/prettier-3.5.3.tgz"
   integrity sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==
 
-prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==

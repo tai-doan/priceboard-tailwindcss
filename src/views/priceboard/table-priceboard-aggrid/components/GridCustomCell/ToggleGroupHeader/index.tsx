@@ -63,7 +63,9 @@ class ToggleGroupHeader extends React.Component<
         >
           {this.props.iconHeader === true ? (
             <div className='Content'>
-              <CaretLeftOutlined onClick={this.onToggle} />
+              <span>
+                <CaretLeftOutlined size={8} onClick={this.onToggle} />
+                </span>
               <span>
                 {this.props.staticHeader !== true
                   ? this.localColumn?.getDefinition()?.headerName
@@ -77,7 +79,9 @@ class ToggleGroupHeader extends React.Component<
                     }`}
                 />
               )}
-              <CaretRightOutlined onClick={this.onToggle} />
+              <span>
+              <CaretRightOutlined size={8} onClick={this.onToggle} />
+              </span>
             </div>
           ) : (
             <div>

@@ -3,7 +3,8 @@ import { memo, useState } from "react";
 import MenuPriceboard from "./menu-priceboard";
 import PriceboardFooter from "./priceboard-footer";
 import TablePriceboardV2 from "./table-priceboard-v2";
-import TablePriceboardAGGrid from "./table-priceboard-aggrid";
+// import TablePriceboardAGGrid from "./table-priceboard-aggrid";
+import PriceboardGrid from "./test-aggrid";
 
 const Priceboard = () => {
     const [stockCd, setStockCd] = useState('');
@@ -57,7 +58,7 @@ const Priceboard = () => {
                 </button> */}
             </div>
             {/* <TablePriceboard indexCd={indexCd} /> */}
-            <TablePriceboardAGGrid indexCd={indexCd} />
+            <PriceboardGrid indexCd={indexCd} />
             <PriceboardFooter />
         </div>
     </>

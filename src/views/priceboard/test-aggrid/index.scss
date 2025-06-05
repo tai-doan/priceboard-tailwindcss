@@ -1,0 +1,58 @@
+/* Add to your CSS file */
+.ag-theme-balham-dark {
+    --ag-header-height: 32px;
+    --ag-row-height: 28px;
+    --ag-header-background-color: #1c1f20;
+    --ag-odd-row-background-color: #262628;
+    --ag-row-border-color: #424242;
+    --ag-header-cell-hover-background-color: #242323;
+    --ag-row-hover-color: #33343C;
+  }
+
+  .header-cell {
+    @apply relative text-center text-caption border-t border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323] border-b;
+  }
+
+  .symbol-cell {
+    @apply text-[13px] font-bold dark:text-[#FF3737];
+  }
+
+  .ceil-cell {
+    @apply text-light-price-ceil dark:text-dark-price-ceil;
+  }
+
+  .floor-cell {
+    @apply text-light-price-floor dark:text-dark-price-floor;
+  }
+
+  .ref-cell {
+    @apply text-light-price-ref dark:text-dark-price-ref;
+  }
+
+  .bid-price-cell, .ask-price-cell, .match-price-cell {
+    @apply text-right;
+  }
+
+  .bid-volume-cell, .ask-volume-cell, .match-volume-cell {
+    @apply text-right;
+  }
+
+  .change-cell {
+    @apply text-right;
+  }
+
+  .high-price-cell {
+    @apply text-light-price-up dark:text-[#0BDF39];
+  }
+
+  .low-price-cell {
+    @apply text-light-price-down dark:text-[#FF3737];
+  }
+
+  .avg-price-cell {
+    @apply text-right;
+  }
+
+  .fr-buy-cell, .fr-sell-cell {
+    @apply text-right;
+  }
