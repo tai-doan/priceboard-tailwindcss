@@ -1,4 +1,4 @@
-import { GridApi, RowNode } from "ag-grid-community";
+// import { GridApi, RowNode } from "ag-grid-community";
 import type { BoardKey } from "./interfaces/common";
 import {
   MarketStatus,
@@ -117,119 +117,119 @@ export const getLastRowContent = (
           : t(STOCK_BOARD_INFO.STOCK);
 };
 
-export const getNewSymbolData = (
-  tabKey: BoardKey,
-  symbolData: INewSymbolData,
-  symbolCachedData: IState["symbolCachedData"],
-  symbolSession: { readonly [s: string]: SymbolSession },
-  marketStatus: { readonly [s: string]: MarketStatus },
-  gridApi?: GridApi,
-) => {
-  const mutableNodes: INewSymbolData[] = [];
-  const rowNode = gridApi?.getRowNode(symbolData.s);
-  if (rowNode) {
-    const rowData = symbolCachedData[symbolData.s];
-    const rowNodeData = rowNode.data as INewSymbolData;
-    let data: INewSymbolData = { s: symbolData.s };
-    let newSymbolData = symbolData;
+// export const getNewSymbolData = (
+//   tabKey: BoardKey,
+//   symbolData: INewSymbolData,
+//   symbolCachedData: IState["symbolCachedData"],
+//   symbolSession: { readonly [s: string]: SymbolSession },
+//   marketStatus: { readonly [s: string]: MarketStatus },
+//   gridApi?: GridApi,
+// ) => {
+//   const mutableNodes: INewSymbolData[] = [];
+//   const rowNode = gridApi?.getRowNode(symbolData.s);
+//   if (rowNode) {
+//     const rowData = symbolCachedData[symbolData.s];
+//     const rowNodeData = rowNode.data as INewSymbolData;
+//     let data: INewSymbolData = { s: symbolData.s };
+//     let newSymbolData = symbolData;
 
-    if (Object.keys(symbolData.fr || {}).length === 0) {
-      const { fr, ...rest } = symbolData;
-      newSymbolData = rest;
-    }
+//     if (Object.keys(symbolData.fr || {}).length === 0) {
+//       const { fr, ...rest } = symbolData;
+//       newSymbolData = rest;
+//     }
 
-    if (rowData) {
-      data = {
-        ...rowData,
-        ...data,
-        ...newSymbolData,
-        ...(newSymbolData.re && { re: newSymbolData.re }),
-        ...(newSymbolData.ce && { ce: newSymbolData.ce }),
-        ...(newSymbolData.fl && { fl: newSymbolData.fl }),
-        ...(newSymbolData.tb && { tb: newSymbolData.tb }),
-        ...(newSymbolData.to && { to: newSymbolData.to }),
-        ss: getSymbolSession(
-          marketStatus,
-          symbolSession,
-          rowData,
-          newSymbolData.ss,
-        ),
-        ...(newSymbolData.t === SymbolType.CW && { bp: rowNodeData.bp }),
-      };
-    }
-    mutableNodes.push(data);
-  } else if (tabKey === "CW" && symbolData.t === SymbolType.STOCK) {
-    // Set underlying realtime data stock in CW
-    gridApi?.forEachNode((node) => {
-      const data = symbolCachedData[(node.data as INewSymbolData).s];
-      if (data != null && data.b === symbolData?.s) {
-        const baseCodeData: INewSymbolData | undefined =
-          symbolCachedData[(node.data as INewSymbolData).b ?? ""];
-        const bp: INewSymbolData = {
-          ...baseCodeData,
-          ...symbolData,
-          ss: getSymbolSession(
-            marketStatus,
-            symbolSession,
-            data.bp,
-            symbolData?.ss,
-          ),
-        };
-        mutableNodes.push({ ...data, bp });
-      }
-    });
-  }
+//     if (rowData) {
+//       data = {
+//         ...rowData,
+//         ...data,
+//         ...newSymbolData,
+//         ...(newSymbolData.re && { re: newSymbolData.re }),
+//         ...(newSymbolData.ce && { ce: newSymbolData.ce }),
+//         ...(newSymbolData.fl && { fl: newSymbolData.fl }),
+//         ...(newSymbolData.tb && { tb: newSymbolData.tb }),
+//         ...(newSymbolData.to && { to: newSymbolData.to }),
+//         ss: getSymbolSession(
+//           marketStatus,
+//           symbolSession,
+//           rowData,
+//           newSymbolData.ss,
+//         ),
+//         ...(newSymbolData.t === SymbolType.CW && { bp: rowNodeData.bp }),
+//       };
+//     }
+//     mutableNodes.push(data);
+//   } else if (tabKey === "CW" && symbolData.t === SymbolType.STOCK) {
+//     // Set underlying realtime data stock in CW
+//     gridApi?.forEachNode((node) => {
+//       const data = symbolCachedData[(node.data as INewSymbolData).s];
+//       if (data != null && data.b === symbolData?.s) {
+//         const baseCodeData: INewSymbolData | undefined =
+//           symbolCachedData[(node.data as INewSymbolData).b ?? ""];
+//         const bp: INewSymbolData = {
+//           ...baseCodeData,
+//           ...symbolData,
+//           ss: getSymbolSession(
+//             marketStatus,
+//             symbolSession,
+//             data.bp,
+//             symbolData?.ss,
+//           ),
+//         };
+//         mutableNodes.push({ ...data, bp });
+//       }
+//     });
+//   }
 
-  return mutableNodes;
-};
+//   return mutableNodes;
+// };
 
-export const updatePinnedRowData = (
-  tabKey: BoardKey,
-  symbolData: INewSymbolData,
-  symbolSession: { readonly [s: string]: SymbolSession },
-  marketStatus: { readonly [s: string]: MarketStatus },
-  updateData?: INewSymbolData,
-  pinnedRows?: RowNode[],
-  gridApi?: GridApi,
-) => {
-  const rowNode = gridApi?.getRowNode(symbolData.s);
-  if (pinnedRows == null || pinnedRows.length === 0) {
-    return;
-  }
+// export const updatePinnedRowData = (
+//   tabKey: BoardKey,
+//   symbolData: INewSymbolData,
+//   symbolSession: { readonly [s: string]: SymbolSession },
+//   marketStatus: { readonly [s: string]: MarketStatus },
+//   updateData?: INewSymbolData,
+//   pinnedRows?: RowNode[],
+//   gridApi?: GridApi,
+// ) => {
+//   const rowNode = gridApi?.getRowNode(symbolData.s);
+//   if (pinnedRows == null || pinnedRows.length === 0) {
+//     return;
+//   }
 
-  if (rowNode) {
-    // Update data for pinned row
-    const pinnedRow = pinnedRows.find((val) => val.data.s === updateData?.s);
-    if (pinnedRow != null) {
-      pinnedRow.updateData(updateData);
-    }
-  } else if (tabKey === "CW" && symbolData.t === SymbolType.STOCK) {
-    // Update data for pinned rows
-    const stockPinnedRows = pinnedRows.filter(
-      (val) => val.data.b === symbolData?.s,
-    );
-    if (stockPinnedRows && stockPinnedRows.length > 0) {
-      stockPinnedRows.forEach((val) => {
-        const data = val.data as INewSymbolData;
-        const updatedData: INewSymbolData = {
-          ...data,
-          bp: {
-            ...data.bp,
-            ...symbolData,
-            s: data.b || "",
-            ss: getSymbolSession(
-              marketStatus,
-              symbolSession,
-              data.bp,
-              symbolData?.ss,
-            ),
-          },
-        };
-        val.updateData(updatedData);
-      });
-    }
-  }
-};
+//   if (rowNode) {
+//     // Update data for pinned row
+//     const pinnedRow = pinnedRows.find((val) => val.data.s === updateData?.s);
+//     if (pinnedRow != null) {
+//       pinnedRow.updateData(updateData);
+//     }
+//   } else if (tabKey === "CW" && symbolData.t === SymbolType.STOCK) {
+//     // Update data for pinned rows
+//     const stockPinnedRows = pinnedRows.filter(
+//       (val) => val.data.b === symbolData?.s,
+//     );
+//     if (stockPinnedRows && stockPinnedRows.length > 0) {
+//       stockPinnedRows.forEach((val) => {
+//         const data = val.data as INewSymbolData;
+//         const updatedData: INewSymbolData = {
+//           ...data,
+//           bp: {
+//             ...data.bp,
+//             ...symbolData,
+//             s: data.b || "",
+//             ss: getSymbolSession(
+//               marketStatus,
+//               symbolSession,
+//               data.bp,
+//               symbolData?.ss,
+//             ),
+//           },
+//         };
+//         val.updateData(updatedData);
+//       });
+//     }
+//   }
+// };
 
 export function getKey<T>(key: string): T | null {
   try {

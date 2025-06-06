@@ -56,3 +56,12 @@
   .fr-buy-cell, .fr-sell-cell {
     @apply text-right;
   }
+  .ag-header-group-cell .ag-header-cell-comp-wrapper {
+    justify-content: center;
+  }
+  .ag-ltr .ag-cell {
+    display: flex;
+    padding: 0px 4px;
+    margin: 0px;
+    justify-content: flex-end;
+  }

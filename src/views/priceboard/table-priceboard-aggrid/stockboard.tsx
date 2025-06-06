@@ -257,7 +257,7 @@ export const StockBoardComponent: React.FC<IStockBoardProps> = (props) => {
       rowData={symbols}
       onGridReady={onGridReady}
       onGridColumnsChanged={onGridColumnsChanged}
-      localeTextFunc={translateLocaleText}
+      // localeTextFunc={translateLocaleText}
       onColumnGroupOpened={onColumnGroupOpened}
       onColumnVisible={onColumnVisible}
       defaultColDef={DEFAULT_COL_DEF}
@@ -266,21 +266,21 @@ export const StockBoardComponent: React.FC<IStockBoardProps> = (props) => {
       rowHeight={26}
       enableCellExpressions={true}
       getRowHeight={getRowHeight}
-      getRowNodeId={utils.getRowNodeId}
+      // getRowNodeId={utils.getRowNodeId}
       asyncTransactionWaitMillis={500}
-      cellFlashDelay={500}
-      cellFadeDelay={100}
+      // cellFlashDelay={500}
+      // cellFadeDelay={100}
       suppressDragLeaveHidesColumns={true}
       onDragStopped={onDragStopped}
       rowBuffer={10}
-      enableCellChangeFlash={true}
+      // enableCellChangeFlash={true}
       rowDragManaged={true}
       onRowDragEnd={onRowDragEnd}
-      postSort={postSort}
+      // postSort={postSort}
       onSortChanged={onSort}
       isExternalFilterPresent={isExternalFilterPresent}
-      doesExternalFilterPass={doesExternalFilterPass}
-      isFullWidthCell={isFullWidthCell}
+      // doesExternalFilterPass={doesExternalFilterPass}
+      // isFullWidthCell={isFullWidthCell}
     />
   );
 };
