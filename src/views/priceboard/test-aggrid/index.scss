@@ -7,6 +7,7 @@
     --ag-row-border-color: #424242;
     --ag-header-cell-hover-background-color: #242323;
     --ag-row-hover-color: #33343C;
+    --ag-background-color: transparent !important;
   }
 
   .header-cell {
@@ -14,7 +15,8 @@
   }
 
   .symbol-cell {
-    @apply text-[13px] font-bold dark:text-[#FF3737];
+    // @apply text-[13px] font-bold dark:text-[#FF3737];
+    justify-content: flex-start !important;
   }
 
   .ceil-cell {
@@ -59,9 +61,26 @@
   .ag-header-group-cell .ag-header-cell-comp-wrapper {
     justify-content: center;
   }
-  .ag-ltr .ag-cell {
-    display: flex;
-    padding: 0px 4px;
-    margin: 0px;
-    justify-content: flex-end;
+  .ag-ltr {
+    .ag-cell {
+      display: flex;
+      padding-left: 4px;
+      padding-right: 4px;
+      justify-content: flex-end;
+    }
+    .ag-header-expand-icon {
+      display: none;
+    }
+  }
+  .ag-cell {
+    border: unset;
+  }
+  .ag-header-cell-sortable .ag-header-cell-label {
+    justify-content: center;
+  }
+  .ag-row {
+    background-color: unset !important;
+  }
+  .ag-root-wrapper {
+    background-color: transparent;
   }

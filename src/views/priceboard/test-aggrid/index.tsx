@@ -1,22 +1,98 @@
-import type { ColDef, ColGroupDef, GridReadyEvent } from 'ag-grid-community';
-import { AllCommunityModule, ModuleRegistry, type GridApi } from 'ag-grid-community';
+import { CaretDownOutlined, CaretLeftFilled, CaretRightFilled, CaretUpOutlined } from '@ant-design/icons';
+import type { CellClassParams, ColDef, ColGroupDef, GetRowIdParams, GridReadyEvent } from 'ag-grid-community';
+import {
+    AllCommunityModule, ClientSideRowModelApiModule,
+    ClientSideRowModelModule,
+    HighlightChangesModule, ModuleRegistry, NumberEditorModule,
+    NumberFilterModule,
+    RowApiModule,
+    TextEditorModule,
+    TextFilterModule, type GridApi
+} from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-balham.css';
-import { AgGridReact } from 'ag-grid-react';
+// import 'ag-grid-community/styles/ag-theme-balham.css';
+import { AgGridReact, type CustomHeaderProps } from 'ag-grid-react';
 import { throttle } from 'lodash';
-import { memo, useEffect, useRef, useState } from 'react';
-import type { StockData } from '../../../interface/stock';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { type StockData } from '../../../interface/stock';
 import { usePriceboardSocketStore } from '../../../provider/priceboard-socket-store';
 import { getNewItemsOnly, getOldItemsOnly } from '../../../utils';
 import channels from '../../../utils/channels';
+import FormatNumber from '../../../utils/formater/FormatNumber';
 import { priceFormatter, volumeFormatter } from '../table-priceboard-aggrid/utils/board';
+import { CustomCellRender, CustomNeutralCellRender } from './customCellRender';
 import './index.scss';
 
 ModuleRegistry.registerModules([
+    ClientSideRowModelApiModule,
+    RowApiModule,
+    TextEditorModule,
+    TextFilterModule,
+    HighlightChangesModule,
+    ClientSideRowModelModule,
+    NumberFilterModule,
+    NumberEditorModule,
     AllCommunityModule,
 ]);
 
-const BASE_CLASS = "xl:pr-1 py-1 group-hover:bg-[#33343C3D] dark:group-hover:bg-[#33343C] relative text-caption first:border-t-0 border-r first:border-l border-light-line dark:border-dark-line text-right ";
+const CustomHeaderComponent = (props: CustomHeaderProps) => {
+    const sort = props.column.getSort();
+
+    const onSortRequested = (order: 'asc' | 'desc' | null, event: any) => {
+        props.setSort(order, event.shiftKey);
+    };
+
+    const onToggle = () => {
+        const columnGroupStates = props.api.getColumnGroupState();
+        const columnGroupState = columnGroupStates.find(
+            (item) =>
+                item.groupId ===
+                props.column.getParent()?.getGroupId()
+        );
+
+        if (columnGroupState) {
+            props.api.setColumnGroupOpened(
+                props.column.getParent()?.getProvidedColumnGroup()!,
+                !columnGroupState.open
+            );
+            props.api.refreshHeader();
+            props.api.resetColumnState();
+        }
+    }
+
+    const handleSort = (event: any) => {
+        if (sort === 'asc') {
+            onSortRequested('desc', event)
+        } else if (sort === 'desc') {
+            onSortRequested(null, event)
+        } else {
+            onSortRequested('asc', event)
+        }
+    }
+
+    return (
+        <div className='flex justify-between w-100'>
+            <CaretLeftFilled size={4} className='flex' onClick={onToggle} />
+            <div className='flex'
+                onClick={(event) => handleSort(event)}
+                onTouchEnd={(event) => handleSort(event)}
+            >
+                <div className='flex flex-direction-column justify-center gap-0'>
+                    <div className='flex'>{props.displayName}</div>
+                    <div className='flex'>
+                        {sort === 'desc' ? <CaretDownOutlined size={3} /> :
+                            sort === 'asc' ? <CaretUpOutlined size={3} /> : null
+                        }
+                    </div>
+                </div>
+            </div>
+            <CaretRightFilled size={4} className='flex' onClick={onToggle} />
+        </div>
+    );
+
+}
+
+const BASE_CLASS = "xl:pr-1 py-1 !group-hover:bg-[#33343C3D] !dark:group-hover:bg-[#33343C] relative text-caption !first:border-t-0 border-r !first:border-l !border-light-line !dark:border-dark-line text-right ";
 const HEADER_MAX_WIDTH = 500;
 const HEADER_MIN_WIDTH = 40;
 
@@ -38,6 +114,40 @@ const DEFAULT_COL_GROUP_DEF: ColGroupDef = {
     marryChildren: true,
 };
 
+interface IStockCellClassParams<T> extends CellClassParams {
+    readonly data: T;
+    readonly value: number | string | undefined;
+}
+
+// Quy tắc màu văn bản
+const priceClassRule = {
+    'text-light-price-ceil dark:text-dark-price-ceil': (params: IStockCellClassParams<StockData>) =>
+        params.data?.t270 === params.data?.t1149,
+    'text-light-price-floor dark:text-dark-price-floor': (params: IStockCellClassParams<StockData>) =>
+        params.data?.t270 === params.data?.t1148,
+    'text-light-price-ref dark:text-dark-price-ref': (params: IStockCellClassParams<StockData>) =>
+        params.data?.t270 === params.data?.t20013,
+    'text-light-price-up dark:text-dark-price-up': (params: IStockCellClassParams<StockData>) =>
+        Number(params.data?.t270) > Number(params.data?.t20013),
+    'text-light-price-down dark:text-dark-price-down': (params: IStockCellClassParams<StockData>) =>
+        Number(params.data?.t270) < Number(params.data?.t20013),
+};
+
+const bidClassRule: any = (index: number) => ({
+    'text-light-price-ceil dark:text-dark-price-ceil': (params: IStockCellClassParams<StockData>) => !!params.data.TPBID && !!params.data.TPBID[index] && params.data.TPBID[index].t270 === params.data.t1149,
+    'text-light-price-floor dark:text-dark-price-floor': (params: IStockCellClassParams<StockData>) => !!params.data.TPBID && !!params.data.TPBID[index] && params.data.TPBID[index].t270 === params.data.t1148,
+    'text-light-price-ref dark:text-dark-price-ref': (params: IStockCellClassParams<StockData>) => !!params.data.TPBID && !!params.data.TPBID[index] && params.data.TPBID[index].t270 === params.data.t20013,
+    'text-light-price-up dark:text-dark-price-up': (params: IStockCellClassParams<StockData>) => !!params.data.TPBID && !!params.data.TPBID[index] && params.data.TPBID[index].t270 > params.data.t20013,
+    'text-light-price-down dark:text-dark-price-down': (params: IStockCellClassParams<StockData>) => !!params.data.TPBID && !!params.data.TPBID[index] && params.data.TPBID[index].t270 < params.data.t20013,
+})
+const askClassRule: any = (index: number) => ({
+    'text-light-price-ceil dark:text-dark-price-ceil': (params: IStockCellClassParams<StockData>) => !!params.data.TPOFFER && !!params.data.TPOFFER[index] && params.data.TPOFFER[index].t270 === params.data.t1149,
+    'text-light-price-floor dark:text-dark-price-floor': (params: IStockCellClassParams<StockData>) => !!params.data.TPOFFER && !!params.data.TPOFFER[index] && params.data.TPOFFER[index].t270 === params.data.t1148,
+    'text-light-price-ref dark:text-dark-price-ref': (params: IStockCellClassParams<StockData>) => !!params.data.TPOFFER && !!params.data.TPOFFER[index] && params.data.TPOFFER[index].t270 === params.data.t20013,
+    'text-light-price-up dark:text-dark-price-up': (params: IStockCellClassParams<StockData>) => !!params.data.TPOFFER && !!params.data.TPOFFER[index] && params.data.TPOFFER[index].t270 > params.data.t20013,
+    'text-light-price-down dark:text-dark-price-down': (params: IStockCellClassParams<StockData>) => !!params.data.TPOFFER && !!params.data.TPOFFER[index] && params.data.TPOFFER[index].t270 < params.data.t20013,
+})
+
 // Column definitions
 const columnDefs: (ColDef | ColGroupDef)[] = [
     // Symbol column
@@ -48,7 +158,8 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
         minWidth: 100,
         maxWidth: 120,
         marryChildren: true,
-        cellClass: 'symbol-cell align-start',
+        cellClass: 'scroll-mt-[52px] border-r first:border-l border-light-line dark:border-dark-line text-caption text-[13px] font-bold group-hover:!bg-[#33343C3D] dark:group-hover:!bg-[#33343C] sticky left-0 z-[1] dark:text-[#FF3737] !justify-start',
+        cellClassRules: priceClassRule,
         headerClass: 'sticky left-0 z-10 text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
     },
     // Ceiling, Floor, Reference Price group
@@ -59,7 +170,7 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
         // maxWidth: 60,
         marryChildren: true,
         valueFormatter: priceFormatter,
-        cellClass: 'ceil-cell text-right',
+        cellClass: BASE_CLASS + 'text-light-price-ceil dark:text-dark-price-ceil',
         headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
     },
     {
@@ -69,7 +180,7 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
         // maxWidth: 60,
         marryChildren: true,
         valueFormatter: priceFormatter,
-        cellClass: 'floor-cell',
+        cellClass: BASE_CLASS + 'text-light-price-floor dark:text-dark-price-floor',
         headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
     },
     {
@@ -79,18 +190,19 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
         // maxWidth: 60,
         marryChildren: true,
         valueFormatter: priceFormatter,
-        cellClass: 'ref-cell',
+        cellClass: BASE_CLASS + 'text-light-price-ref dark:text-dark-price-ref',
         headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
     },
     // Trading volume
     {
         field: 't387',
         headerName: 'Tổng KL',
-        minWidth: 80,
+        minWidth: 100,
         // maxWidth: 80,
         marryChildren: true,
         valueFormatter: volumeFormatter,
-        cellClass: 'volume-cell',
+        cellClass: BASE_CLASS,
+        cellRenderer: CustomNeutralCellRender,
         headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
     },
     // Bid side group
@@ -105,8 +217,10 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: priceFormatter,
-                cellClass: 'bid-price-cell',
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                cellClass: BASE_CLASS,
+                cellClassRules: bidClassRule(0),
+                cellRenderer: CustomCellRender,
+                headerClass: 'relative !justify-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPBID.0.t271',
@@ -114,8 +228,10 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: volumeFormatter,
-                cellClass: 'bid-volume-cell',
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                cellClass: BASE_CLASS,
+                cellClassRules: bidClassRule(0),
+                cellRenderer: CustomCellRender,
+                headerClass: 'relative !justify-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPBID.1.t270',
@@ -123,8 +239,10 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: priceFormatter,
-                cellClass: 'bid-price-cell',
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                cellClass: BASE_CLASS,
+                cellClassRules: bidClassRule(1),
+                cellRenderer: CustomCellRender,
+                headerClass: 'relative !justify-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPBID.1.t271',
@@ -132,7 +250,9 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: volumeFormatter,
-                cellClass: 'bid-volume-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: bidClassRule(1),
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -141,7 +261,9 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: priceFormatter,
-                cellClass: 'bid-price-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: bidClassRule(2),
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -150,7 +272,9 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: volumeFormatter,
-                cellClass: 'bid-volume-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: bidClassRule(2),
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             // Add more bid levels as needed
@@ -168,7 +292,9 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: priceFormatter,
-                cellClass: 'match-price-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: priceClassRule,
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -177,17 +303,49 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: volumeFormatter,
-                cellClass: 'match-volume-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: priceClassRule,
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
-                field: 'ch',
+                field: 'ch_value',
+                colId: 'ch_value',
                 headerName: '+/-',
                 minWidth: 60,
                 // maxWidth: 60,
-                cellClass: 'change-cell',
+                valueGetter: (params) => FormatNumber({
+                    value: (params.data.t270 - params.data.t20013),
+                    fractionSize: 2,
+                    empty: 0,
+                }),
+                cellClass: BASE_CLASS,
+                cellClassRules: priceClassRule,
+                cellRenderer: CustomCellRender,
+                // groupId: 'changed',
+                columnGroupShow: "open",
+                headerComponent: CustomHeaderComponent,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
-            }
+            },
+            {
+                field: 'ch_percent',
+                colId: 'ch_percent',
+                headerName: '+/-',
+                minWidth: 60,
+                // maxWidth: 60,
+                valueGetter: (params) => FormatNumber({
+                    value: ((params.data.t270 - params.data.t20013) / params.data.t20013) * 100,
+                    fractionSize: 2,
+                    empty: 0,
+                }),
+                cellClass: BASE_CLASS,
+                cellClassRules: priceClassRule,
+                cellRenderer: CustomCellRender,
+                // groupId: 'changed',
+                columnGroupShow: "closed",
+                headerComponent: CustomHeaderComponent,
+                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+            },
         ]
     },
     // Ask side group
@@ -202,7 +360,9 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: priceFormatter,
-                cellClass: 'ask-price-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: askClassRule(0),
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -211,7 +371,9 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: volumeFormatter,
-                cellClass: 'ask-volume-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: askClassRule(0),
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -220,7 +382,9 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: priceFormatter,
-                cellClass: 'ask-price-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: askClassRule(1),
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -229,7 +393,9 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: volumeFormatter,
-                cellClass: 'ask-volume-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: askClassRule(1),
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -238,7 +404,9 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: priceFormatter,
-                cellClass: 'ask-price-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: askClassRule(2),
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -247,7 +415,9 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: volumeFormatter,
-                cellClass: 'ask-volume-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: askClassRule(2),
+                cellRenderer: CustomCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             // Add more ask levels as needed
@@ -265,7 +435,15 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: priceFormatter,
-                cellClass: 'high-price-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: {
+                    'text-light-price-ceil dark:text-dark-price-ceil': (params) => params.data.t30562 === params.data.t1149,
+                    'text-light-price-floor dark:text-dark-price-floor': (params) => params.data.t30562 === params.data.t1148,
+                    'text-light-price-ref dark:text-dark-price-ref': (params) => params.data.t30562 === params.data.t20013,
+                    'text-light-price-up dark:text-dark-price-up': (params) => params.data.t30562 > params.data.t20013,
+                    'text-light-price-down dark:text-dark-price-down': (params) => params.data.t30562 < params.data.t20013,
+                },
+                cellRenderer: CustomNeutralCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -274,7 +452,15 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: priceFormatter,
-                cellClass: 'avg-price-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: {
+                    'text-light-price-ceil dark:text-dark-price-ceil': (params) => params.data.t40001 === params.data.t1149,
+                    'text-light-price-floor dark:text-dark-price-floor': (params) => params.data.t40001 === params.data.t1148,
+                    'text-light-price-ref dark:text-dark-price-ref': (params) => params.data.t40001 === params.data.t20013,
+                    'text-light-price-up dark:text-dark-price-up': (params) => params.data.t40001 > params.data.t20013,
+                    'text-light-price-down dark:text-dark-price-down': (params) => params.data.t40001 < params.data.t20013,
+                },
+                cellRenderer: CustomNeutralCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -283,7 +469,15 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: priceFormatter,
-                cellClass: 'low-price-cell',
+                cellClass: BASE_CLASS,
+                cellClassRules: {
+                    'text-light-price-ceil dark:text-dark-price-ceil': (params) => params.data.t30563 === params.data.t1149,
+                    'text-light-price-floor dark:text-dark-price-floor': (params) => params.data.t30563 === params.data.t1148,
+                    'text-light-price-ref dark:text-dark-price-ref': (params) => params.data.t30563 === params.data.t20013,
+                    'text-light-price-up dark:text-dark-price-up': (params) => params.data.t30563 > params.data.t20013,
+                    'text-light-price-down dark:text-dark-price-down': (params) => params.data.t30563 < params.data.t20013,
+                },
+                cellRenderer: CustomNeutralCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             }
         ]
@@ -300,7 +494,8 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: volumeFormatter,
-                cellClass: 'fr-buy-cell',
+                cellClass: BASE_CLASS,
+                cellRenderer: CustomNeutralCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             },
             {
@@ -309,7 +504,8 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 minWidth: 60,
                 // maxWidth: 60,
                 valueFormatter: volumeFormatter,
-                cellClass: 'fr-sell-cell',
+                cellClass: BASE_CLASS,
+                cellRenderer: CustomNeutralCellRender,
                 headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
             }
         ]
@@ -326,6 +522,8 @@ const PriceboardGrid = ({ indexCd = '' }: { indexCd: string }) => {
     const [stockList, setStockList] = useState<string[]>([]);
     const [tableHeight, setTableHeight] = useState(500);
     const gridApi = useRef<GridApi<any> | null>(null);
+    const gridRef = useRef<AgGridReact<StockData>>(null);
+    const timeoutRef = useRef<any[]>([]);
 
     const throttled = useRef(
         throttle(
@@ -351,6 +549,7 @@ const PriceboardGrid = ({ indexCd = '' }: { indexCd: string }) => {
 
         return () => {
             window.removeEventListener("resize", handleResize);
+            timeoutRef.current.forEach(clearTimeout);
         }
     }, [])
 
@@ -409,7 +608,23 @@ const PriceboardGrid = ({ indexCd = '' }: { indexCd: string }) => {
                     ...dataStockRef.current[stockKey],
                     ...data.data
                 };
-                throttled.current();
+
+                const rowNode = gridRef.current?.api.getRowNode(stockKey);
+                rowNode?.updateData(dataStockRef.current[stockKey]);
+                // if (data.topic.includes("KRXMDDS|TP|G1|")) {
+                //     let cloneData = dataStockRef.current[stockKey];
+                //     setInterval(() => {
+                //         cloneData['t270'] = Math.floor(Math.random() * 10000)
+                //         cloneData['t271'] = Math.floor(Math.random() * 100000000)
+                //         cloneData['t30562'] = Math.floor(Math.random() * 10000)
+                //         cloneData['t30563'] = Math.floor(Math.random() * 10000)
+                //         cloneData['t40001'] = Math.floor(Math.random() * 10000)
+                //         // node?.updateData(cloneData);
+                //         updateStockData(stockKey, cloneData);
+                //     }, Math.floor(Math.random() * 10000));
+                // }
+
+                // throttled.current();
             }
         })
 
@@ -418,16 +633,32 @@ const PriceboardGrid = ({ indexCd = '' }: { indexCd: string }) => {
         }
     }, [socket])
 
+
     const onGridReady = (params: GridReadyEvent) => {
         gridApi.current = params.api;
         setTimeout(() => {
             params.api.sizeColumnsToFit();
-        });
+        }, 200);
     };
 
+    const getRowId = useCallback((params: GetRowIdParams<StockData>) => {
+        return params.data.t55;
+    }, []);
+
+    // Hàm cập nhật dữ liệu
+    const updateStockData = useCallback((stockKey: string, newData: StockData) => {
+        const rowNode = gridRef.current?.api.getRowNode(stockKey);
+        if (rowNode && gridRef.current?.api) {
+            dataStockRef.current[stockKey] = { ...dataStockRef.current[stockKey], ...newData };
+            // Cập nhật theo row
+            rowNode.updateData(dataStockRef.current[stockKey]);
+        }
+    }, []);
+
     return (
-        <div className="ag-theme-balham-dark" style={{ height: '100%', width: '100%' }}>
+        <div className="ag-theme-balham-dark" style={{ height: tableHeight, width: '100%' }}>
             <AgGridReact
+                ref={gridRef}
                 rowData={tableData}
                 columnDefs={columnDefs}
                 defaultColDef={DEFAULT_COL_DEF}
@@ -435,13 +666,11 @@ const PriceboardGrid = ({ indexCd = '' }: { indexCd: string }) => {
                 onGridReady={onGridReady}
                 rowHeight={28}
                 headerHeight={26}
-                // enableCellChangeFlash={true}
-                // cellFlashDelay={500}
-                // cellFadeDelay={100}
-                rowBuffer={20}
+                rowBuffer={30}
                 suppressDragLeaveHidesColumns={true}
                 rowDragManaged={true}
                 enableCellExpressions={true}
+                getRowId={getRowId}
             />
         </div>
     );
