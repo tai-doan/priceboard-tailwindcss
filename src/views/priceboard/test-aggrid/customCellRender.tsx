@@ -8,20 +8,29 @@ export const CustomCellRender = memo((params: ICellRendererParams) => {
         if (prevValue && params.value && prevValue !== params.value && !!params.value) {
             changeBackground(params.eGridCell, params.value, prevValue, 'ref')
         }
-    }, [params.value]);
+    }, [params.value, params.column?.getColId()]);
 
     return <span>{params.valueFormatted ?? params.value} {params.column?.getColId() === 'ch_percent' ? '%' : null}</span>
+}, (prevProps, nextProps) => {
+    return prevProps.value === nextProps.value
+        && prevProps.valueFormatted === nextProps.valueFormatted
+        && prevProps.column?.getColId() === nextProps.column?.getColId()
 });
 
 export const CustomNeutralCellRender = memo((params: ICellRendererParams) => {
     const prevValue = usePrevious(params.value);
+
     useEffect(() => {
         if (prevValue && params.value && prevValue !== params.value && !!params.value) {
             changeBackground(params.eGridCell, params.value, prevValue, 'neutral')
         }
-    }, [params.value]);
+    }, [params.value, params.column?.getColId()]);
 
     return <span>{params.valueFormatted ?? params.value}</span>
+}, (prevProps, nextProps) => {
+    return prevProps.value === nextProps.value
+        && prevProps.valueFormatted === nextProps.valueFormatted
+        && prevProps.column?.getColId() === nextProps.column?.getColId()
 });
 
 const changeBackground = (elemm: HTMLElement, newValue: string | number, oldValue: string | number, compare: 'ref' | 'neutral') => {

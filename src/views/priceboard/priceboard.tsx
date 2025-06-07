@@ -57,7 +57,7 @@ const Priceboard = () => {
                     }} />
                 </button> */}
             </div>
-            {/* <TablePriceboard indexCd={indexCd} /> */}
+            {/* <TablePriceboardV2 indexCd={indexCd} /> */}
             <PriceboardGrid indexCd={indexCd} />
             <PriceboardFooter />
         </div>

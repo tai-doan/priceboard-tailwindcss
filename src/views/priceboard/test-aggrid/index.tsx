@@ -9,7 +9,7 @@ import {
     TextEditorModule,
     TextFilterModule, type GridApi
 } from 'ag-grid-community';
-import 'ag-grid-community/styles/ag-grid.css';
+// import 'ag-grid-community/styles/ag-grid.css';
 // import 'ag-grid-community/styles/ag-theme-balham.css';
 import { AgGridReact, type CustomHeaderProps } from 'ag-grid-react';
 import { throttle } from 'lodash';
@@ -37,6 +37,17 @@ ModuleRegistry.registerModules([
 
 const CustomHeaderComponent = (props: CustomHeaderProps) => {
     const sort = props.column.getSort();
+    const [sortLocal, setSortLocal] = useState(sort);
+
+    useEffect(() => {
+        props.column.addEventListener('sortChanged', onSortChanged);
+        onSortChanged();
+    }, []);
+
+    const onSortChanged = () => {
+        const _sort = props.column.getSort();
+        setSortLocal(_sort)
+    };
 
     const onSortRequested = (order: 'asc' | 'desc' | null, event: any) => {
         props.setSort(order, event.shiftKey);
@@ -61,9 +72,10 @@ const CustomHeaderComponent = (props: CustomHeaderProps) => {
     }
 
     const handleSort = (event: any) => {
-        if (sort === 'asc') {
+        console.log("handleSort: ", sortLocal);
+        if (sortLocal === 'asc') {
             onSortRequested('desc', event)
-        } else if (sort === 'desc') {
+        } else if (sortLocal === 'desc') {
             onSortRequested(null, event)
         } else {
             onSortRequested('asc', event)
@@ -80,8 +92,8 @@ const CustomHeaderComponent = (props: CustomHeaderProps) => {
                 <div className='flex flex-direction-column justify-center gap-0'>
                     <div className='flex'>{props.displayName}</div>
                     <div className='flex'>
-                        {sort === 'desc' ? <CaretDownOutlined size={3} /> :
-                            sort === 'asc' ? <CaretUpOutlined size={3} /> : null
+                        {sortLocal === 'desc' ? <CaretDownOutlined size={3} /> :
+                            sortLocal === 'asc' ? <CaretUpOutlined size={3} /> : null
                         }
                     </div>
                 </div>
@@ -92,7 +104,7 @@ const CustomHeaderComponent = (props: CustomHeaderProps) => {
 
 }
 
-const BASE_CLASS = "xl:pr-1 py-1 !group-hover:bg-[#33343C3D] !dark:group-hover:bg-[#33343C] relative text-caption !first:border-t-0 border-r !first:border-l !border-light-line !dark:border-dark-line text-right ";
+const BASE_CLASS = "xl:pr-1 py-1 !group-hover:bg-[#33343C3D] !dark:group-hover:bg-[#33343C] relative text-caption !first:border-t-0 border-r !first:border-l !border-light-line !dark:border-dark-line text-right !dark:text-dark-default ";
 const HEADER_MAX_WIDTH = 500;
 const HEADER_MIN_WIDTH = 40;
 
@@ -102,7 +114,7 @@ const DEFAULT_COL_DEF: ColDef = {
     minWidth: HEADER_MIN_WIDTH,
     maxWidth: HEADER_MAX_WIDTH,
     cellClass: BASE_CLASS,
-    headerClass: "text-center text-caption border-t border-r border-b border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]",
+    headerClass: "text-center text-caption border-t !border-r !border-b !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]",
     menuTabs: [],
     sortable: true,
     lockPinned: false,
@@ -131,9 +143,13 @@ const priceClassRule = {
         Number(params.data?.t270) > Number(params.data?.t20013),
     'text-light-price-down dark:text-dark-price-down': (params: IStockCellClassParams<StockData>) =>
         Number(params.data?.t270) < Number(params.data?.t20013),
+    'dark:bg-[#7878802E] bg-[#F3F5F6]': (params: IStockCellClassParams<StockData>) => params.rowIndex % 2 !== 0,
+    'dark:bg-[#78788061] bg-[#eaeaea]': (params: IStockCellClassParams<StockData>) => params.rowIndex % 2 === 0,
 };
 
 const bidClassRule: any = (index: number) => ({
+    'dark:bg-[#060606] bg-[#fff]': (params: IStockCellClassParams<StockData>) => params.rowIndex % 2 !== 0,
+    'dark:bg-[#262628] bg-[#F3F5F6]': (params: IStockCellClassParams<StockData>) => params.rowIndex % 2 === 0,
     'text-light-price-ceil dark:text-dark-price-ceil': (params: IStockCellClassParams<StockData>) => !!params.data.TPBID && !!params.data.TPBID[index] && params.data.TPBID[index].t270 === params.data.t1149,
     'text-light-price-floor dark:text-dark-price-floor': (params: IStockCellClassParams<StockData>) => !!params.data.TPBID && !!params.data.TPBID[index] && params.data.TPBID[index].t270 === params.data.t1148,
     'text-light-price-ref dark:text-dark-price-ref': (params: IStockCellClassParams<StockData>) => !!params.data.TPBID && !!params.data.TPBID[index] && params.data.TPBID[index].t270 === params.data.t20013,
@@ -141,6 +157,8 @@ const bidClassRule: any = (index: number) => ({
     'text-light-price-down dark:text-dark-price-down': (params: IStockCellClassParams<StockData>) => !!params.data.TPBID && !!params.data.TPBID[index] && params.data.TPBID[index].t270 < params.data.t20013,
 })
 const askClassRule: any = (index: number) => ({
+    'dark:bg-[#060606] bg-[#fff]': (params: IStockCellClassParams<StockData>) => params.rowIndex % 2 !== 0,
+    'dark:bg-[#262628] bg-[#F3F5F6]': (params: IStockCellClassParams<StockData>) => params.rowIndex % 2 === 0,
     'text-light-price-ceil dark:text-dark-price-ceil': (params: IStockCellClassParams<StockData>) => !!params.data.TPOFFER && !!params.data.TPOFFER[index] && params.data.TPOFFER[index].t270 === params.data.t1149,
     'text-light-price-floor dark:text-dark-price-floor': (params: IStockCellClassParams<StockData>) => !!params.data.TPOFFER && !!params.data.TPOFFER[index] && params.data.TPOFFER[index].t270 === params.data.t1148,
     'text-light-price-ref dark:text-dark-price-ref': (params: IStockCellClassParams<StockData>) => !!params.data.TPOFFER && !!params.data.TPOFFER[index] && params.data.TPOFFER[index].t270 === params.data.t20013,
@@ -154,13 +172,14 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
     {
         field: 't55',
         headerName: 'Mã CK',
-        pinned: 'left',
+        // pinned: 'left',
         minWidth: 100,
         maxWidth: 120,
         marryChildren: true,
-        cellClass: 'scroll-mt-[52px] border-r first:border-l border-light-line dark:border-dark-line text-caption text-[13px] font-bold group-hover:!bg-[#33343C3D] dark:group-hover:!bg-[#33343C] sticky left-0 z-[1] dark:text-[#FF3737] !justify-start',
+        resizable: false,
+        cellClass: 'scroll-mt-[52px] !border-r !first:border-l !border-light-line !dark:border-dark-line text-caption text-[13px] font-bold group-hover:!bg-[#33343C3D] dark:group-hover:!bg-[#33343C] sticky left-0 z-[1] dark:text-[#FF3737] !justify-start !items-center',
         cellClassRules: priceClassRule,
-        headerClass: 'sticky left-0 z-10 text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+        headerClass: 'sticky left-0 z-10 text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
     },
     // Ceiling, Floor, Reference Price group
     {
@@ -169,9 +188,14 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
         minWidth: 60,
         // maxWidth: 60,
         marryChildren: true,
+        resizable: false,
         valueFormatter: priceFormatter,
         cellClass: BASE_CLASS + 'text-light-price-ceil dark:text-dark-price-ceil',
-        headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+        cellClassRules: {
+            'dark:bg-[#7878802E] bg-[#F3F5F6]': (params) => params.rowIndex % 2 !== 0,
+            'dark:bg-[#78788061] bg-[#eaeaea]': (params) => params.rowIndex % 2 === 0,
+        },
+        headerClass: 'backdrop-filter backdrop-blur-sm relative text-center !text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
     },
     {
         field: 't1148',
@@ -179,9 +203,14 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
         minWidth: 60,
         // maxWidth: 60,
         marryChildren: true,
+        resizable: false,
         valueFormatter: priceFormatter,
         cellClass: BASE_CLASS + 'text-light-price-floor dark:text-dark-price-floor',
-        headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+        cellClassRules: {
+            'dark:bg-[#7878802E] bg-[#F3F5F6]': (params) => params.rowIndex % 2 !== 0,
+            'dark:bg-[#78788061] bg-[#eaeaea]': (params) => params.rowIndex % 2 === 0,
+        },
+        headerClass: 'backdrop-filter backdrop-blur-sm relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
     },
     {
         field: 't20013',
@@ -189,9 +218,14 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
         minWidth: 60,
         // maxWidth: 60,
         marryChildren: true,
+        resizable: false,
         valueFormatter: priceFormatter,
         cellClass: BASE_CLASS + 'text-light-price-ref dark:text-dark-price-ref',
-        headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+        cellClassRules: {
+            'dark:bg-[#7878802E] bg-[#F3F5F6]': (params) => params.rowIndex % 2 !== 0,
+            'dark:bg-[#78788061] bg-[#eaeaea]': (params) => params.rowIndex % 2 === 0,
+        },
+        headerClass: 'backdrop-filter backdrop-blur-sm relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
     },
     // Trading volume
     {
@@ -200,82 +234,94 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
         minWidth: 100,
         // maxWidth: 80,
         marryChildren: true,
+        resizable: false,
         valueFormatter: volumeFormatter,
         cellClass: BASE_CLASS,
+        cellClassRules: {
+            'dark:bg-[#060606] bg-[#fff]': (params) => params.rowIndex % 2 !== 0,
+            'dark:bg-[#262628] bg-[#F3F5F6]': (params) => params.rowIndex % 2 === 0,
+        },
         cellRenderer: CustomNeutralCellRender,
-        headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+        headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
     },
     // Bid side group
     {
         headerName: 'Bên mua',
-        headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+        headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
         marryChildren: true,
+        resizable: false,
         children: [
             {
                 field: 'TPBID.0.t270',
                 headerName: 'Giá 3',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: priceFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: bidClassRule(0),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative !justify-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative !justify-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPBID.0.t271',
                 headerName: 'KL 3',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: volumeFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: bidClassRule(0),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative !justify-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative !justify-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPBID.1.t270',
                 headerName: 'Giá 2',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: priceFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: bidClassRule(1),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative !justify-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative !justify-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPBID.1.t271',
                 headerName: 'KL 2',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: volumeFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: bidClassRule(1),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPBID.2.t270',
                 headerName: 'Giá 1',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: priceFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: bidClassRule(2),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPBID.2.t271',
                 headerName: 'KL 1',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: volumeFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: bidClassRule(2),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             // Add more bid levels as needed
         ]
@@ -283,30 +329,33 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
     // Matched group
     {
         headerName: 'Khớp lệnh',
-        headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+        headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
         marryChildren: true,
+        resizable: false,
         children: [
             {
                 field: 't270',
                 headerName: 'Giá',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: priceFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: priceClassRule,
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 't271',
                 headerName: 'KL',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: volumeFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: priceClassRule,
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'ch_value',
@@ -314,8 +363,12 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 headerName: '+/-',
                 minWidth: 60,
                 // maxWidth: 60,
-                valueGetter: (params) => FormatNumber({
-                    value: (params.data.t270 - params.data.t20013),
+                resizable: false,
+                valueGetter: (params) => {
+                    return params.data.t270 - params.data.t20013;
+                },
+                valueFormatter: (params) => FormatNumber({
+                    value: params.value,
                     fractionSize: 2,
                     empty: 0,
                 }),
@@ -325,7 +378,7 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 // groupId: 'changed',
                 columnGroupShow: "open",
                 headerComponent: CustomHeaderComponent,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'ch_percent',
@@ -333,8 +386,12 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 headerName: '+/-',
                 minWidth: 60,
                 // maxWidth: 60,
-                valueGetter: (params) => FormatNumber({
-                    value: ((params.data.t270 - params.data.t20013) / params.data.t20013) * 100,
+                resizable: false,
+                valueGetter: (params) => {
+                    return ((params.data.t270 - params.data.t20013) / params.data.t20013) * 100;
+                },
+                valueFormatter: (params) => FormatNumber({
+                    value: params.value,
                     fractionSize: 2,
                     empty: 0,
                 }),
@@ -344,81 +401,88 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                 // groupId: 'changed',
                 columnGroupShow: "closed",
                 headerComponent: CustomHeaderComponent,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
         ]
     },
     // Ask side group
     {
         headerName: 'Bên bán',
-        headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+        headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
         marryChildren: true,
+        resizable: false,
         children: [
             {
                 field: 'TPOFFER.0.t270',
                 headerName: 'Giá 1',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: priceFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: askClassRule(0),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPOFFER.0.t271',
                 headerName: 'KL 1',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: volumeFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: askClassRule(0),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPOFFER.1.t270',
                 headerName: 'Giá 2',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: priceFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: askClassRule(1),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPOFFER.1.t271',
                 headerName: 'KL 2',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: volumeFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: askClassRule(1),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPOFFER.2.t270',
                 headerName: 'Giá 3',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: priceFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: askClassRule(2),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 'TPOFFER.2.t271',
                 headerName: 'KL 3',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: volumeFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: askClassRule(2),
                 cellRenderer: CustomCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             // Add more ask levels as needed
         ]
@@ -426,14 +490,16 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
     // Price statistics group
     {
         headerName: 'Giá',
-        headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+        headerClass: 'relative text-center text-caption !border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
         marryChildren: true,
+        resizable: false,
         children: [
             {
                 field: 't30562',
                 headerName: 'Cao',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: priceFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: {
@@ -442,15 +508,18 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                     'text-light-price-ref dark:text-dark-price-ref': (params) => params.data.t30562 === params.data.t20013,
                     'text-light-price-up dark:text-dark-price-up': (params) => params.data.t30562 > params.data.t20013,
                     'text-light-price-down dark:text-dark-price-down': (params) => params.data.t30562 < params.data.t20013,
+                    'dark:bg-[#7878802E] bg-[#F3F5F6]': (params) => params.rowIndex % 2 !== 0,
+                    'dark:bg-[#78788061] bg-[#eaeaea]': (params) => params.rowIndex % 2 === 0,
                 },
                 cellRenderer: CustomNeutralCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 't40001',
                 headerName: 'TB',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: priceFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: {
@@ -459,15 +528,18 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                     'text-light-price-ref dark:text-dark-price-ref': (params) => params.data.t40001 === params.data.t20013,
                     'text-light-price-up dark:text-dark-price-up': (params) => params.data.t40001 > params.data.t20013,
                     'text-light-price-down dark:text-dark-price-down': (params) => params.data.t40001 < params.data.t20013,
+                    'dark:bg-[#7878802E] bg-[#F3F5F6]': (params) => params.rowIndex % 2 !== 0,
+                    'dark:bg-[#78788061] bg-[#eaeaea]': (params) => params.rowIndex % 2 === 0,
                 },
                 cellRenderer: CustomNeutralCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 't30563',
                 headerName: 'Thấp',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: priceFormatter,
                 cellClass: BASE_CLASS,
                 cellClassRules: {
@@ -476,37 +548,50 @@ const columnDefs: (ColDef | ColGroupDef)[] = [
                     'text-light-price-ref dark:text-dark-price-ref': (params) => params.data.t30563 === params.data.t20013,
                     'text-light-price-up dark:text-dark-price-up': (params) => params.data.t30563 > params.data.t20013,
                     'text-light-price-down dark:text-dark-price-down': (params) => params.data.t30563 < params.data.t20013,
+                    'dark:bg-[#7878802E] bg-[#F3F5F6]': (params) => params.rowIndex % 2 !== 0,
+                    'dark:bg-[#78788061] bg-[#eaeaea]': (params) => params.rowIndex % 2 === 0,
                 },
                 cellRenderer: CustomNeutralCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             }
         ]
     },
     // Foreign room group
     {
         headerName: 'Nước ngoài',
-        headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+        headerClass: 'relative text-center text-caption border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
         marryChildren: true,
+        resizable: false,
         children: [
             {
                 field: 't30577',
                 headerName: 'Mua',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: volumeFormatter,
                 cellClass: BASE_CLASS,
+                cellClassRules: {
+                    'dark:bg-[#060606] bg-[#fff]': (params) => params.rowIndex % 2 !== 0,
+                    'dark:bg-[#262628] bg-[#F3F5F6]': (params) => params.rowIndex % 2 === 0,
+                },
                 cellRenderer: CustomNeutralCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             },
             {
                 field: 't30578',
                 headerName: 'Bán',
                 minWidth: 60,
                 // maxWidth: 60,
+                resizable: false,
                 valueFormatter: volumeFormatter,
                 cellClass: BASE_CLASS,
+                cellClassRules: {
+                    'dark:bg-[#060606] bg-[#fff]': (params) => params.rowIndex % 2 !== 0,
+                    'dark:bg-[#262628] bg-[#F3F5F6]': (params) => params.rowIndex % 2 === 0,
+                },
                 cellRenderer: CustomNeutralCellRender,
-                headerClass: 'relative text-center text-caption border-r border-light-line dark:border-dark-line py-1.5 font-medium cursor-pointer select-none hover:bg-[#fffbf585] dark:hover:bg-[#242323]',
+                headerClass: 'relative text-center text-caption border-r !border-light-line !dark:border-dark-line py-1.5 font-medium cursor-pointer select-none !hover:bg-[#fffbf585] !dark:hover:bg-[#242323]',
             }
         ]
     }
@@ -621,7 +706,7 @@ const PriceboardGrid = ({ indexCd = '' }: { indexCd: string }) => {
                 //         cloneData['t40001'] = Math.floor(Math.random() * 10000)
                 //         // node?.updateData(cloneData);
                 //         updateStockData(stockKey, cloneData);
-                //     }, Math.floor(Math.random() * 10000));
+                //     }, Math.floor(Math.random() * 50000));
                 // }
 
                 // throttled.current();
@@ -656,7 +741,7 @@ const PriceboardGrid = ({ indexCd = '' }: { indexCd: string }) => {
     }, []);
 
     return (
-        <div className="ag-theme-balham-dark" style={{ height: tableHeight, width: '100%' }}>
+        <div className="" style={{ height: tableHeight, width: '100%' }}>
             <AgGridReact
                 ref={gridRef}
                 rowData={tableData}
